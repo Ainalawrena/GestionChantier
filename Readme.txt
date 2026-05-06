@@ -1,8 +1,9 @@
-Les fonctionnalites fait jusqu'ici :
-1-Connexion /Inscription
+## Fonctionnalités réalisées jusqu’ici :
 
-2-Les fonctionnalites citez ci-dessous sont encore en tant que 'Chef de Chantier'
--Ouvrir un chantier que tu as creer ou creer un chantier
--Generation automatique de certain taches d'un chantier a partir de son modele
--Creation / modification / suppression des taches
+1. Connexion / Inscription
 
+2. Les fonctionnalités ci-dessous sont disponibles en tant que **Chef de chantier** :
+
+* Ouvrir un chantier que vous avez créé ou en créer un nouveau
+* Génération automatique de certaines tâches d’un chantier à partir de son modèle
+* Création / modification / suppression des tâches
