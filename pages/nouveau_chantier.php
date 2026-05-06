@@ -130,5 +130,9 @@ error_reporting(E_ALL);
                 <input type="submit" value="enregistrer">
             </form>
         </div>
+
+        <a class="btn-retour" href="choice.php" class="btn-retour">
+        ← Retour
+        </a>
     </body>
 </html>

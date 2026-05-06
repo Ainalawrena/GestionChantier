@@ -146,3 +146,20 @@ input[type="submit"]:hover {
     padding: 35px 25px;
   }
 }
+.btn-retour {
+            position: fixed;           /* Fixé sur l'écran */
+            bottom: 30px;              /* Distance du bas */
+            right: 30px;               /* Distance de la droite */
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: rgb(17, 17, 17);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }

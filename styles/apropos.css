@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --blue-deep:  #1a3a5c;
+  --blue-mid:   #2563a8;
+  --blue-light: #dbeafe;
+  --blue-pale:  #f4f8ff;
+  --white:      #ffffff;
+  --text-dark:  #0f2540;
+  --text-muted: #6b8cae;
+  --radius:     12px;
+  --shadow:     0 4px 24px rgba(26, 58, 92, 0.09);
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: 'DM Sans', sans-serif;
+    background: 
+    url('../Images/1.jpg') center/cover no-repeat fixed;
+  color: var(--text-dark);
+}
+
+/* HEADER */
+header {
+  background: #0a1b45;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--blue-light);
+  box-shadow: var(--shadow);
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  color: white
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: var(--blue-mid);
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* SECTION */
+.about {
+  max-width: 800px;
+  margin: 60px auto;
+  background: var(--white);
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.about h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 20px;
+  color: var(--blue-deep);
+}
+
+.about p {
+  margin-bottom: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.about h3 {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: var(--blue-mid);
+}
+
+.about ul {
+  padding-left: 20px;
+}
+
+.about li {
+  margin-bottom: 8px;
+  color: var(--text-muted);
+}
+
+/* FOOTER */
+footer {
+  margin-top: 60px;
+  background: var(--blue-deep);
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 15px;
+  font-size: 0.8rem;
+}
+
+.btn-retour {
+    position: fixed;           /* Fixé sur l'écran */
+    bottom: 30px;              /* Distance du bas */
+    right: 30px;               /* Distance de la droite */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    color: rgb(236, 228, 228);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}

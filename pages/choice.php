@@ -101,7 +101,9 @@ try {
 
     </div>
 </div>
-
+<a class="btn-retour" href="login.html" class="btn-retour">
+        ← Retour
+</a>
 <script>
     function afficherSelect() {
         document.getElementById('selectGroup').classList.add('visible');
