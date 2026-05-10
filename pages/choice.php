@@ -39,7 +39,7 @@ try {
 <body>
 
 <nav>
-    <h1>Gestion Chantier</h1>
+    <h1>Construct it</h1>
     <div>
         Connecté : <strong><?= htmlspecialchars($_SESSION['nom']) ?></strong>
         &nbsp;|&nbsp;
