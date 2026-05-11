@@ -37,6 +37,7 @@ $tachesModele= $stmt1->fetchAll(PDO::FETCH_ASSOC);
 $sql2 = "SELECT t.*, u.nom as nom_ouvrier
          FROM tache t
          LEFT JOIN utilisateurs u ON t.utilisateursid_utilisateur = u.id_user
+         JOIN affectation_
          WHERE t.chantierid_chantier = ?";
 $stmt2 = $pdo->prepare($sql2);
 $stmt2->execute([$id_chantier]);

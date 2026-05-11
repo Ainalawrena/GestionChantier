@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $details = $stmt2->fetch();
 
     session_start();
-    session_regenerate_id(true);
+
     $_SESSION['user_id'] = $details['id_user'];
     $_SESSION['nom']     = $details['nom'];
     $_SESSION['role']    = $details['role'];

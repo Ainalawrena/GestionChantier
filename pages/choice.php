@@ -71,7 +71,7 @@ try {
             <label>Sélectionner un chantier :</label>
 
             <?php if (!empty($chantiers)): ?>
-                <!--  Chantiers disponibles → select dynamique -->
+                <!--  Chantiers disponible-->
                 <select id="listeChantiers" name="id_chantier">
                     <option value="">-- Choisir un chantier --</option>
                     <?php foreach ($chantiers as $chantier): ?>
