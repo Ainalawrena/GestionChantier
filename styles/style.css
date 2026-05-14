@@ -42,6 +42,9 @@ body{
   height: 28px;
   background: var(--primary);
   color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-sm);
 }
 
@@ -58,7 +61,9 @@ header{
   align-items:center;
 
   backdrop-filter:blur(10px);
-  background:rgba(0,0,0,0.2);
+  background: rgba(26, 37, 48, 0.75); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Compatibilité Safari */
 
   z-index:1000;
 }
@@ -121,13 +126,13 @@ header{
   width:45%;
   height:100%;
 
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(50px);
 
   background:rgba(0,0,0,0.25);
 
   mask-image:linear-gradient(
     to right,
-    black 70%,
+    rgb(131, 124, 124) 70%,
     transparent
   );
 }
@@ -164,10 +169,8 @@ header{
 /* FEATURES */
 #features{
   padding:100px 80px;
-
-  background:white;
-  color:black;
-
+  color: #111111; /* Noir très sombre pour un contraste maximal */
+  background: #FFFFFF; 
   border-top-left-radius:50px;
   border-top-right-radius:50px;
 
@@ -185,23 +188,20 @@ header{
   grid-column:1/-1;
 
   text-align:center;
-
+  font-weight: 800;
   font-size:2.5rem;
-
+  color: #111111;
   margin-bottom:20px;
 }
 
 /* CARD */
 .card{
-  background:white;
-  border-radius:var(--radius);
-  border: gray;
-  padding:30px;
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.08);
-
-  transition:0.3s;
+  background: #F8F9FA; /* Gris ultra-clair pour détacher la carte du fond blanc */
+  border-radius: 16px;
+  border: 2px solid #E5E7EB; /* Bordure nette pour délimiter les blocs */
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Ombre légère */
+  transition: all 0.2s ease-in-out;
 }
 
 .card:hover{

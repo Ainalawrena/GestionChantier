@@ -82,7 +82,6 @@ error_reporting(E_ALL);
     // ====================== REDIRECTION ======================
     header("Location: Chef.php?id_chantier=" . $id_chantier);
     exit();
-
     }
 ?>
 
