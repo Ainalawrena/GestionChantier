@@ -45,12 +45,10 @@ CREATE TABLE tache (
     pourcentage DECIMAL(19,0),
     date_debut_prevue DATE,
     date_fin_prevue DATE,
-    date_debut_reelle DATE,
-    date_fin_reelle DATE,
     tache_modeleid_tache_modele INTEGER,
     chantierid_chantier INTEGER NOT NULL,
     utilisateursid_utilisateur INTEGER,
-    FOREIGN KEY (tache_modeleid_tache_modele) REFERENCES 						tache_modele(id_tache_modele),
+    FOREIGN KEY (tache_modeleid_tache_modele) REFERENCES tache_modele(id_tache_modele),
     FOREIGN KEY (chantierid_chantier) REFERENCES chantier(id_chantier),
     FOREIGN KEY (utilisateursid_utilisateur) REFERENCES utilisateurs(id_user)
 );
@@ -64,6 +62,16 @@ CREATE TABLE affectation_chantier (
     FOREIGN KEY (chantierid_chantier) REFERENCES chantier(id_chantier),
     FOREIGN KEY (roleid_role) REFERENCES role(id_role)
 )
+
+CREATE TABLE affectation_tache (
+    utilisateursid_utilisateur INTEGER NOT NULL,
+    tacheid_tache INTEGER NOT NULL,
+    date_debut_reelle DATE,
+    date_fin_reelle DATE,
+    PRIMARY KEY (utilisateursid_utilisateur, tacheid_tache),
+    FOREIGN KEY (utilisateursid_utilisateur) REFERENCES utilisateurs(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (tacheid_tache) REFERENCES tache(id_tache) ON DELETE CASCADE
+);
 
 
 INSERT INTO role (libelle) VALUES
