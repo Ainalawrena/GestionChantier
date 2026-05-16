@@ -342,3 +342,28 @@ h2 {
 .btn-annuler:hover {
     background: #dbeafe;
 }
+
+/* BADGES MEMBRES */
+.badge-chef {
+    background: #1a3a5c;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.badge-ouvrier {
+    background: #dbeafe;
+    color: #1a3a5c;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.badge-architecte {
+    background: #d4edda;
+    color: #155724;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}

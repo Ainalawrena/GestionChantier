@@ -5,8 +5,10 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: ../pages/login.html');
     exit;
 }
+$role = $_SESSION['role'];
+$rolesAutorises = ['Chef de chantier', 'Ouvrier', 'Architecte', 'Administrateur'];
 
-if ($_SESSION['role'] !== 'Chef de chantier') {
+if (!in_array($role, $rolesAutorises)) {
     header('Location: ../pages/login.html');
     exit;
 }
@@ -59,10 +61,17 @@ try {
 
     <div class="welcome">
         <h2>Bonjour, <?= htmlspecialchars($_SESSION['nom']) ?></h2>
-        <p>Que souhaitez-vous faire aujourd'hui ?</p>
+        <p>
+            <?php if ($role === 'Chef de chantier'): ?>
+                Gérez vos chantiers ou créez-en un nouveau.
+            <?php elseif ($role === 'Ouvrier'): ?>
+                Consultez vos chantiers et tâches assignées.
+            <?php elseif ($role === 'Architecte'): ?>
+                Consultez et validez les tâches de vos chantiers.
+            <?php endif; ?>
+        </p>
     </div>
 
-    <!-- CORRECTION : Suppression de la balise fermante parasite ici -->
     <div class="card">         
         
         <!-- Zone chantiers -->
@@ -85,23 +94,41 @@ try {
                 </div>
 
             <?php else: ?>
-                <div class="liste-vide">
-                    <p class="warning-title">⚠️ Aucun chantier disponible pour le moment.</p>
-                    <ul>
+            <div class="liste-vide">
+                <p class="warning-title">⚠️ Aucun chantier disponible pour le moment.</p>
+                <ul>
+                    <?php if ($role === 'Chef de chantier'): ?>
                         <li>Vous n'avez pas encore de chantier assigné.</li>
                         <li>Créez votre premier chantier avec le bouton ci-dessous.</li>
                         <li>Ou contactez un administrateur pour vous en attribuer un.</li>
-                    </ul>
-                    <p class="hint">Une fois un chantier créé, il apparaîtra ici automatiquement.</p>
-                </div>
-            <?php endif; ?>
+                    <?php elseif ($role === 'Ouvrier'): ?>
+                        <li>Vous n'avez pas encore de tâche assignée.</li>
+                        <li>Contactez votre chef de chantier pour être affecté.</li>
+                    <?php elseif ($role === 'Architecte'): ?>
+                        <li>Aucun chantier ne nécessite votre validation pour le moment.</li>
+                        <li>Contactez un chef de chantier pour être affecté.</li>
+                    <?php elseif ($role === 'Administrateur'): ?>
+                        <li>Aucun chantier n'existe encore dans le système.</li>
+                        <li>Invitez un chef de chantier à créer un chantier.</li>
+                    <?php endif; ?>
+                </ul>
+                <p class="hint">
+                    <?php if ($role === 'Chef de chantier'): ?>
+                        Une fois un chantier créé, il apparaîtra ici automatiquement.
+                    <?php else: ?>
+                        Une fois affecté à un chantier, il apparaîtra ici automatiquement.
+                    <?php endif; ?>
+                </p>
+            </div>
+        <?php endif; ?>
         </div>
 
-        <div class="divider">ou</div>
-
-        <button class="btn btn-secondary" onclick="nouveauChantier()">
-                 ➕ Créer un nouveau chantier
-        </button>
+        <?php if ($role === 'Chef de chantier'): ?>
+            <div class="divider">ou</div>
+            <button class="btn btn-secondary" onclick="nouveauChantier()">
+                ➕ Créer un nouveau chantier
+            </button>
+        <?php endif; ?>
     </div>
 
     <a class="btn-retour" href="login.html">← Retour à la connexion</a>
