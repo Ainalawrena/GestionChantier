@@ -1,0 +1,109 @@
+<?php
+class AvancementModel {
+    private $pdo; // connexion BDD
+
+    public function __construct($pdo) {
+        $this->pdo = $pdo; // reçoit la connexion
+    }  
+
+    public function getAvancementChantier($id_chantier) {
+        $sql = "SELECT t.nom , t.ordre, t.statut, t.pourcentage,
+                t.date_debut_prevu, t.date_fin_prevu,
+                u.nom AS nom_ouvrier
+                FROM tache t
+                JOIN utilisateur u ON t.id_utilisateur = u.id_user
+                WHERE t.id_chantier = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id_chantier]);
+        $avancement = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $avancement;
+    }
+
+    public function dernierAvancementValide($id_tache)
+    {
+        $sql = "SELECT a.id_avancement, v.id_validation
+                FROM avancement_tache a
+                LEFT JOIN validation v ON a.id_avancement = v.id_avancement
+                WHERE a.id_tache = ?
+                ORDER BY a.id_avancement DESC
+                LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id_tache]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Ouvrier soumet un avancement
+    public function ajouterAvancement($data) {
+        
+        $dernier = $this->dernierAvancementValide($data['id_tache']);
+    
+        // Seulement si un avancement existe ET n'est pas validé
+        if ($dernier && $dernier['id_validation'] === null) {
+            return [
+                'succes' => false,
+                'message' => 'Votre dernier avancement n\'est pas encore validé.'
+            ];
+        }
+    
+        $sql = "INSERT INTO avancement_tache (pourcentage, commentaire, id_tache)
+                VALUES (?, ?, ?)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            $data['pourcentage'],
+            $data['commentaire'],
+            $data['id_tache']
+        ]);
+    
+        $id_avancement = $this->pdo->lastInsertId('avancement_tache_id_avancement_seq');
+    
+        $sql2 = "INSERT INTO modifier (id_avancement, id_utilisateur, date_mise_a_jour)
+                 VALUES (?, ?, CURRENT_DATE)";
+        $this->pdo->prepare($sql2)->execute([
+            $id_avancement,
+            $data['id_utilisateur']
+        ]);
+    
+        return [
+            'succes' => true,
+            'message' => 'Avancement soumis avec succès !'
+        ];
+    }
+
+     // Architecte voit les avancements à valider
+    public function getAvancementsAValider($id_chantier) {
+        $sql = "SELECT a.id_avancement, a.pourcentage, a.commentaire,
+                t.nom AS nom_tache, t.id_tache,
+                u.nom AS nom_ouvrier,
+                m.date_mise_a_jour
+                FROM avancement_tache a
+                JOIN tache t ON a.id_tache = t.id_tache
+                JOIN modifier m ON a.id_avancement = m.id_avancement
+                JOIN utilisateur u ON m.id_utilisateur = u.id_utilisateur
+                LEFT JOIN validation v ON a.id_avancement = v.id_avancement
+                WHERE t.id_chantier = ?
+                AND v.id_validation IS NULL
+                ORDER BY m.date_mise_a_jour ASC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id_chantier]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Historique d'une tâche
+    public function getHistorique($id_tache) {
+        $sql = "SELECT a.pourcentage, a.commentaire,
+                m.date_mise_a_jour,
+                u.nom AS nom_ouvrier,
+                v.statut_validation,
+                v.date_validation
+                FROM avancement_tache a
+                JOIN modifier m ON a.id_avancement = m.id_avancement
+                JOIN utilisateur u ON m.id_utilisateur = u.id_utilisateur
+                LEFT JOIN validation v ON a.id_avancement = v.id_avancement
+                WHERE a.id_tache = ?
+                ORDER BY m.date_mise_a_jour DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id_tache]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
+?>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+    <header>
+      <h1>Construct it</h1>
+    </header>
+    
+    <div class="container">  
+        <!-- Affiche l'erreur si elle existe -->
+        <?php if (isset($erreur)): ?>
+        <p class="erreur"><?= $erreur ?></p>
+        <?php endif; ?>  
+       <h2>Formulaire de connexion</h2>
+        <form action="index.php?page=auth&action=login" method="post">
+            <label for="login">login :</label>
+            <input type="text" name="login" id="login" required><br><br>
+        
+            <label for="password">password :</label>
+            <input type="password" name="password" id="password" required><br><br>
+        
+            <input type="submit" value="se connecter">
+        </form>
+    </div>
+    <a class="btn-retour" href="index.html" class="btn-retour">
+        ← Retour
+    </a>
+</body>
+</html>
