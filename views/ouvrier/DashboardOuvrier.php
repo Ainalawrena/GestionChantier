@@ -20,9 +20,14 @@
 
     <div class="dashboard">
         <nav class="sidebar">
-            <button class="nav-btn active" data-tab="chantier">Chantier</button>
-            <button class="nav-btn" data-tab="tachesAvancement">Tâches et avancement</button>
-            <button class="nav-btn" data-tab="incidents">Incidents</button>
+            <button class="nav-btn active" data-tab="chantier">
+            <i class="fa-solid fa-helmet-safety"></i> Chantier
+            </button>
+            
+            <button class="nav-btn" data-tab="tachesAvancement">
+                <i class="fa-solid fa-list-check"></i> Tâches et avancement</button>
+            <button class="nav-btn" data-tab="incidents">
+                <i class="fa-solid fa-triangle-exclamation"></i> Incidents</button>
         </nav>
 
         <main class="content">

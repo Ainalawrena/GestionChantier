@@ -16,7 +16,7 @@ class TacheModel {
         $jalons = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $jalons;
     }
-public function commencerTache($id_tache) {
+    public function commencerTache($id_tache) {
     try {
         // 1. Démarrer la transaction
         $this->pdo->beginTransaction();

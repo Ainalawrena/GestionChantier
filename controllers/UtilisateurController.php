@@ -13,7 +13,7 @@ class UtilisateurController {
         require '../views/auth/login.html';
     }
 
-    public function login() {
+    public function login(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $login    = trim($_POST['login']    ?? '');
@@ -44,7 +44,14 @@ class UtilisateurController {
 
             SessionManager::login($utilisateur);
            
-            header('Location: index.php?page=chantier&action=choice');
+            switch($utilisateur['role']) {
+                case 'Administrateur':
+                    header('Location: index.php?page=dashboard&action=dashboardAdmin');
+                break;
+                default:
+                    header('Location: index.php?page=chantier&action=choice');
+        }
+    
             exit;
         }
     }
@@ -72,5 +79,7 @@ class UtilisateurController {
         }
     }
 
-
+    public function logout() {
+        SessionManager::logout();
+    }
 }

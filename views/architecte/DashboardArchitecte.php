@@ -19,8 +19,15 @@
 
     <div class="dashboard">
         <nav class="sidebar">
-            <button class="nav-btn active" data-tab="chantier">Chantier</button>
-            <button class="nav-btn" data-tab="validation">Validation Avancement</button>
+            <button class="nav-btn active" data-tab="chantier">
+                <i class="fa-solid fa-helmet-safety"></i> Chantier
+            </button>
+
+            <button class="nav-btn" data-tab="validation">
+                <i class="fa-solid fa-circle-check"></i>Validation Avancement
+            </button>
+            
+            
         </nav>
 
         <main class="content">

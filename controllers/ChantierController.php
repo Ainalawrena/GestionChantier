@@ -11,18 +11,13 @@ class ChantierController {
         $this->utilisateurModel = new UtilisateurModel($pdo);
     } 
 
-    public function choice(){
-        if (!isset($_SESSION['user_id'])) {
-        header('Location: index.php?page=auth&action=loginForm');
-        exit;
-    }
+    public function choice() {
+        SessionManager::requireLogin();
 
-   
         $id_user = $_SESSION['user_id'];
         $chantiers = $this->model->getMesChantiers($id_user);
-        if($_SESSION['role'] === 'Administrateur'){
-            require "../views/admin/DashboardAdmin.php";
-        }
+        $role      = SessionManager::getRole();
+        
         require "../views/global/choice.php";
     }
 

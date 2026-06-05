@@ -7,26 +7,26 @@
     <link rel="stylesheet" href="styles/choice.css">
 </head>
 <body>
-
   <!-- HEADER -->
   <header>
-      <div class="logo">
-        <span class="logo-icon">CI</span>
-        <h1>Construct <em>it</em></h1>
-      </div>
+    <nav>
+        <a href="#" class="nav-logo">
+            <div class="logo-icon">CI</div>
+            <span class="logo-text">Construct <span>it</span></span>
+        </a>
 
-
-      <nav class="btn-row">
-        <div class="user-info">
+        <div class="nav-right">
             <span>Connecté : <strong><?= htmlspecialchars(SessionManager::getRole()) ?></strong></span>
-            <a href="logout.php" class="logout-link">Se déconnecter</a>
+            <a href="index.php?page=auth&action=logout" class="logout-link">Se déconnecter</a>
         </div>
-      </nav>
-
-    </div>
+    </nav>
   </header>
 
+
 <div class="container">
+    <?php if ($role === 'Administrateur'): ?>
+    <?php require "../views/admin/DashboardAdmin.php";?>
+    <?php endif; ?>
 
     <div class="welcome">
         <h2>Bonjour, <?= htmlspecialchars(SessionManager::getNom()) ?></h2>

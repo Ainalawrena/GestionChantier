@@ -1,55 +1,84 @@
-<?php 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title><?= htmlspecialchars($chantier['nom']) ?></title>
+    <link rel="stylesheet" href="styles/chef.css">
+    <!-- Ajoute dans le <head> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
 
-?>
+    <nav class="sidebar">
 
-<div class="main-content">
-    <div class="dashboard-header">
-        <h1>Tableau de bord</h1>
-        <p><?= date('d F Y') ?></p>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>Chantiers actifs</h3>
-            <h2>24</h2>
-            <p>+12% ce mois</p>
+        <div class="sidebar-logo">
+            <div class="logo-icon">CI</div>
         </div>
-        <!-- Répéter pour Avancement moyen, Budget consommé, Tâches en retard -->
-    </div>
 
-    <!-- Graphiques -->
-    <div class="charts-row">
-        <div class="chart-card">
-            <h3>Avancement des chantiers</h3>
-            <!-- Chart.js ou Chartist ici -->
+        <button class="nav-btn active" data-tab="dashboard">
+            <i class="fa-solid fa-gauge-high"></i> Dashboard
+        </button>
+
+        <button class="nav-btn" data-tab="chantier">
+            <i class="fa-solid fa-helmet-safety"></i> Chantiers
+        </button>
+
+        <button class="nav-btn" data-tab="taches">
+            <i class="fa-solid fa-list-check"></i> Tâches
+        </button>
+
+        <button class="nav-btn" data-tab="ouvriers">
+            <i class="fa-solid fa-users-gear"></i> Ouvriers
+        </button>
+
+        <button class="nav-btn" data-tab="avancement">
+            <i class="fa-solid fa-chart-line"></i> Avancement
+        </button>
+
+        <button class="nav-btn" data-tab="incidents">
+            <i class="fa-solid fa-triangle-exclamation"></i> Incidents
+        </button>
+
+        <div class="sidebar-footer">
+            <span class="user-info">
+
+                <button class="header-icon">
+                    <img src="Images/user.jpg" id="imgUser" alt="Utilisateur">
+                </button>
+                <?= htmlspecialchars(SessionManager::getNom()) ?>
+            </span>
+            <a href="index.php?page=auth&action=logout" class="btn-logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Déconnecter
+            </a>
         </div>
-        <div class="chart-card">
-            <h3>Répartition des tâches</h3>
-            <!-- Pie Chart -->
-        </div>
+    </nav>
+
+    <div class="main-area">
+
+        <header class="topbar">
+
+            <div class="header-left">
+                <h1><?= htmlspecialchars($chantier['nom']) ?></h1>
+            </div>
+
+           
+        </header>
+
+        <main class="content">
+
+            <?php require __DIR__ . '/tabs/tab_chantier.php'; ?>
+            <?php require __DIR__ . '/tabs/tab_taches_chef.php'; ?>
+            <?php require __DIR__ . '/tabs/tab_ouvriers.php'; ?>
+            <?php require __DIR__ . '/tabs/tab_avancement.php'; ?>
+            <?php require __DIR__ . '/tabs/tab_incidents.php'; ?>
+
+        </main>
+
     </div>
 
-    <!-- Tables récentes -->
-    <div class="recent-sections">
-        <div>Chantiers récents</div>
-        <div>Dépenses récentes</div>
-        <div>Tâches du jour</div>
     </div>
-</div>
 
-<style>
-/* Tu peux mettre le CSS ici ou dans un fichier admin.css */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    margin: 30px 0;
-}
-.stat-card {
-    background: white;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-}
-</style>
+    <script src="scripts/chef.js"></script>
+</body>
+</html>

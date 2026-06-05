@@ -35,12 +35,13 @@ class DashboardController {
         if($role === 'Chef de chantier') {
             header("Location: index.php?page=dashboard&action=dashboardChef&id_chantier=$id_chantier");
         }
-         elseif ($role === 'Ouvrier') {
+        elseif ($role === 'Ouvrier') {
             header("Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=$id_chantier");
         } 
         elseif ($role === 'Architecte') {
             header("Location: index.php?page=dashboard&action=dashboardArchitecte&id_chantier=$id_chantier");
-        } elseif ($role === 'Administrateur') {
+        } 
+        elseif ($role === 'Administrateur') {
             header("Location: index.php?page=dashboard&action=dashboardAdmin&id_chantier=$id_chantier");
 
         }else {
@@ -128,6 +129,19 @@ class DashboardController {
     }
 
     public function dashboardAdmin(){
+        // À implémenter plus tard pour la démo de validation groupée
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?page=auth&action=loginForm');
+            exit;
+        }
+
+        $id_chantier = $_GET['id_chantier'] ?? 0;
+        $role        = $_SESSION['role'];
+        $ouvriers    = $this->chantierModel->getOuvriers($id_chantier);
+        $chantier    = $this->chantierModel->getById($id_chantier);
+        $avancementsAValider = $this->validationModel->getAvancementsAValider($id_chantier);
+  
+        require __DIR__ . '/../views/admin/DashboardAdmin.php';
     }
 }
 ?>
