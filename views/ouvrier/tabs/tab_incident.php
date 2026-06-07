@@ -42,41 +42,82 @@
     </table>
 
     <!-- Bouton déclarer -->
-    <button class="btn btn-primary" onclick="afficherFormulaireIncident()">
+    <button class="btn btn-primary"
+        onclick="ouvrirModal('modalIncident')">
+        <i class="fa-solid fa-triangle-exclamation"></i>
         Déclarer un incident
     </button>
 
-    <!-- Formulaire -->
-    <div id="formulaireIncident" style="display:none; margin-top:20px;">
-        <h3>Déclarer un incident</h3>
-        <form method="POST" action="index.php?page=incident&action=declarer">
-            <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
 
-            <label>Tâche concernée :</label>
-            <select name="id_tache" required>
-                <option value="">-- Choisir --</option>
-                <?php foreach ($mesTaches as $tache): ?>
-                    <option value="<?= $tache['id_tache'] ?>">
-                        <?= htmlspecialchars($tache['nom']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select><br><br>
+    <!-- Modal Déclaration Incident -->
+    <div class="modal-overlay" id="modalIncident">
 
-            <label>Description :</label>
-            <textarea name="description" required rows="3"></textarea><br><br>
+        <div class="modal">
 
-            <label>Gravité :</label>
-            <select name="gravite">
-                <option value="faible">Faible</option>
-                <option value="moyen">Moyen</option>
-                <option value="critique">Critique</option>
-            </select><br><br>
+            <div class="modal-header">
+                <h3>
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Déclarer un incident
+                </h3>
 
-            <label>Impact :</label>
-            <textarea name="impact" rows="2"></textarea><br><br>
+                <button class="modal-close"
+                        onclick="fermerModal('modalIncident')">
+                    ✕
+                </button>
+            </div>
 
-            <button type="submit" class="btn btn-primary">Déclarer</button>
-            <button type="button" onclick="cacherFormulaireIncident()">Annuler</button>
-        </form>
+            <form method="POST"
+                  action="index.php?page=incident&action=declarer">
+
+                <input type="hidden"
+                       name="id_chantier"
+                       value="<?= $id_chantier ?>">
+
+                <label>Tâche concernée :</label>
+
+                <select name="id_tache" required>
+                    <option value="">-- Choisir une tâche --</option>
+
+                    <?php foreach ($mestaches as $tache): ?>
+                        <option value="<?= $tache['id_tache'] ?>">
+                            <?= htmlspecialchars($tache['nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+                <label>Description :</label>
+
+                <textarea name="description"
+                          rows="4"
+                          required></textarea>
+
+                <label>Gravité :</label>
+
+                <select name="gravite">
+                    <option value="faible">Faible</option>
+                    <option value="moyen">Moyenne</option>
+                    <option value="critique">Critique</option>
+                </select>
+
+                <label>Impact :</label>
+
+                <textarea name="impact"
+                          rows="3"></textarea>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn-annuler"
+                            onclick="fermerModal('modalIncident')">
+                        Annuler
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Déclarer l'incident
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

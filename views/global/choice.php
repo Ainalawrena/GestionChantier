@@ -66,17 +66,17 @@
             <div class="liste-vide">
                 <p class="warning-title"> Aucun chantier disponible pour le moment.</p>
                 <ul>
-                    <?php if ($_SESSION['role'] === 'Chef de chantier'): ?>
+                    <?php if ($role === 'Chef de chantier'): ?>
                         <li>Vous n'avez pas encore de chantier assigné.</li>
                         <li>Créez votre premier chantier avec le bouton ci-dessous.</li>
                         <li>Ou contactez un administrateur pour vous en attribuer un.</li>
-                    <?php elseif ($_SESSION['role'] === 'Ouvrier'): ?>
+                    <?php elseif ($role === 'Ouvrier'): ?>
                         <li>Vous n'avez pas encore de tâche assignée.</li>
                         <li>Contactez votre chef de chantier pour être affecté.</li>
-                    <?php elseif ($_SESSION['role'] === 'Architecte'): ?>
+                    <?php elseif ($role === 'Architecte'): ?>
                         <li>Aucun chantier ne nécessite votre validation pour le moment.</li>
                         <li>Contactez un chef de chantier pour être affecté.</li>
-                    <?php elseif ($_SESSION['role'] === 'Administrateur'): ?>
+                    <?php elseif ($role === 'Administrateur'): ?>
                         <li>Aucun chantier n'existe encore dans le système.</li>
                         <li>Invitez un chef de chantier à créer un chantier.</li>
                     <?php endif; ?>
@@ -92,7 +92,7 @@
         <?php endif; ?>
         </div>
 
-        <?php if ($_SESSION['role'] === 'Chef de chantier'): ?>
+        <?php if ($role === 'Chef de chantier'): ?>
             <div class="divider">ou</div>
             <button class="btn btn-secondary" onclick="nouveauChantier()">
                 ➕ Créer un nouveau chantier

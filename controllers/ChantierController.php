@@ -23,7 +23,7 @@ class ChantierController {
 
     public function nouveauChantier(){  
         $modeles = $this->model->getModeles();
-        $utilisateurs = $this->utilisateurModel->getUtilisateurs(); 
+        $utilisateurs = $this->utilisateurModel-> getUtilisateursSaufConnecte(); 
         require "../views/chef/nouveauChantier.php";
     }
 
@@ -32,15 +32,14 @@ class ChantierController {
 
             $data = [
                 'nom'                 => trim($_POST['nom']      ?? ''),
-                'date_debut_prevu'    => trim($_POST['debuut']    ?? ''),
+                'date_debut_prevu'    => trim($_POST['debut']    ?? ''),
                 'date_fin_prevu'      => trim($_POST['fin']  ?? ''),
-                'statut'              => trim($_POST['statut']    ?? ''),
                 'id_modele'  => $_POST['id_modele']        ?? ''
             ];
             $equipe = $_POST['equipe'] ?? [];
             $id_chantier = $this->model->creerChantier($data,$equipe,$_SESSION['user_id']);
 
-            header("Location: index.php?page=dashboard&action=chef&new=$id_chantier");
+            header("Location: index.php?page=dashboard&action=dashboardChef&id_chantier=$id_chantier");
             exit;
         }
     }
@@ -67,4 +66,16 @@ class ChantierController {
         header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
         exit;
     }
+
+    public function affecterTache() {
+        $id_chantier = $_POST['id_chantier'];
+        $id_user     = $_POST['id_user'];
+        $id_tache    = $_POST['id_tache'];
+
+        $this->model->affecterTache($id_chantier, $id_user, $id_tache);
+
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        exit;
+    }
+
 }

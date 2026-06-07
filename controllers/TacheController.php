@@ -30,5 +30,50 @@ class TacheController {
         header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $id_chantier);
         exit;
     }
+
+    public function creerTache(){
+        $id_chantier = $_POST['id_chantier'];
+        $data = [
+                'nom'                 => trim($_POST['nom']      ?? ''),
+                'ordre'                 => trim($_POST['ordre']      ?? ''),
+                'statut'                 => trim($_POST['satut']      ?? ''),
+                'date_debut_prevue'    => trim($_POST['date_debut_prevue']    ?? ''),
+                'date_fin_prevue'      => trim($_POST['date_fin_prevue']  ?? '')
+            ];
+        $this->model->creerTache($id_chantier,$data);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        exit;
+    }
+
+    public function modifierTache(){
+        $id_chantier = $_POST['id_chantier'];
+        $data = [
+                'nom'                 => trim($_POST['nom']      ?? ''),
+                'ordre'                 => trim($_POST['ordre']      ?? ''),
+                'statut'                 => trim($_POST['satut']      ?? ''),
+                'date_debut_prevue'    => trim($_POST['date_debut_prevue']    ?? ''),
+                'date_fin_prevue'      => trim($_POST['date_fin_prevue']  ?? ''),
+                'id_tache'            => trim($_POST['id_tache']  ?? '')
+            ];
+        $this->model->modifierTache($id_chantier,$data);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        exit;
+    }
+
+    public function supprimerTache(){
+        $id_chantier = $_GET['id_chantier'];
+        $id_tache = $_GET['id_tache'];
+        $this->model->supprimerTache($id_tache);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        exit;
+    }
+
+    public function detailTache() {
+        $id_tache = $_GET['id_tache'] ?? 0;
+        $tache    = $this->model->getTacheById($id_tache);
+        header('Content-Type: application/json');
+        echo json_encode($tache);
+        exit;
+    }
 }
 ?>

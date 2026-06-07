@@ -20,26 +20,16 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     });
 });
 
-function afficherFormulaireNouveauTache() {
-    document.getElementById('formulaireTache').style.display = 'block';
-}
+
 
 function cacherFormulaireNouveauTache() {
     document.getElementById('formulaireTache').style.display = 'none';
 }
 
-function afficherFormulaireOuvrier() {
-    document.getElementById('formulaireOuvrier').style.display = 'block';
-}
+
 
 function cacherFormulaireOuvrier() {
     document.getElementById('formulaireOuvrier').style.display = 'none';
-}
-
-function afficherFormulaireAffectation(idUser, nomOuvrier) {
-    document.getElementById('formulaireAffectation').style.display = 'block';
-    document.getElementById('nomOuvrier').textContent = nomOuvrier;
-    document.getElementById('idOuvrier').value = idUser;
 }
 
 function cacherFormulaireAffectation() {
@@ -54,27 +44,81 @@ function cacherFormulaireAvancement() {
     document.getElementById('formulaireAvancement').style.display = 'none';
 }
 
-function afficherFormulaireAvancement(idTache, nomTache, pourcentage) {
-    document.getElementById('formulaireAvancement').style.display = 'block';
-    document.getElementById('nomTache').textContent = nomTache;
-    document.getElementById('idTache').value = idTache;
-    document.getElementById('pourcentageTache').value = pourcentage;
-}
 
 function cacherFormulaireAvancement() {
     document.getElementById('formulaireAvancement').style.display = 'none';
 }
 
-function afficherFormulaireIncident() {
-    document.getElementById('formulaireIncident').style.display = 'block';
-}
 
 function cacherFormulaireIncident() {
     document.getElementById('formulaireIncident').style.display = 'none';
 }
 
 
+function fermerModal(id) {
+    document.getElementById(id).classList.remove('active');
+}
+
+// Fermer en cliquant sur l'overlay
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
+});
+
+
+function cacherFormulaireAvancement() {
+    // Masquer le formulaire si l'ouvrier clique sur "Annuler"
+    document.getElementById('formulaireAvancement').style.display = 'none';
+}
+
+function ouvrirDetailsTache(idTache) {
+    // Message temporaire pour votre bouton "Voir plus" en attendant le développement
+    alert("Historique des étapes soumises pour la tâche numéro : " + idTache);
+}
+
+function ouvrirModalAvancement(idTache, nomTache) {
+    document.getElementById('nomTache').textContent = nomTache;
+    document.getElementById('idTache').value = idTache;
+    ouvrirModal('modalAvancement');
+}
+
+
+
+
+//=========================================AFFICHAGE DES FORMULAIRES==============================================================
+function ouvrirModal(id) {
+    document.getElementById(id).classList.add('active');
+}
+
+
+function afficherFormulaireNouveauTache() {
+    ouvrirModal('modalTache');
+}
+
+function afficherFormulaireModifierTache(idTache) {
+    document.getElementById("id_tache").value = idTache;
+    ouvrirModal('modalModifierTache');
+}
+
+function afficherFormulaireAffectation(idUser, nomOuvrier) {
+    document.getElementById('nomOuvrier').textContent = nomOuvrier;
+    document.getElementById('idOuvrier').value = idUser;
+    ouvrirModal('modalAffectation');
+}
+
+function afficherFormulaireIncident() {
+    document.getElementById('formulaireIncident').style.display = 'block';
+}
+
+function afficherFormulaireOuvrier() {
+    document.getElementById('formulaireOuvrier').style.display = 'block';
+}
+
 function afficherFormulaireAvancement(idTache, nomTache, jalons) {
+    console.log("Bouton cliqué");
     // 1. Assigner l'ID de la tâche au champ masqué du formulaire
     document.getElementById('idTache').value = idTache;
     
@@ -104,20 +148,79 @@ function afficherFormulaireAvancement(idTache, nomTache, jalons) {
         selectJalon.appendChild(option);
     }
     
-    // 5. Rendre le bloc du formulaire visible à l'écran
-    document.getElementById('formulaireAvancement').style.display = 'block';
+    ouvrirModal('modalAvancement');
+}
+
+
+//=========
+// Toggle dropdown
+function toggleDropdown(btn) {
+    const menu = btn.nextElementSibling;
     
-    // Optionnel : Faire défiler la page automatiquement jusqu'au formulaire
-    document.getElementById('formulaireAvancement').scrollIntoView({ behavior: 'smooth' });
+    // Ferme tous les autres dropdowns
+    document.querySelectorAll('.dropdown-menu.open').forEach(m => {
+        if (m !== menu) m.classList.remove('open');
+    });
+    
+    menu.classList.toggle('open');
 }
 
-function cacherFormulaireAvancement() {
-    // Masquer le formulaire si l'ouvrier clique sur "Annuler"
-    document.getElementById('formulaireAvancement').style.display = 'none';
+// Ferme dropdown en cliquant ailleurs
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.action-dropdown')) {
+        document.querySelectorAll('.dropdown-menu.open')
+            .forEach(m => m.classList.remove('open'));
+    }
+});
+
+// Ouvrir modal détail tâche
+function ouvrirModalDetailTache(idTache, nomTache) {
+    // Charge les détails via fetch
+    fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('detailNom').textContent        = data.nom;
+            document.getElementById('detailStatut').textContent     = data.statut;
+            document.getElementById('detailOrdre').textContent      = data.ordre ?? '-';
+            document.getElementById('detailPourcentage').textContent = data.pourcentage + '%';
+            document.getElementById('detailDebut').textContent      = data.date_debut_prevue ?? '-';
+            document.getElementById('detailFin').textContent        = data.date_fin_prevue ?? '-';
+            document.getElementById('detailOuvrier').textContent    = data.nom_ouvrier ?? '-';
+            ouvrirModal('modalDetailTache');
+        });
 }
 
-function ouvrirDetailsTache(idTache) {
-    // Message temporaire pour votre bouton "Voir plus" en attendant le développement
-    alert("Historique des étapes soumises pour la tâche numéro : " + idTache);
+// Ouvrir modal modifier
+function ouvrirModalModifierTache(idTache) {
+    fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
+        .then(r => r.json())
+        .then(data => {
+            document.querySelector('#modalModifierTache [name="id_tache"]').value            = data.id_tache;
+            document.querySelector('#modalModifierTache [name="nom"]').value                 = data.nom;
+            document.querySelector('#modalModifierTache [name="ordre"]').value               = data.ordre ?? '';
+            document.querySelector('#modalModifierTache [name="statut"]').value              = data.statut;
+            document.querySelector('#modalModifierTache [name="date_debut_prevue"]').value   = data.date_debut_prevue ?? '';
+            document.querySelector('#modalModifierTache [name="date_fin_prevue"]').value     = data.date_fin_prevue ?? '';
+            ouvrirModal('modalModifierTache');
+        });
 }
 
+function ouvrirModalDetailTache(idTache, nomTache) {
+    fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('detailNom').textContent         = data.nom;
+            document.getElementById('detailStatut').textContent      = data.statut;
+            document.getElementById('detailOrdre').textContent       = data.ordre ?? '-';
+            document.getElementById('detailPourcentage').textContent = data.pourcentage + '%';
+            document.getElementById('detailDebut').textContent       = data.date_debut_prevue ?? '-';
+            document.getElementById('detailFin').textContent         = data.date_fin_prevue ?? '-';
+            document.getElementById('detailOuvrier').textContent     = data.nom_ouvrier ?? '-';
+
+            //  Met à jour le lien supprimer avec le bon id
+            document.getElementById('btnSupprimerTache').href =
+                `index.php?page=tache&action=supprimerTache&id_tache=${idTache}&id_chantier=${data.id_chantier}`;
+
+            ouvrirModal('modalDetailTache');
+        });
+}

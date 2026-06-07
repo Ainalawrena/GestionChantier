@@ -1,0 +1,100 @@
+body{
+font-family:'Inter',sans-serif;
+background:#F8FAFC;
+}
+
+.hero-page{
+background:linear-gradient(135deg,#0F172A,#1E293B);
+color:white;
+padding:120px 80px;
+text-align:center;
+}
+
+.badge{
+display:inline-block;
+color:#F97316;
+font-weight:700;
+letter-spacing:2px;
+margin-bottom:20px;
+}
+
+.hero-page h1{
+font-size:60px;
+font-weight:900;
+max-width:900px;
+margin:auto;
+line-height:1.1;
+}
+
+.hero-page h1 span{
+color:#F97316;
+}
+
+.hero-page p{
+margin-top:25px;
+font-size:18px;
+color:#CBD5E1;
+}
+
+.features-section{
+max-width:1400px;
+margin:auto;
+padding:80px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:30px;
+}
+
+.feature-card{
+background:white;
+border-radius:18px;
+padding:35px;
+box-shadow:0 10px 35px rgba(0,0,0,0.05);
+transition:.3s;
+}
+
+.feature-card:hover{
+transform:translateY(-8px);
+}
+
+.icon{
+font-size:45px;
+margin-bottom:20px;
+}
+
+.feature-card h3{
+color:#0F172A;
+margin-bottom:12px;
+}
+
+.feature-card p{
+color:#64748B;
+line-height:1.7;
+}
+
+.cta{
+text-align:center;
+padding:100px 20px;
+background:#0F172A;
+color:white;
+}
+
+.cta h2{
+font-size:42px;
+margin-bottom:20px;
+}
+
+.cta p{
+color:#CBD5E1;
+margin-bottom:30px;
+}
+
+.cta-btn{
+display:inline-block;
+padding:15px 35px;
+background:#F97316;
+color:white;
+text-decoration:none;
+border-radius:10px;
+font-weight:700;
+}

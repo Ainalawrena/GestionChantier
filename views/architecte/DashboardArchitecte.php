@@ -4,21 +4,16 @@
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($chantier['nom']) ?></title>
     <link rel="stylesheet" href="styles/chef.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="header-left">
-            <h1><?= htmlspecialchars($chantier['nom']) ?></h1>
-            <span class="status"><?= htmlspecialchars($chantier['statut']) ?></span>
-        </div>
-        <button class="btn-logout" 
-            onclick="window.location.href='index.php?page=auth&action=logout'">
-            Se déconnecter
-        </button>
-    </header>
 
     <div class="dashboard">
         <nav class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">CI</div>
+            </div>
+
             <button class="nav-btn active" data-tab="chantier">
                 <i class="fa-solid fa-helmet-safety"></i> Chantier
             </button>
@@ -27,14 +22,30 @@
                 <i class="fa-solid fa-circle-check"></i>Validation Avancement
             </button>
             
+            <div class="sidebar-footer">
             
+                <img src="Images/user.jpg" alt="Utilisateur" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name"><?= htmlspecialchars(SessionManager::getNom()) ?></span>
+                    <span class="user-role"><?= htmlspecialchars(SessionManager::getRole()) ?></span>
+                </div>
+                <a href="index.php?page=auth&action=logout" class="btn-logout" title="Se déconnecter">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>     
+        </div>
         </nav>
 
-        <main class="content">
-            <?php require __DIR__ . '/tabs/tab_chantier.php'; ?>
-            <?php require __DIR__ . '/tabs/tab_validation.php'; ?>
-        </main>
-    </div>
+        <div class="main-area">
+            <header class="topbar">
+                <div class="header-left">
+                    <h1><?= htmlspecialchars($chantier['nom']) ?></h1>
+                </div>
+            </header>
+            <main class="content">
+                <?php require __DIR__ . '/tabs/tab_chantier.php'; ?>
+                <?php require __DIR__ . '/tabs/tab_validation.php'; ?>
+            </main>
+        </div>
 
     <script src="scripts/chef.js"></script>
 </body>

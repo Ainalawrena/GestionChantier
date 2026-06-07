@@ -7,6 +7,9 @@ class ChantierModel {
         $this->pdo = $pdo; // reçoit la connexion
     }  
     
+
+    //==========================GETTERS============================================================
+
     public function getById($id_chantier) {
         $stmt = $this->pdo->prepare("SELECT * FROM chantier WHERE id_chantier = ?");
         $stmt->execute([$id_chantier]);
@@ -56,65 +59,6 @@ class ChantierModel {
         return $tachesModele;
     }
 
-    public function creerChantier($data,$equipe,$idchef){
-        $sql = "INSERT INTO chantier (nom, date_debut_prevu, date_fin_prevu, statut, id_modele) 
-             VALUES (:nom, :debut, :fin, :statut, :id_modele)";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([
-            ':nom'       => $data['nom'],
-            ':debut'     => $data['debut'],
-            ':fin'       => $data['fin'],
-            ':statut'    => $data['statut'],
-            ':id_modele' => $data['id_modele']
-        ]);
-
-        $id_chantier = $this->pdo->lastInsertId('chantier_id_chantier_seq'); 
-        // chef chantier
-        $sql2 = "INSERT INTO affectation_chantier
-            (id_utilisateur, id_chantier, id_role)
-            VALUES (?, ?, 2)";
-
-        $this->pdo->prepare($sql2)->execute([$idChef, $id_chantier]);
-
-        foreach($equipe as $id_user)
-        {
-            if($id_user == $idChef) continue;
-
-            $sql3 = "INSERT INTO affectation_chantier
-                    (id_utilisateur, id_chantier, id_role)
-                    VALUES (?, ?, 3)";
-
-            $this->pdo->prepare($sql3)->execute([$id_user, $id_chantier]);
-        }
-
-        $sql4 = "SELECT * FROM tache_modele
-            WHERE id_modele = ?";
-
-        $stmtTM = $this->pdo->prepare($sql4);
-        $stmtTM->execute([$data['id_modele']]);
-
-        $tachesModele = $stmtTM->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach($tachesModele as $tachem)
-        {
-            $sql5 = "INSERT INTO tache
-                    (nom, ordre, statut, pourcentage,
-                     id_chantier,
-                     id_tachemodele)
-
-                    VALUES (?, ?, 'en attente', 0, ?, ?)";
-
-            $this->pdo->prepare($sql5)->execute([
-                $tachem['nom'],
-                $tachem['ordre'],
-                $id_chantier,
-                $tachem['id_tache_modele']
-            ]);
-        }
-        return $this->pdo->lastInsertId();
-    }
-
-
     public function getTache($id_chantier){
         $sql = "SELECT t.*, u.nom AS nom_ouvrier
             FROM tache t
@@ -160,8 +104,71 @@ class ChantierModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    //=================================CREATION TACHE=====================================================
 
-    //AJOUT ET RETIRE MEMBRE EQUIPE
+    public function creerChantier($data,$equipe,$idchef){
+        $statut = "en attente";
+        $sql = "INSERT INTO chantier (nom, date_debut_prevu, date_fin_prevu, statut, id_modele) 
+             VALUES (:nom, :debut, :fin, :statut, :id_modele)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':nom'       => $data['nom'],
+            ':debut'     => $data['date_debut_prevu'],
+            ':fin'       => $data['date_fin_prevu'],
+            ':statut'    => $statut,
+            ':id_modele' => $data['id_modele']
+        ]);
+
+        $id_chantier = $this->pdo->lastInsertId('chantier_id_chantier_seq'); 
+        // chef chantier
+        $sql2 = "INSERT INTO affectation_chantier
+            (id_utilisateur, id_chantier, id_role)
+            VALUES (?, ?, 2)";
+
+        $this->pdo->prepare($sql2)->execute([$idchef, $id_chantier]);
+
+        foreach($equipe as $id_user)
+        {
+            if($id_user == $idchef) continue;
+
+            $sql3 = "INSERT INTO affectation_chantier
+                    (id_utilisateur, id_chantier, id_role)
+                    VALUES (?, ?, 3)";
+
+            $this->pdo->prepare($sql3)->execute([$id_user, $id_chantier]);
+        }
+
+        $sql4 = "SELECT * FROM tache_modele
+            WHERE id_modele = ?";
+
+        $stmtTM = $this->pdo->prepare($sql4);
+        $stmtTM->execute([$data['id_modele']]);
+
+        $tachesModele = $stmtTM->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($tachesModele as $tachem)
+        {
+            $sql5 = "INSERT INTO tache
+                    (nom, ordre, statut, pourcentage,
+                     id_chantier,
+                     id_tache_modele)
+
+                    VALUES (?, ?, 'en attente', 0, ?, ?)";
+
+            $this->pdo->prepare($sql5)->execute([
+                $tachem['nom'],
+                $tachem['ordre'],
+                $id_chantier,
+                $tachem['id_tache_modele']
+            ]);
+        }
+        return $id_chantier;
+    }
+
+   
+    
+
+    //==============================AJOUT ET RETIRE MEMBRE EQUIPE==================================
     public function ajouterMembre($id_chantier, $id_user,$id_role) {
         $sql = "INSERT INTO affectation_chantier (id_utilisateur, id_chantier, id_role)
                 VALUES (?, ?, ?)";
@@ -173,9 +180,39 @@ class ChantierModel {
         $sql = "DELETE FROM affectation_chantier 
                 WHERE id_utilisateur = ? AND id_chantier = ?";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$id_user, $id_chantier]);
+        $stmt = $stmt->execute([$id_user, $id_chantier]);
+
+        $sql2 = "UPDATE tache 
+                SET id_utilisateur = NULL 
+                WHERE id_utilisateur = ? AND id_chantier = ?";
+        $stmt2 = $this->pdo->prepare($sql2);
+        $stmt2->execute([$id_user, $id_chantier]);
+
+        $sql3 = "DELETE FROM affectation_tache 
+                WHERE id_utilisateur = ? AND id_tache IN (
+                    SELECT id_tache FROM tache WHERE id_chantier = ?
+                )";
+        $stmt3 = $this->pdo->prepare($sql3);
+        $stmt3->execute([$id_user, $id_chantier]);
+
+        return $stmt;
     }
-    
+ 
+    public function affecterTache($id_chantier, $id_user, $id_tache) {
+        $sql = "UPDATE tache 
+                SET id_utilisateur = ? 
+                WHERE id_tache = ? AND id_chantier = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt =  $stmt->execute([$id_user, $id_tache, $id_chantier]);
+
+        $sql2 = "INSERT INTO affectation_tache (id_utilisateur, id_tache) VALUES (?, ?)";
+        $stmt2 = $this->pdo->prepare($sql2);
+        $stmt2->execute([$id_user, $id_tache]);
+
+        return $stmt;
+    }
+
+
 }
 
 ?>

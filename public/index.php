@@ -47,6 +47,18 @@ switch($page) {
         $controller->$action();
         break;
 
+    case 'incident':
+        require __DIR__ . '/../controllers/IncidentController.php';
+        $controller = new IncidentController($pdo);
+        $controller->$action();
+        break;
+    
+    case 'validation':
+        require __DIR__ . '/../controllers/ValidationController.php';
+        $controller = new ValidationController($pdo);
+        $controller->$action();
+        break;
+
     default:
         require __DIR__ . '/index.html';
 }

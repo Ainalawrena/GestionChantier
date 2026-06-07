@@ -34,51 +34,74 @@ header{
     box-shadow:none;
 }
 
-
 .sidebar{
-
-    width:260px;
-
-    background:#ffffff;
-
-    border-right:1px solid #edf0f5;
-
-    display:flex;
-    flex-direction:column;
-
-    padding:20px;
-
-    flex-shrink:0;
+    width: 260px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background:rgb(253, 252, 252);
+    padding: 20px;
 }
 
 .sidebar-footer {
     margin-top: auto;
-    padding-top: 20px;
+    padding: 15px;
     border-top: 1px solid #edf0f5;
     display: flex;
+    flex-direction: row;
+    gap:20px;
+}
+
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #2563a8;
+}
+
+.user-details {
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    transform: translateY(-3px);
+}
+
+.user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1a3a5c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-bottom: 10px;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: #6b8cae;
+}
+
+.btn-logout {
+    width: 32px;
+    height: 32px;
+    display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    border-radius: 8px;
+    background:transparent;
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
 }
 
-
-
-.user-info {
-  background: #e0f2fe;
-  color: rgb(6, 6, 40);
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 1.2rem;
+.btn-logout:hover {
+    color: rgb(77, 109, 199);
 }
 
-.info-card{
-    background:white;
-    border-radius:16px;
-    border:1px solid #edf0f5;
-
-    box-shadow:
-    0 1px 3px rgba(0,0,0,.03),
-    0 8px 20px rgba(0,0,0,.03);
+.btn-logout i {
+    font-size: 0.9rem;
 }
 
 /* Dashboard Layout */
@@ -86,29 +109,22 @@ header{
   display: flex;
   height: calc(100vh - 70px);
 }
+
 .main-area{
-
     flex:1;
-
     display:flex;
-
     flex-direction:column;
-
     overflow:hidden;
 }
 
 /*====================TOPBAR=====================*/
 .topbar{
     position: relative;
-
     height: 70px;
-
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
     padding: 0 25px;
-
     background: #f6f8fb;
 }
 
@@ -142,22 +158,16 @@ header{
 }
 /*=============================LOGO==================================================*/
 .sidebar-logo{
-
     display:flex;
     align-items:center;
-
     gap:12px;
-
     margin-bottom:40px;
 }
 
 .logo-icon{
-
     width:48px;
     height:48px;
-
     border-radius:12px;
-
     background:#1f2937;
     display:flex;
     align-items:center;
@@ -242,15 +252,7 @@ h2 {
   border-radius: 30px;
 }
 
-/* Bouton déconnexion */
-.btn-logout {
-  padding: 10px 18px;
-  background: #070c50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
+
 /* TABLEAU DES TÂCHES */
 .tableau {
     width: 100%;
@@ -321,8 +323,9 @@ h2 {
 /* BOUTONS ACTION */
 .btn-modifier {
     padding: 5px 10px;
-    background: #2563a8;
+    background: gray;
     color: white;
+    border: none;
     border-radius: 5px;
     text-decoration: none;
     font-size: 0.8rem;
@@ -477,4 +480,183 @@ h2 {
     padding: 3px 8px;
     border-radius: 10px;
     font-size: 0.8rem;
+}
+
+/* OVERLAY - fond sombre */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+/* MODAL */
+.modal {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.modal-header h3 {
+    color: #1a3a5c;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.modal-close {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: #f4f8ff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #6b8cae;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: #dc3545;
+    color: white;
+}
+
+.modal label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1a3a5c;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.modal input,
+.modal select,
+.modal textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #0f2540;
+    background: #f4f8ff;
+    box-sizing: border-box;
+    transition: border 0.2s;
+}
+
+.modal input:focus,
+.modal select:focus,
+.modal textarea:focus {
+    outline: none;
+    border-color: #2563a8;
+    background: white;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+
+
+
+/*=============================================================*/
+/* DROPDOWN ACTION */
+.action-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.action-btn {
+    background: #f4f8ff;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #1a3a5c;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background: #dbeafe;
+}
+
+.dropdown-menu.open {
+    display: block;
+}
+
+.dropdown-item {
+    text-decoration: none;
+    transition: background 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background: #f4f8ff;
+}
+
+.dropdown-item.danger {
+    color: #dc3545;
+}
+
+.dropdown-item.danger:hover {
+    background: #fff0f0;
+}
+
+.dropdown-item i {
+    width: 16px;
+    text-align: center;
+}
+
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between; /* ← gauche/droite */
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #edf0f5;
 }

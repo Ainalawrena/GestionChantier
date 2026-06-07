@@ -29,8 +29,6 @@
                 <th>Nom</th>
                 <th>Statut</th>
                 <th>Avancement</th>
-                <th>Date début prévue</th>
-                <th>Date fin prévue</th>
                 <th>Ouvrier</th>
                 <th>Action</th>
             </tr>
@@ -43,12 +41,21 @@
                         <td><?= htmlspecialchars($tache['nom']) ?></td>
                         <td><?= htmlspecialchars($tache['statut']) ?></td>
                         <td><?= $tache['pourcentage'] ?>%</td>
-                        <td><?= $tache['date_debut_prevue'] ?? '-' ?></td>
-                        <td><?= $tache['date_fin_prevue'] ?? '-' ?></td>
+
                         <td><?= htmlspecialchars($tache['nom_ouvrier'] ?? '-') ?></td>
                         <td>
-                            <a href="modifier_tache.php?id_tache=<?= $tache['id_tache'] ?>&id_chantier=<?= $id_chantier ?>" class="btn-modifier">Modifier</a>
-                            <a href="supprimer_tache.php?id_tache=<?= $tache['id_tache'] ?>&id_chantier=<?= $id_chantier ?>" onclick="return confirm('Supprimer ?')" class="btn-supprimer">Supprimer</a>
+                            <div class="action-group">
+                            <button class="dropdown-item"
+                                onclick="ouvrirModalDetailTache(<?= $tache['id_tache'] ?>, '<?= htmlspecialchars($tache['nom']) ?>')">
+                                <i class="fa-solid fa-eye"></i> 
+                            </button>
+                            <button class="dropdown-item"
+                                onclick="ouvrirModalModifierTache(<?= $tache['id_tache'] ?>)">
+                                <i class="fa-solid fa-pen"></i> 
+                            </button>
+
+                         
+                        </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -60,53 +67,156 @@
 
     <button class="btn btn-primary" onclick="afficherFormulaireNouveauTache()">+ Nouveau tâche</button>
 
-    <div id="formulaireTache" style="display:none; margin-top:20px;">
-        <h3>Créer une nouvelle tâche</h3>
-        <form method="POST" action="creer_tache.php">
-            <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
 
-            <label>Nom :</label>
-            <input type="text" name="nom" required><br><br>
+    <!-- MODAL Creer tache -->
+    <div class="modal-overlay" id="modalTache">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-list-check"></i> Créer une nouvelle tâche</h3>
+                <button class="modal-close" onclick="fermerModal('modalTache')">✕</button>
+            </div>
+                
+            <form method="POST" action="index.php?page=tache&action=creerTache">
+                <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
 
-            <label>Ordre :</label>
-            <input type="number" name="ordre"><br><br>
+                <label>Nom :</label>
+                <input type="text" name="nom" required><br><br>
 
-            <label>Statut :</label>
-            <select name="statut">
-                <option value="en attente">En attente</option>
-                <option value="en cours">En cours</option>
-                <option value="termine">Terminé</option>
-                <option value="bloque">Bloqué</option>
-            </select><br><br>
+                <label>Ordre :</label>
+                <input type="number" name="ordre"><br><br>
 
-            <label>Date début prévue :</label>
-            <input type="date" name="date_debut_prevue"><br><br>
+                <label>Statut :</label>
+                <select name="statut">
+                    <option value="en attente">En attente</option>
+                    <option value="en cours">En cours</option>
+                    <option value="termine">Terminé</option>
+                    <option value="bloque">Bloqué</option>
+                </select><br><br>
 
-            <label>Date fin prévue :</label>
-            <input type="date" name="date_fin_prevue"><br><br>
+                <label>Date début prévue :</label>
+                <input type="date" name="date_debut_prevue"><br><br>
 
-            <label>Tâche modèle :</label>
-            <select name="tache_modeleid_tache_modele">
-                <option value="">-- Aucun --</option>
-                <?php foreach ($tachesModele as $tm): ?>
-                    <option value="<?= $tm['id_tache_modele'] ?>">
-                        <?= htmlspecialchars($tm['nom_tache']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select><br><br>
+                <label>Date fin prévue :</label>
+                <input type="date" name="date_fin_prevue"><br><br>
 
-            <label>Affecter à :</label>
-            <select name="utilisateursid_utilisateur">
-                <option value="">-- Aucun --</option>
-                <?php foreach ($ouvriers as $ouvrier): ?>
-                    <option value="<?= $ouvrier['id_user'] ?>">
-                        <?= htmlspecialchars($ouvrier['nom']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select><br><br>
-
-            <button type="submit" class="btn btn-primary">Créer</button>
-            <button type="button" onclick="cacherFormulaireNouveauTache()">Annuler</button>
-        </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn-annuler" onclick="fermerModal('modalTache')">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> Créer
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
+
+     <!-- MODAL Modifier tache -->
+    <div class="modal-overlay" id="modalModifierTache">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-list-check"></i> Modifier une tâche</h3>
+                <button class="modal-close" onclick="fermerModal('modalModifierTache')">✕</button>
+            </div>
+                
+            <form method="POST" action="index.php?page=tache&action=modifierTache">
+                <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
+                <input type="hidden" id="id_tache" name="id_tache">
+
+                <label>Nom :</label>
+                <input type="text" name="nom" value="<?= $tache['nom'] ?>" required><br><br>
+
+                <label>Ordre :</label>
+                <input type="number" name="ordre" value="<?= $tache['ordre'] ?>"><br><br>
+
+                <label>Statut :</label>
+                <select name="statut" value="<?= $tache['statut'] ?>">
+                    <option value="en attente">En attente</option>
+                    <option value="en cours">En cours</option>
+                    <option value="termine">Terminé</option>
+                    <option value="bloque">Bloqué</option>
+                </select><br><br>
+
+                <label>Date début prévue :</label>
+                <input type="date" name="date_debut_prevue" value="<?= $tache['date_debut_prevue'] ?>"><br><br>
+
+                <label>Date fin prévue :</label>
+                <input type="date" name="date_fin_prevue" value="<?= $tache['date_fin_prevue'] ?>"><br><br>
+
+                <label>Dependences : </label>
+                <select name="dependences[]" multiple>
+                    <?php foreach ($taches as $tacheOption): ?>
+                        <option value="<?= $tacheOption['id'] ?>" <?= in_array($tacheOption['id'], $tache['dependences']) ? 'selected' : '' ?>>
+                            <?= $tacheOption['nom'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select><br><br>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-annuler" onclick="fermerModal('modalModifierTache')">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> Modifier
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="modalDetailTache">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-eye"></i> Détail de la tâche</h3>
+            <button class="modal-close" onclick="fermerModal('modalDetailTache')">✕</button>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Nom : </span>
+                <span class="detail-value" id="detailNom">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Statut : </span>
+                <span class="detail-value" id="detailStatut">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Ordre : </span>
+                <span class="detail-value" id="detailOrdre">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Avancement : </span>
+                <span class="detail-value" id="detailPourcentage">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Date début prévue : </span>
+                <span class="detail-value" id="detailDebut">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Date fin prévue : </span>
+                <span class="detail-value" id="detailFin">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Ouvrier assigné : </span>
+                <span class="detail-value" id="detailOuvrier">-</span>
+            </div>
+        </div>
+
+        <!-- Footer avec Supprimer + Fermer -->
+        <div class="modal-footer">
+            <!-- Supprimer à gauche -->
+            <a id="btnSupprimerTache" href="#"
+               class="btn-danger"
+               onclick="return confirm('Supprimer cette tâche ?')">
+                <i class="fa-solid fa-trash"></i> Supprimer la tache
+            </a>
+
+            <!-- Fermer à droite -->
+            <button class="btn-annuler" onclick="fermerModal('modalDetailTache')">
+                Fermer
+            </button>
+        </div>
+    </div>
+</div>
 </div>

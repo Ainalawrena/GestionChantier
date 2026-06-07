@@ -24,9 +24,9 @@
                                 onclick="afficherFormulaireAffectation(<?= $ouvrier['id_user'] ?>, '<?= htmlspecialchars($ouvrier['nom']) ?>')">
                                 Affecter une tâche
                             </button>
-                            <a href="retirer_ouvrier.php?id_user=<?= $ouvrier['id_user'] ?>&id_chantier=<?= $id_chantier ?>"
+                            <a href="index.php?page=chantier&action=retirerMembre&id_user=<?= $ouvrier['id_user'] ?>&id_chantier=<?= $id_chantier ?>"
                                onclick="return confirm('Retirer ?')"
-                               class="btn-supprimer">Retirer</a>
+                               class="btn-modifier">Retirer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -36,59 +36,85 @@
         </tbody>
     </table>
 
-    <button class="btn btn-primary" onclick="afficherFormulaireOuvrier()">
-        + Ajouter un membre
+    
+   <!-- Bouton ouvrir -->
+    <button class="btn btn-primary" onclick="ouvrirModal('modalOuvrier')">
+        <i class="fa-solid fa-user-plus"></i> Ajouter un membre
     </button>
-
-    <!-- Formulaire ajouter membre -->
-    <div id="formulaireOuvrier" style="display:none; margin-top:20px;">
-        <h3>Ajouter un membre</h3>
-        <form method="POST" action="index.php?page=chantier&action=ajouterMembre">
-            <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
-
-            <label>Utilisateur :</label>
-            <select name="id_user" required>
-                <option value="">-- Choisir --</option>
-                <?php foreach ($tousUtilisateurs as $u): ?>
-                    <option value="<?= $u['id_user'] ?>">
-                        <?= htmlspecialchars($u['nom']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select><br><br>
-
-            <label>Rôle :</label>
-            <select name="roleid_role">
-                <option value="3">Ouvrier</option>
-                <option value="4">Architecte</option>
-            </select><br><br>
-
-            <button type="submit" class="btn btn-primary">Ajouter</button>
-            <button type="button" onclick="cacherFormulaireOuvrier()">Annuler</button>
-        </form>
+                
+    <!-- MODAL Ajouter membre -->
+    <div class="modal-overlay" id="modalOuvrier">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-plus"></i> Ajouter un membre</h3>
+                <button class="modal-close" onclick="fermerModal('modalOuvrier')">✕</button>
+            </div>
+                
+            <form method="POST" action="index.php?page=chantier&action=ajouterMembre">
+                <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
+                
+                <label>Utilisateur :</label>
+                <select name="id_user" required>
+                    <option value="">-- Choisir --</option>
+                    <?php foreach ($tousUtilisateurs as $u): ?>
+                        <option value="<?= $u['id_user'] ?>">
+                            <?= htmlspecialchars($u['nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                    
+                <label>Rôle :</label>
+                <select name="roleid_role">
+                    <option value="3">Ouvrier</option>
+                    <option value="4">Architecte</option>
+                </select>
+                    
+                <div class="modal-footer">
+                    <button type="button" class="btn-annuler" onclick="fermerModal('modalOuvrier')">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> Ajouter
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <!-- Formulaire affectation tâche -->
-    <div id="formulaireAffectation" style="display:none; margin-top:20px;">
-        <h3>Affecter une tâche à <span id="nomOuvrier"></span></h3>
-        <form method="POST" action="affecter_tache.php">
-            <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
-            <input type="hidden" name="id_user" id="idOuvrier">
-
-            <label>Choisir une tâche :</label>
-            <select name="id_tache" required>
-                <option value="">-- Choisir une tâche --</option>
-                <?php foreach ($taches as $tache): ?>
-                    <option value="<?= $tache['id_tache'] ?>">
-                        <?= htmlspecialchars($tache['nom']) ?>
-                        <?php if ($tache['nom_ouvrier']): ?>
-                            (déjà assignée à <?= htmlspecialchars($tache['nom_ouvrier']) ?>)
-                        <?php endif; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select><br><br>
-
-            <button type="submit" class="btn btn-primary">Affecter</button>
-            <button type="button" onclick="cacherFormulaireAffectation()">Annuler</button>
-        </form>
+                    
+    <!-- MODAL Affecter tâche -->
+    <div class="modal-overlay" id="modalAffectation">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-list-check"></i> Affecter une tâche à <span id="nomOuvrier"></span></h3>
+                <button class="modal-close" onclick="fermerModal('modalAffectation')">✕</button>
+            </div>
+                    
+            <form method="POST" action="index.php?page=chantier&action=affecterTache">
+                <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
+                <input type="hidden" name="id_user" id="idOuvrier">
+                    
+                <label>Choisir une tâche :</label>
+                <select name="id_tache" required>
+                    <option value="">-- Choisir --</option>
+                    <?php foreach ($taches as $tache): ?>
+                        <option value="<?= $tache['id_tache'] ?>">
+                            <?= htmlspecialchars($tache['nom']) ?>
+                            <?php if ($tache['nom_ouvrier']): ?>
+                                (<?= htmlspecialchars($tache['nom_ouvrier']) ?>)
+                            <?php endif; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                            
+                <div class="modal-footer">
+                    <button type="button" class="btn-annuler" onclick="fermerModal('modalAffectation')">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> Affecter
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

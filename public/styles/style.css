@@ -21,11 +21,7 @@ html { scroll-behavior: smooth; }
 body{
   font-family:'DM Sans',sans-serif;
   color:white;
-  background:url('/Images/neww.png');
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
+  
 
   overflow-x:hidden;
 }
@@ -130,15 +126,22 @@ nav {
 .btn-commencer-nav:hover { background: var(--orange-hover); }
 
 /* ===== HERO ===== */
-/* ===== HERO ===== */
+
 .hero {
   position: relative;
-  min-height: 580px;
+  min-height: 580px;           
   display: flex;
   align-items: center;
   padding: 50px 80px 0 80px;
-  overflow: hidden;
+  
   z-index: 1;
+  color: #ffffff;
+ 
+  background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.20)), url('/Images/avi.avif');
+  background-size: cover;           
+  background-position: 60% center;  
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* Left Blur - Version améliorée et plus stable */
@@ -147,10 +150,10 @@ nav {
   position: absolute;
   top: 0;
   left: 0;
-  width: 52%;           /* tu peux ajuster entre 45% et 55% */
+  width: 52%;           
   height: 100%;
-  background: rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.4); 
+  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(50px);
   mask-image: linear-gradient(
     to right,
@@ -187,7 +190,7 @@ nav {
   font-size: 48px;
   font-weight: 900;
   line-height: 1.08;
-  color: var(--dark-navy);
+  color: var(--white); 
   margin-bottom: 10px;
   letter-spacing: -2px;
   white-space: nowrap;
@@ -197,7 +200,7 @@ nav {
   font-size: 48px;
   font-weight: 900;
   line-height: 1.08;
-  color: var(--dark-navy);
+  color: var(--white); 
   letter-spacing: -2px;
   margin-bottom: 22px;
   white-space: nowrap;
@@ -206,7 +209,7 @@ nav {
 
 .hero-desc {
   font-size: 15px;
-  color: black;
+  color: var(--gray-200); /* Correction 4 : Changé black par un gris très clair pour la lisibilité */
   line-height: 1.65;
   margin-bottom: 36px;
   max-width: 440px;
@@ -231,17 +234,20 @@ nav {
   font-weight: 600;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  transition: background 0.2s;
+  transition: background 0.2s, box-shadow 0.2s;
 }
-.btn-primary:hover { background: var(--orange-hover); }
+.btn-primary:hover { 
+  background: var(--orange-hover); 
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.4); /* Effet lueur moderne au survol */
+}
 
 .btn-secondary {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: white;
-  color: var(--dark-navy);
-  border: 1.5px solid var(--gray-200);
+  background: transparent; /* Correction 5 : Bouton transparent au lieu de blanc compact */
+  color: var(--white); /* Correction 6 : Texte blanc au lieu de navy */
+  border: 1.5px solid rgba(255, 255, 255, 0.4); /* Bordure blanche semi-transparente moderne */
   border-radius: 10px;
   padding: 13px 24px;
   font-size: 15px;
@@ -250,17 +256,21 @@ nav {
   font-family: 'Inter', sans-serif;
   transition: all 0.2s;
 }
-.btn-secondary:hover { border-color: var(--gray-400); }
+.btn-secondary:hover { 
+  border-color: var(--white); 
+  background: rgba(255, 255, 255, 0.1); /* Léger effet de brillance au survol */
+}
 
 .play-circle {
   width: 28px;
   height: 28px;
-  border: 1.5px solid var(--dark-navy);
+  border: 1.5px solid var(--white);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 
 /* ===== DASHBOARD IMAGE ===== */
 .hero-dashboard {
@@ -478,173 +488,6 @@ nav {
 .feature-card:nth-child(4) { transition-delay: 0.26s; }
 .feature-card:nth-child(5) { transition-delay: 0.33s; }
 .feature-card:nth-child(6) { transition-delay: 0.40s; }
-
-/* ==================== ILLUSTRATION ISOMÉTRIQUE ==================== */
-.hero-dashboard {
-  position: absolute;
-  right: 60px;
-  top: 90px;
-  z-index: 3;
-  width: 620px;
-  height: 520px;
-}
-
-.isometric-scene {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform: scale(0.95);
-}
-
-/* Chantier isométrique */
-.construction-site {
-  position: absolute;
-  left: 80px;
-  top: 80px;
-  width: 320px;
-  height: 280px;
-  transform: rotateX(55deg) rotateZ(-35deg);
-  transform-style: preserve-3d;
-}
-
-/* Grue */
-.crane {
-  position: absolute;
-  left: 40px;
-  top: 20px;
-  width: 80px;
-  height: 180px;
-}
-
-.crane-mast {
-  position: absolute;
-  left: 30px;
-  width: 12px;
-  height: 170px;
-  background: #334155;
-  border-radius: 4px;
-}
-
-.crane-arm {
-  position: absolute;
-  left: 35px;
-  top: 25px;
-  width: 140px;
-  height: 10px;
-  background: #f97316;
-  transform: rotate(-25deg);
-  transform-origin: left;
-}
-
-.crane-cabin {
-  position: absolute;
-  left: 18px;
-  top: 90px;
-  width: 38px;
-  height: 32px;
-  background: #1e2937;
-  border-radius: 4px;
-}
-
-/* Bâtiment */
-.building {
-  position: absolute;
-  left: 140px;
-  top: 90px;
-  width: 110px;
-}
-
-.building-floor {
-  width: 110px;
-  height: 45px;
-  background: linear-gradient(#64748b, #475569);
-  border: 3px solid #1e2937;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  position: relative;
-}
-
-.building-floor::after {
-  content: '';
-  position: absolute;
-  inset: 8px;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255,255,255,0.1),
-    rgba(255,255,255,0.1) 4px,
-    transparent 4px,
-    transparent 12px
-  );
-}
-
-/* Cartes flottantes */
-.floating-card {
-  position: absolute;
-  background: white;
-  border-radius: 14px;
-  padding: 14px 18px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-  backdrop-filter: blur(10px);
-  z-index: 10;
-  animation: float 6s ease-in-out infinite;
-}
-
-.card1 {
-  top: 40px;
-  right: 40px;
-  width: 130px;
-  animation-delay: 0s;
-}
-
-.card2 {
-  top: 180px;
-  right: -20px;
-  width: 140px;
-  animation-delay: 1.8s;
-}
-
-.card3 {
-  bottom: 60px;
-  left: 40px;
-  width: 160px;
-  animation-delay: 3.2s;
-}
-
-.card-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: #64748b;
-  margin-bottom: 6px;
-}
-
-.progress-circle {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  border: 7px solid #f97316;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 800;
-  color: #1e2937;
-  margin: 8px auto;
-}
-
-.big-number {
-  font-size: 26px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.task-list {
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.task-list div {
-  margin: 4px 0;
-}
 
 /* Animation flottante */
 @keyframes float {

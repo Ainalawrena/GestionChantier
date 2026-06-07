@@ -41,16 +41,15 @@
         </button>
 
         <div class="sidebar-footer">
-            <span class="user-info">
-
-                <button class="header-icon">
-                    <img src="Images/user.jpg" id="imgUser" alt="Utilisateur">
-                </button>
-                <?= htmlspecialchars(SessionManager::getNom()) ?>
-            </span>
-            <a href="index.php?page=auth&action=logout" class="btn-logout">
-                <i class="fa-solid fa-right-from-bracket"></i> Déconnecter
-            </a>
+            
+                <img src="Images/user.jpg" alt="Utilisateur" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name"><?= htmlspecialchars(SessionManager::getNom()) ?></span>
+                    <span class="user-role"><?= htmlspecialchars(SessionManager::getRole()) ?></span>
+                </div>
+                <a href="index.php?page=auth&action=logout" class="btn-logout" title="Se déconnecter">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>     
         </div>
     </nav>
 
@@ -60,9 +59,7 @@
 
             <div class="header-left">
                 <h1><?= htmlspecialchars($chantier['nom']) ?></h1>
-            </div>
-
-           
+            </div>           
         </header>
 
         <main class="content">

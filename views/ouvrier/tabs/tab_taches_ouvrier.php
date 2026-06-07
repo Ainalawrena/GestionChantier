@@ -1,20 +1,5 @@
-
 <div id="taches" class="tab-content">
-    <h2>Mes taches</h2>
-
-    <?php
-        $sqltache = "
-            SELECT t.*
-            FROM tache t
-            WHERE t.chantierid_chantier = ?
-            AND t.utilisateursid_utilisateur = ?
-            ORDER BY t.ordre
-        ";
-
-        $stmt = $pdo->prepare($sqltache);
-        $stmt->execute([$id_chantier, $_SESSION['user_id']]);
-        $mestaches = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    ?>
+    <h2>Mes Tâches</h2>
 
     <?php if (!empty($mestaches)): ?>
         <table class="tableau">
@@ -29,13 +14,12 @@
                     <th>Action</th>
                 </tr>
             </thead>
-
             <tbody>
                 <?php foreach ($mestaches as $tache): ?>
                     <tr>
-                        <td><?= $tache['ordre']?></td>
-                        <td><?= htmlspecialchars($tache['nom'])?></td>
-                         <td>
+                        <td><?= $tache['ordre'] ?></td>
+                        <td><?= htmlspecialchars($tache['nom']) ?></td>
+                        <td>
                             <?php
                             $badgeClass = match($tache['statut']) {
                                 'en attente' => 'badge-attente',
@@ -49,24 +33,26 @@
                                 <?= htmlspecialchars($tache['statut']) ?>
                             </span>
                         </td>
-                        <td><?= $tache['date_debut_prevue'] ?? '-' ?></td>
-                        <td><?= $tache['date_fin_prevue'] ?? '-' ?></td>
                         <td>
                             <div class="progress-bar">
-                                <div class="progress-fill" 
+                                <div class="progress-fill"
                                      style="width: <?= $tache['pourcentage'] ?>%">
                                 </div>
                             </div>
-                            <small><?= $tache['pourcentage'] ?>%</small>
+                            <small>✅ Validé : <?= $tache['pourcentage'] ?>%</small><br>
+                            <?php if (($tache['dernier_soumis'] ?? 0) > $tache['pourcentage']): ?>
+                                <small>⏳ Soumis : <?= $tache['dernier_soumis'] ?>%</small>
+                            <?php endif; ?>
                         </td>
+                        <td><?= $tache['date_debut_prevue'] ?? '-' ?></td>
+                        <td><?= $tache['date_fin_prevue'] ?? '-' ?></td>
                         <td>
                             <button class="btn-modifier"
-                                onclick="afficherFormulaireAvancement(
+                                onclick="ouvrirModalAvancement(
                                     <?= $tache['id_tache'] ?>,
-                                    '<?= htmlspecialchars($tache['nom']) ?>',
-                                    <?= $tache['pourcentage'] ?>
+                                    '<?= htmlspecialchars($tache['nom']) ?>'
                                 )">
-                                Mettre à jour
+                                <i class="fa-solid fa-pen"></i> Mettre à jour
                             </button>
                         </td>
                     </tr>
@@ -74,42 +60,40 @@
             </tbody>
         </table>
 
-         <!-- Formulaire mise à jour avancement -->
-        <div id="formulaireAvancement" style="display:none; margin-top:20px;">
-            <h3>Mettre à jour : <span id="nomTache"></span></h3>
-            <form method="POST" action="#">
-                <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
-                <input type="hidden" name="id_tache" id="idTache">
-
-                <label>Statut :</label>
-                <select name="statut">
-                    <option value="en attente">En attente</option>
-                    <option value="en cours">En cours</option>
-                    <option value="termine">Terminé</option>
-                    <option value="bloque">Bloqué</option>
-                </select><br><br>
-
-                <label>Avancement (%) :</label>
-                <input type="number" name="pourcentage" id="pourcentageTache"
-                       min="0" max="100" required><br><br>
-
-                <label>Commentaire :</label>
-                <textarea name="commentaire" rows="3" 
-                          placeholder="Décrivez l'avancement..."></textarea><br><br>
-
-                <label>Date début réelle :</label>
-                <input type="date" name="date_debut_reelle"><br><br>
-
-                <label>Date fin réelle :</label>
-                <input type="date" name="date_fin_reelle"><br><br>
-
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <button type="button" 
-                        onclick="cacherFormulaireAvancement()">Annuler</button>
-            </form>
-        </div>
-
     <?php else: ?>
         <p>Aucune tâche assignée pour le moment.</p>
     <?php endif; ?>
+</div>
+
+<!-- MODAL Avancement -->
+<div class="modal-overlay" id="modalAvancement">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-chart-line"></i> Mettre à jour : <span id="nomTache"></span></h3>
+            <button class="modal-close" onclick="fermerModal('modalAvancement')">✕</button>
+        </div>
+
+        <form method="POST" action="index.php?page=avancement&action=ajouter">
+            <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
+            <input type="hidden" name="id_tache" id="idTache">
+
+            <label>Pourcentage :</label>
+            <input type="number" name="pourcentage" id="pourcentageTache"
+                   min="0" max="100" required>
+
+            <label>Commentaire :</label>
+            <textarea name="commentaire" rows="3"
+                      placeholder="Décrivez l'avancement..."></textarea>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-annuler"
+                        onclick="fermerModal('modalAvancement')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Soumettre
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

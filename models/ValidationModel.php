@@ -21,20 +21,14 @@ class ValidationModel {
                 $data['id_utilisateur']
             ]);
 
-            // CORRECTION A : Il faut aussi mettre à jour le statut dans la table avancement !
-            // Sinon la tâche reste marquée "En attente" sur le tableau de l'ouvrier
-            $sqlUpdateAvancement = "UPDATE avancement SET statut_validation = ? WHERE id_avancement = ?";
-            $this->pdo->prepare($sqlUpdateAvancement)->execute([
-                $data['statut_validation'],
-                $data['id_avancement']
-            ]);
+        
 
             // 2. Si l'architecte a choisi 'valide' → UPDATE tache.pourcentage
             if ($data['statut_validation'] === 'valide') {
 
                 // CORRECTION B : On remplace 'pourcentage' par 'pourcentage_soumis' 
                 // pour correspondre au nom exact de votre table 'avancement'
-                $sql2 = "SELECT pourcentage_soumis, id_tache FROM avancement
+                $sql2 = "SELECT pourcentage, id_tache FROM avancement_tache
                          WHERE id_avancement = ?";
                 $stmt = $this->pdo->prepare($sql2);
                 $stmt->execute([$data['id_avancement']]);
@@ -48,7 +42,7 @@ class ValidationModel {
                     $sql3 = "UPDATE tache SET pourcentage = ?, statut = ?
                              WHERE id_tache = ?";
                     $this->pdo->prepare($sql3)->execute([
-                        $avancement['pourcentage_soumis'],
+                        $avancement['pourcentage'],
                         $nouveauStatut,
                         $avancement['id_tache']
                     ]);

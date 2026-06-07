@@ -42,6 +42,14 @@ class UtilisateurModel {
         return $tout;
     }
 
+    public function getUtilisateursSaufConnecte(){
+        $userConnecter = SessionManager::getUserId();
+        $sql = "SELECT id_user,nom FROM utilisateur WHERE id_user != :id AND id_role !=1 AND id_role !=4";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$userConnecter]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 
 ?>

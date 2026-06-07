@@ -17,33 +17,11 @@
                 <label for="fin">Date fin prevue :</label>
                 <input type="date" name="fin" id="fin" required><br><br>
 
-                <label for="statut">Statut :</label>
-                <input type="text" name="statut" id="statut" required><br><br><label for="id_modele">Modèle :</label>
-                    <select name="id_modele" id="id_modele" required>
-                        <option value="">-- Choisir un modèle --</option>
-                        <?php foreach ($modeles as $modele): ?>
-                            <option value="<?= $modele['id_modele'] ?>">
-                                <?= $modele['nom'] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select><br><br>
-
-                <label for="equipe">Équipe :</label>
-                <select name="equipe[]" id="equipe" multiple required>
-                    <?php foreach ($utilisateurs as $user): ?>
-                        <option value="<?= $user['id_user'] ?>">
-                            <?= $user['nom'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <small>Maintenez Ctrl pour sélectionner plusieurs personnes</small>
-                <br><br>
-
                 <input type="submit" value="enregistrer">
             </form>
         </div>
 
-        <a class="btn-retour" href="#" class="btn-retour">
+        <a class="btn-retour" href="index.php?page=chantier&action=choice" class="btn-retour">
         ← Retour
         </a>
     </body>
