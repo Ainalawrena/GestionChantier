@@ -74,10 +74,6 @@ function cacherFormulaireAvancement() {
     document.getElementById('formulaireAvancement').style.display = 'none';
 }
 
-function ouvrirDetailsTache(idTache) {
-    // Message temporaire pour votre bouton "Voir plus" en attendant le développement
-    alert("Historique des étapes soumises pour la tâche numéro : " + idTache);
-}
 
 function ouvrirModalAvancement(idTache, nomTache) {
     document.getElementById('nomTache').textContent = nomTache;
@@ -173,22 +169,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Ouvrir modal détail tâche
-function ouvrirModalDetailTache(idTache, nomTache) {
-    // Charge les détails via fetch
-    fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
-        .then(r => r.json())
-        .then(data => {
-            document.getElementById('detailNom').textContent        = data.nom;
-            document.getElementById('detailStatut').textContent     = data.statut;
-            document.getElementById('detailOrdre').textContent      = data.ordre ?? '-';
-            document.getElementById('detailPourcentage').textContent = data.pourcentage + '%';
-            document.getElementById('detailDebut').textContent      = data.date_debut_prevue ?? '-';
-            document.getElementById('detailFin').textContent        = data.date_fin_prevue ?? '-';
-            document.getElementById('detailOuvrier').textContent    = data.nom_ouvrier ?? '-';
-            ouvrirModal('modalDetailTache');
-        });
-}
+// (Removed duplicate broken definition.)
 
 // Ouvrir modal modifier
 function ouvrirModalModifierTache(idTache) {
@@ -197,10 +178,28 @@ function ouvrirModalModifierTache(idTache) {
         .then(data => {
             document.querySelector('#modalModifierTache [name="id_tache"]').value            = data.id_tache;
             document.querySelector('#modalModifierTache [name="nom"]').value                 = data.nom;
-            document.querySelector('#modalModifierTache [name="ordre"]').value               = data.ordre ?? '';
-            document.querySelector('#modalModifierTache [name="statut"]').value              = data.statut;
+            document.querySelector('#modalModifierTache [name="ordre"]').value               = data.ordre ?? '';             
             document.querySelector('#modalModifierTache [name="date_debut_prevue"]').value   = data.date_debut_prevue ?? '';
             document.querySelector('#modalModifierTache [name="date_fin_prevue"]').value     = data.date_fin_prevue ?? '';
+            // Pré-sélectionner les dépendances dans le select multiple
+            const select = document.querySelector('#modalModifierTache [name="dependances[]"]') || document.getElementById('selectDependances');
+            if (select) {
+                // Réinitialiser selections et enable
+                Array.from(select.options).forEach(o => { o.selected = false; o.disabled = false; });
+
+                if (data.dependances && data.dependances.length > 0) {
+                    const depIds = data.dependances.map(d => String(d.id_tache));
+                    Array.from(select.options).forEach(o => {
+                        if (depIds.includes(o.value)) o.selected = true;
+                    });
+                }
+
+                // Empêcher de choisir la tâche elle-même
+                Array.from(select.options).forEach(o => {
+                    if (o.value == data.id_tache) o.disabled = true;
+                });
+            }
+
             ouvrirModal('modalModifierTache');
         });
 }
@@ -216,8 +215,14 @@ function ouvrirModalDetailTache(idTache, nomTache) {
             document.getElementById('detailDebut').textContent       = data.date_debut_prevue ?? '-';
             document.getElementById('detailFin').textContent         = data.date_fin_prevue ?? '-';
             document.getElementById('detailOuvrier').textContent     = data.nom_ouvrier ?? '-';
+            // Dependances
+            let dependances = '-';
+            if (data.dependances && data.dependances.length > 0) {
+                dependances = data.dependances.map(dep => dep.nom).join(', ');
+            }
+            document.getElementById('detailDependence').textContent = dependances;
 
-            //  Met à jour le lien supprimer avec le bon id
+            // Met à jour le lien supprimer avec le bon id
             document.getElementById('btnSupprimerTache').href =
                 `index.php?page=tache&action=supprimerTache&id_tache=${idTache}&id_chantier=${data.id_chantier}`;
 

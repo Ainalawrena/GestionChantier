@@ -510,7 +510,13 @@ h2 {
     box-shadow: 0 20px 60px rgba(0,0,0,0.2);
     position: relative;
     animation: slideIn 0.3s ease;
+    box-sizing: border-box;
+    max-height: calc(100vh - 80px); /* leave some space around the modal */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
+
+
 
 @keyframes slideIn {
     from { transform: translateY(-30px); opacity: 0; }

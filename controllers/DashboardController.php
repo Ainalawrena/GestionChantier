@@ -84,6 +84,7 @@ class DashboardController {
         $ouvriers     = $this->chantierModel->getOuvriers($id_chantier);
         $tousUtilisateurs    = $this->utilisateurModel->getUtilisateurs();
         $incidents    = $this->incidentModel->getIncidents($id_chantier);
+        //$taches = $this->chantierModel->getTacheWithDependence($id_chantier);
 
         require __DIR__ . '/../views/chef/DashboardChef.php';
     }

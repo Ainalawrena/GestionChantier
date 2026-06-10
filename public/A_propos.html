@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - Construct IT</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- style accueil -->
+    <link rel="stylesheet" href="/styles/style.css">
+
+    <!-- style page apropos -->
+    <link rel="stylesheet" href="/styles/A_propos.css">
+</head>
+<body style="position:relative; overflow-x:hidden;">
+
+<!-- NAVBAR IDENTIQUE -->
+<nav>
+    <a href="index.html" class="nav-logo">
+        <div class="logo-icon">CI</div>
+        <span class="logo-text">
+            Construct <span>it</span>
+        </span>
+    </a>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a class="active" href="#">À propos</a></li>
+        <li><a href="Fonctionnalites.html">Fonctionnalités</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+        <a href="#" class="btn-connexion">Connexion</a>
+        <a href="#" class="btn-commencer-nav">Commencer</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+
+    <div class="hero-badge">
+        Plateforme professionnelle de gestion de chantier
+    </div>
+
+    <h1>
+        Construire mieux.<br>
+        Piloter plus intelligemment.
+    </h1>
+
+    <p>
+        Construct IT centralise les tâches, les équipes,
+        les incidents, les budgets et le suivi des chantiers
+        dans une seule plateforme moderne.
+    </p>
+
+</section>
+
+<!-- MISSION -->
+<section class="mission">
+
+    <h2>Notre mission</h2>
+
+    <div class="mission-grid">
+
+        <div class="mission-card">
+            <h3>Organisation</h3>
+            <p>
+                Structurer chaque étape du chantier pour éviter
+                les retards et améliorer la coordination.
+            </p>
+        </div>
+
+        <div class="mission-card">
+            <h3>Collaboration</h3>
+            <p>
+                Faciliter les échanges entre chefs,
+                architectes et ouvriers.
+            </p>
+        </div>
+
+        <div class="mission-card">
+            <h3>Performance</h3>
+            <p>
+                Suivre l'avancement en temps réel
+                pour prendre les meilleures décisions.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- IMAGE FUTURE -->
+<section class="about-image">
+
+    <div class="image-placeholder">
+        Future image de chantier
+    </div>
+
+</section>
+
+<!-- POURQUOI -->
+<section class="why">
+
+    <div class="why-left">
+
+        <span class="section-tag">
+            Pourquoi Construct IT ?
+        </span>
+
+        <h2>
+            Remplacer les méthodes dispersées
+            par une gestion centralisée.
+        </h2>
+
+        <p>
+            Trop de projets reposent encore sur
+            des feuilles Excel, des appels téléphoniques,
+            des messages WhatsApp et des documents dispersés.
+        </p>
+
+    </div>
+
+    <div class="why-right">
+
+        <div class="check-card">
+            ✓ Gestion des tâches
+        </div>
+
+        <div class="check-card">
+            ✓ Suivi d'avancement
+        </div>
+
+        <div class="check-card">
+            ✓ Gestion des équipes
+        </div>
+
+        <div class="check-card">
+            ✓ Déclaration d'incidents
+        </div>
+
+        <div class="check-card">
+            ✓ Rapports et analyses
+        </div>
+
+        <div class="check-card">
+            ✓ Pilotage global du chantier
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STATS -->
+<section class="stats">
+
+    <div class="stat-card">
+        <h3>50+</h3>
+        <p>Chantiers suivis</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>200+</h3>
+        <p>Utilisateurs actifs</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>95%</h3>
+        <p>Respect des délais</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>24/7</h3>
+        <p>Accès à la plateforme</p>
+    </div>
+
+</section>
+
+<!-- VISION -->
+<section class="vision">
+
+    <span class="section-tag">
+        Notre vision
+    </span>
+
+    <h2>
+        Devenir la référence numérique
+        pour la gestion des projets de construction.
+    </h2>
+
+    <p>
+        Nous voulons offrir aux entreprises du BTP
+        une solution moderne, intuitive et performante
+        capable d'améliorer la productivité de chaque chantier.
+    </p>
+
+</section>
+
+<!-- CTA -->
+<section class="cta">
+
+    <h2>
+        Prêt à moderniser vos chantiers ?
+    </h2>
+
+    <p>
+        Rejoignez Construct IT et centralisez
+        l'ensemble de vos opérations.
+    </p>
+
+    <a href="#" class="cta-btn">
+        Commencer maintenant
+    </a>
+
+</section>
+
+    <!-- TON CONTENU HTML -->
+<script>
+const elements = document.querySelectorAll(`
+    .mission-card,
+    .check-card,
+    .stat-card,
+    .why-left,
+    .why-right,
+    .vision,
+    .cta,
+    .about-image
+`);
+
+/* mettre classe reveal */
+elements.forEach(el => {
+    el.classList.add("reveal");
+});
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+
+        if (entry.isIntersecting) {
+
+            // petit delay pour effet cascade
+            setTimeout(() => {
+                entry.target.classList.add("show");
+            }, index * 80);
+        }
+    });
+}, {
+    threshold: 0.15
+});
+
+elements.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -30,6 +30,7 @@
                 <th>Statut</th>
                 <th>Avancement</th>
                 <th>Ouvrier</th>
+                <th>Dependances</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -41,8 +42,20 @@
                         <td><?= htmlspecialchars($tache['nom']) ?></td>
                         <td><?= htmlspecialchars($tache['statut']) ?></td>
                         <td><?= $tache['pourcentage'] ?>%</td>
-
                         <td><?= htmlspecialchars($tache['nom_ouvrier'] ?? '-') ?></td>
+                        <td>
+                            <?php
+                            if (!empty($tache['dependances'])) {
+                                    $noms = array_column(
+                                    $tache['dependances'],
+                                    'nom'
+                                );
+                                echo implode(', ', $noms);
+                            } else {
+                                echo '-';
+                            }
+                            ?>
+                        </td>
                         <td>
                             <div class="action-group">
                             <button class="dropdown-item"
@@ -99,6 +112,13 @@
                 <label>Date fin prévue :</label>
                 <input type="date" name="date_fin_prevue"><br><br>
 
+                <label>Dependences : </label>
+                <select id="selectDependancesCreate" name="dependances[]" multiple style="width:100%;min-height:80px;">
+                    <?php foreach ($taches as $opt): ?>
+                        <option value="<?= $opt['id_tache'] ?>"><?= htmlspecialchars($opt['nom']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+
                 <div class="modal-footer">
                     <button type="button" class="btn-annuler" onclick="fermerModal('modalTache')">
                         Annuler
@@ -129,13 +149,7 @@
                 <label>Ordre :</label>
                 <input type="number" name="ordre" value="<?= $tache['ordre'] ?>"><br><br>
 
-                <label>Statut :</label>
-                <select name="statut" value="<?= $tache['statut'] ?>">
-                    <option value="en attente">En attente</option>
-                    <option value="en cours">En cours</option>
-                    <option value="termine">Terminé</option>
-                    <option value="bloque">Bloqué</option>
-                </select><br><br>
+               
 
                 <label>Date début prévue :</label>
                 <input type="date" name="date_debut_prevue" value="<?= $tache['date_debut_prevue'] ?>"><br><br>
@@ -144,13 +158,11 @@
                 <input type="date" name="date_fin_prevue" value="<?= $tache['date_fin_prevue'] ?>"><br><br>
 
                 <label>Dependences : </label>
-                <select name="dependences[]" multiple>
-                    <?php foreach ($taches as $tacheOption): ?>
-                        <option value="<?= $tacheOption['id'] ?>" <?= in_array($tacheOption['id'], $tache['dependences']) ? 'selected' : '' ?>>
-                            <?= $tacheOption['nom'] ?>
-                        </option>
+                <select id="selectDependances" name="dependances[]" multiple style="width:100%;min-height:80px;">
+                    <?php foreach ($taches as $opt): ?>
+                        <option value="<?= $opt['id_tache'] ?>"><?= htmlspecialchars($opt['nom']) ?></option>
                     <?php endforeach; ?>
-                </select><br><br>
+                </select>
 
                 <div class="modal-footer">
                     <button type="button" class="btn-annuler" onclick="fermerModal('modalModifierTache')">
@@ -197,6 +209,11 @@
                 <span class="detail-label">Date fin prévue : </span>
                 <span class="detail-value" id="detailFin">-</span>
             </div>
+            <div class="detail-item">
+                <span class="detail-label">Dependences: </span>
+                <span class="detail-value" id="detailDependence">-</span>
+            </div>
+
             <div class="detail-item">
                 <span class="detail-label">Ouvrier assigné : </span>
                 <span class="detail-value" id="detailOuvrier">-</span>
