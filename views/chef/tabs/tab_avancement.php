@@ -8,16 +8,16 @@
     ?>
 
     <div class="progression-globale">
-        <h3>Progression globale : <?= $progression ?>%</h3>
+        <h3>Progression globale : <?= $progression ?>%</h3><br>
         <div class="progress-bar">
             <div class="progress-fill" style="width: <?= $progression ?>%"></div>
-        </div>
+        </div><br><br>
         <p><?= $terminees ?> / <?= $total ?> tâches terminées</p>
     </div>
 
     <hr>
-
-    <h3>Détail par tâche</h3>
+    <br>
+    <h3>Détail par tâche</h3><br>
     <table class="tableau">
         <thead>
             <tr>
@@ -45,7 +45,7 @@
                             default      => ''
                         };
                         ?>
-                        <span class="badge <?= $badgeClass ?>"><?= $tache['statut'] ?></span>
+                        <span <?= $badgeClass ?>"><?= $tache['statut'] ?></span>
                     </td>
                     <td>
                         <div class="progress-bar">
@@ -56,9 +56,9 @@
                     <td><?= $tache['date_fin_prevu'] ?? '-' ?></td>
                     <td>
                         <?php if ($enRetard): ?>
-                            <span class="badge badge-bloque">⚠️ Retard</span>
+                            <span> Retard</span>
                         <?php else: ?>
-                            <span class="badge badge-termine">✅ OK</span>
+                            <span> OK</span>
                         <?php endif; ?>
                     </td>
                 </tr>

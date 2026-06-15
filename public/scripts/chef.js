@@ -203,29 +203,41 @@ function ouvrirModalModifierTache(idTache) {
             ouvrirModal('modalModifierTache');
         });
 }
-
-function ouvrirModalDetailTache(idTache, nomTache) {
+function ouvrirModalDetailTache(idTache) {
+    console.log('🔍 Ouverture détail tâche ID:', idTache);
     fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
-        .then(r => r.json())
+        .then(r => {
+            if (!r.ok) throw new Error('Erreur serveur');
+            return r.json();
+        })
         .then(data => {
-            document.getElementById('detailNom').textContent         = data.nom;
-            document.getElementById('detailStatut').textContent      = data.statut;
-            document.getElementById('detailOrdre').textContent       = data.ordre ?? '-';
-            document.getElementById('detailPourcentage').textContent = data.pourcentage + '%';
-            document.getElementById('detailDebut').textContent       = data.date_debut_prevue ?? '-';
-            document.getElementById('detailFin').textContent         = data.date_fin_prevue ?? '-';
-            document.getElementById('detailOuvrier').textContent     = data.nom_ouvrier ?? '-';
-            // Dependances
+            console.log('✅ Données reçues :', data);
+            // Meilleure pratique : scoper dans le modal
+            const modal = document.getElementById('modalDetailTache');
+
+            modal.querySelector('#detailNom').textContent         = data.nom || '-';
+            modal.querySelector('#detailStatut').textContent      = data.statut || '-';
+            modal.querySelector('#detailOrdre').textContent       = data.ordre ?? '-';
+            modal.querySelector('#detailPourcentage').textContent = (data.pourcentage ?? '-') + '%';
+            modal.querySelector('#detailDebut').textContent       = data.date_debut_prevue || '-';
+            modal.querySelector('#detailFin').textContent         = data.date_fin_prevue || '-';
+            modal.querySelector('#detailOuvrier').textContent     = data.nom_ouvrier || '-';
+
+            // Dépendances
             let dependances = '-';
             if (data.dependances && data.dependances.length > 0) {
                 dependances = data.dependances.map(dep => dep.nom).join(', ');
             }
-            document.getElementById('detailDependence').textContent = dependances;
+            modal.querySelector('#detailDependence').textContent = dependances;
 
-            // Met à jour le lien supprimer avec le bon id
+            // Lien supprimer
             document.getElementById('btnSupprimerTache').href =
-                `index.php?page=tache&action=supprimerTache&id_tache=${idTache}&id_chantier=${data.id_chantier}`;
+                `index.php?page=tache&action=supprimerTache&id_tache=${idTache}&id_chantier=${data.id_chantier || ''}`;
 
             ouvrirModal('modalDetailTache');
+        })
+        .catch(err => {
+            console.error('Erreur lors du chargement des détails:', err);
+            alert('Impossible de charger les détails de la tâche.');
         });
 }

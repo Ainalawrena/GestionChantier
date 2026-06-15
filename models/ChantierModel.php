@@ -11,7 +11,11 @@ class ChantierModel {
     //==========================GETTERS============================================================
 
     public function getById($id_chantier) {
-        $stmt = $this->pdo->prepare("SELECT * FROM chantier WHERE id_chantier = ?");
+        $id_utilisateur = $_SESSION['user_id'];
+        $stmt = $this->pdo->prepare("SELECT c.*, m.nom as nom_modele, m.image as image_modele 
+            FROM chantier c
+            LEFT JOIN modele m ON c.id_modele = m.id_modele
+            WHERE c.id_chantier = ?");
         $stmt->execute([$id_chantier]);
         $chantier = $stmt->fetch(PDO::FETCH_ASSOC);
         return $chantier;

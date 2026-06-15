@@ -1,12 +1,23 @@
 <div id="chantier" class="tab-content active">
-    <h2>Informations du Chantier</h2>
-    
-    <!-- Infos générales -->
-    <div class="info-grid">
-        <div class="info-card">
-            <strong>Nom du chantier</strong>
-            <p><?= htmlspecialchars($chantier['nom']) ?></p>
+<!-- En-tête Chantier : Image à gauche + Infos à droite -->
+    <div class="chantier-hero">
+        <?php if (!empty($chantier['image_modele'])): ?>
+            <div class="modele-visual">
+                <img src="/Images/<?= htmlspecialchars($chantier['image_modele']) ?>" 
+                     alt="<?= htmlspecialchars($chantier['nom_modele'] ?? '') ?>"
+                     onerror="this.style.display='none';">
+            </div>
+        <?php endif; ?>
+        
+        <div class="chantier-overlay">
+            <h1><?= htmlspecialchars($chantier['nom']) ?></h1>
+            <p class="modele-type">
+                <?= htmlspecialchars($chantier['nom_modele'] ?? 'Modèle non défini') ?>
+            </p>
         </div>
+    </div>
+
+    <div class="info-grid">
         <div class="info-card">
             <strong>Date début prévue</strong>
             <p><?= date('d/m/Y', strtotime($chantier['date_debut_prevu'])) ?></p>

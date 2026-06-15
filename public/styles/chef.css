@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 :root {
-  --blue-deep: #bbc3cc;
-  --blue-mid: #7a8188;
-  --blue-light: #3b8ad4;
-  --gray-light: #f8f9fc;
-  --text-dark: #5d6671;
+  --blue-deep: #ffffff;
+  --blue-mid: #b5b5c3;
+  --blue-light: #ff7a00;
+  --gray-light: #111028;
+  --text-dark: #b5b5c3;
 }
 
 * {
@@ -16,7 +16,8 @@
 
 body{
     margin:0;
-    background:#f5f7fb;
+    background:#09071f;
+    color:white;
     height:100vh;
     overflow:hidden;
 }
@@ -27,20 +28,22 @@ body{
 }
 
 header{
-    background:white;
+    background:#09071f;
     height:70px;
     padding:0 25px;
-    border-bottom:1px solid #eceff3;
-    box-shadow:none;
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .sidebar{
-    width: 260px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background:rgb(253, 252, 252);
-    padding: 20px;
+    width:260px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+
+    background:#111028;
+
+    padding:20px;
+    border-right:1px solid rgba(255,255,255,.05);
 }
 
 .sidebar-footer {
@@ -69,9 +72,9 @@ header{
 }
 
 .user-name {
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: #1a3a5c;
+    color: #d6dadf;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -79,13 +82,13 @@ header{
 }
 
 .user-role {
-    font-size: 0.75rem;
-    color: #6b8cae;
+    font-size: 0.90rem;
+    color: #8caecf;
 }
 
 .btn-logout {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +104,7 @@ header{
 }
 
 .btn-logout i {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
 }
 
 /* Dashboard Layout */
@@ -119,13 +122,15 @@ header{
 
 /*====================TOPBAR=====================*/
 .topbar{
-    position: relative;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 25px;
-    background: #f6f8fb;
+    position:relative;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+
+    padding:0 25px;
+
+    background:#09071f;
 }
 
 #imgUser {
@@ -146,9 +151,9 @@ header{
 }
 
 .header-left h1{
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #1f2937;
+    font-size:1.8rem;
+    font-weight:700;
+    color:#ffffff;
 }
 
 .header-actions{
@@ -168,36 +173,49 @@ header{
     width:48px;
     height:48px;
     border-radius:12px;
-    background:#1f2937;
+
+    background:#ff7a00;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    color:#ff8c00;
+
+    color:white;
     font-size:22px;
-    font-weight: bold;
+    font-weight:bold;
 }
-
-
 .nav-btn {
-  width: 100%;
-  padding: 14px 20px;
-  margin: 6px 0;
-  text-align: left;
-  border: none;
-  background: transparent;
-  font-size: 1.02rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
+    width:100%;
+    padding:14px 20px;
+    margin:6px 0;
+
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:12px;
+
+    text-align:left;
+
+    border:none;
+    background:transparent;
+
+    font-size:1.02rem;
+    border-radius:10px;
+
+    cursor:pointer;
+    transition:.3s;
+
+    color:white;
 }
 
-.nav-btn:hover {
-  background: #f0f4ff;
+.nav-btn:hover{
+    background:#1a1838;
+    color:white;
 }
+
 
 .nav-btn.active{
-    background:#fff4e6;
-    color:#ff8c00;
+    color:#ff7a00;
 }
 
 /* Contenu principal */
@@ -205,6 +223,7 @@ header{
   flex: 1;
   padding: 30px;
   overflow-y: auto;
+  background:#09071f;
 }
 
 .tab-content {
@@ -258,38 +277,60 @@ h2 {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+    background:#111028;
+
+    border-radius:20px;
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.05);
+
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
 }
+
 
 .tableau thead {
-    background: #1a3a5c;
-    color: white;
+    color:white;
 }
+
 
 .tableau thead th {
-    padding: 12px 15px;
-    text-align: left;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    padding:14px 15px;
+    text-align:left;
+    font-size:.9rem;
+    font-weight:600;
+    color:#ff7a00;
+    letter-spacing:.5px;
 }
+
 
 .tableau tbody tr {
-    border-bottom: 1px solid #f0f0f0;
-    transition: background 0.2s;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    transition:.3s;
 }
+
 
 .tableau tbody tr:hover {
-    background: #f4f8ff;
+
+    background:#1a1838;
 }
 
+
 .tableau tbody td {
-    padding: 12px 15px;
-    font-size: 0.9rem;
-    color: #0f2540;
+
+    padding:14px 15px;
+
+    font-size:.9rem;
+
+    color:#f8fafc;
+}
+
+
+/* première colonne plus visible */
+.tableau tbody td:first-child {
+    font-weight:700;
 }
 
 /* BADGES STATUT */
@@ -596,9 +637,81 @@ h2 {
 }
 
 
+/* === Styles pour le modal Détail Tâche === */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* 2 colonnes */
+    gap: 12px 20px;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.detail-value {
+    font-size: 1rem;
+    color: #333;
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+    min-height: 24px;
+}
+
+/* Pour les petits écrans */
+@media (max-width: 768px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
 /*=============================================================*/
 /* DROPDOWN ACTION */
+/* === Icônes Actions - Thème BTP === */
+.action-group button {
+    background: transparent;
+    border: none;
+    padding: 8px 10px;
+    margin: 0 3px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.action-group button:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* Icône Œil (Détail) */
+.action-group .fa-eye {
+    color: #0d6efd;           /* Bleu professionnel */
+    font-size: 1.25rem;
+}
+
+/* Icône Stylo (Modifier) */
+.action-group .fa-pen {
+    color: #fd7e14;           /* Orange BTP / Chantier */
+    font-size: 1.25rem;
+}
+
+/* Effet au survol */
+.action-group button:hover .fa-eye {
+    color: #0b5ed7;
+    transform: scale(1.15);
+}
+
+.action-group button:hover .fa-pen {
+    color: #e06b00;
+    transform: scale(1.15);
+}
 .action-dropdown {
     position: relative;
     display: inline-block;
@@ -665,4 +778,75 @@ h2 {
     margin-top: 20px;
     padding-top: 16px;
     border-top: 1px solid #edf0f5;
+}
+.chantier-hero {
+    position: relative;
+    height: 400px;                   /* Plus grand et imposant */
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.modele-visual img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;              
+    background: #1a1a2e;
+}
+
+.chantier-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+    color: white;
+    padding: 35px 30px 25px;
+}
+
+.chantier-overlay h1 {
+    margin: 0 0 8px 0;
+    font-size: 2.2rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.chantier-overlay .modele-type {
+    margin: 0;
+    font-size: 1.25rem;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+/* Effet au survol */
+.chantier-hero:hover img {
+    transform: scale(1.03);
+    transition: transform 0.4s ease;
+}
+
+.chantier-info .modele-name {
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 1.15rem;
+}
+
+.chantier-info .modele-description {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chantier-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .modele-visual img {
+        width: 100%;
+        max-width: 280px;
+        height: 180px;
+    }
 }

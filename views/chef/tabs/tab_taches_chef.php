@@ -183,7 +183,6 @@
             <h3><i class="fa-solid fa-eye"></i> Détail de la tâche</h3>
             <button class="modal-close" onclick="fermerModal('modalDetailTache')">✕</button>
         </div>
-
         <div class="detail-grid">
             <div class="detail-item">
                 <span class="detail-label">Nom : </span>
