@@ -1,0 +1,302 @@
+/* ===============================
+   FORMULAIRE CONFIG CHANTIER
+================================ */
+
+body{
+    background:#09071f;
+    color:white;
+    font-family:'Inter',sans-serif;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:auto;
+    padding:40px;
+}
+
+
+/* glow background */
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    width:600px;
+    height:600px;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(255,122,0,.2),
+        transparent 70%
+    );
+
+    filter:blur(90px);
+
+    z-index:-1;
+
+    animation:glow 6s infinite;
+}
+
+
+
+/* container */
+
+.container{
+
+    width:100%;
+    max-width:430px;
+
+    background:#111028;
+
+    padding:45px 40px;
+
+    border-radius:25px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,.35);
+
+    animation:fadeUp .8s ease forwards;
+}
+
+
+
+.container h2{
+
+    text-align:center;
+
+    color:#ff7a00;
+
+    font-size:2rem;
+
+    margin-bottom:35px;
+
+}
+
+
+
+/* FORM */
+
+form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+
+
+label{
+
+    color:#b5b5c3;
+
+    font-weight:500;
+
+    margin-top:8px;
+}
+
+
+
+
+input,
+select{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border-radius:12px;
+
+    background:#09071f;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    color:white;
+
+    font-size:1rem;
+
+    transition:.3s;
+}
+
+
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#ff7a00;
+
+    box-shadow:
+    0 0 0 4px rgba(255,122,0,.15);
+
+}
+
+
+
+/* select */
+
+select{
+
+    cursor:pointer;
+
+}
+
+
+
+select option{
+
+    background:#111028;
+
+    color:white;
+
+}
+
+
+
+/* bouton */
+
+input[type="submit"]{
+
+    margin-top:25px;
+
+    background:#ff7a00;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    color:white;
+
+}
+
+
+
+input[type="submit"]:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 15px 40px rgba(255,122,0,.35);
+
+}
+
+
+
+/* retour */
+
+.btn-retour{
+
+    position:fixed;
+
+    bottom:35px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    color:#b5b5c3;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+
+
+.btn-retour:hover{
+
+    color:#ff7a00;
+
+    transform:
+    translateX(-50%)
+    translateY(-5px);
+
+}
+
+
+
+/* animations */
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+@keyframes glow{
+
+    0%,100%{
+
+        transform:
+        translate(-50%,-50%)
+        translateY(0);
+
+    }
+
+
+    50%{
+
+        transform:
+        translate(-50%,-50%)
+        translateY(30px);
+
+    }
+
+}
+
+
+
+/* mobile */
+
+@media(max-width:500px){
+
+    body{
+
+        padding:20px;
+
+    }
+
+
+    .container{
+
+        padding:35px 25px;
+
+    }
+
+}
