@@ -133,7 +133,7 @@ public function getTache($id_chantier)
 
     //=================================CREATION TACHE=====================================================
 
-    public function creerChantier($data,$equipe,$idchef){
+    public function creerChantier($data, $equipe, $idchef) {
         $statut = "en attente";
         $sql = "INSERT INTO chantier (nom, date_debut_prevu, date_fin_prevu, statut, id_modele) 
              VALUES (:nom, :debut, :fin, :statut, :id_modele)";
@@ -146,40 +146,31 @@ public function getTache($id_chantier)
             ':id_modele' => $data['id_modele']
         ]);
 
-        $id_chantier = $this->pdo->lastInsertId('chantier_id_chantier_seq'); 
+        $id_chantier = $this->pdo->lastInsertId('chantier_id_chantier_seq');
+
         // chef chantier
         $sql2 = "INSERT INTO affectation_chantier
             (id_utilisateur, id_chantier, id_role)
             VALUES (?, ?, 2)";
-
         $this->pdo->prepare($sql2)->execute([$idchef, $id_chantier]);
 
-        foreach($equipe as $id_user)
-        {
-            if($id_user == $idchef) continue;
+        foreach ($equipe as $id_user) {
+            if ($id_user == $idchef) continue;
 
             $sql3 = "INSERT INTO affectation_chantier
                     (id_utilisateur, id_chantier, id_role)
                     VALUES (?, ?, 3)";
-
             $this->pdo->prepare($sql3)->execute([$id_user, $id_chantier]);
         }
 
-        $sql4 = "SELECT * FROM tache_modele
-            WHERE id_modele = ?";
-
+        $sql4 = "SELECT * FROM tache_modele WHERE id_modele = ?";
         $stmtTM = $this->pdo->prepare($sql4);
         $stmtTM->execute([$data['id_modele']]);
-
         $tachesModele = $stmtTM->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($tachesModele as $tachem)
-        {
+        foreach ($tachesModele as $tachem) {
             $sql5 = "INSERT INTO tache
-                    (nom, ordre, statut, pourcentage,
-                     id_chantier,
-                     id_tache_modele)
-
+                    (nom, ordre, statut, pourcentage, id_chantier, id_tache_modele)
                     VALUES (?, ?, 'en attente', 0, ?, ?)";
 
             $this->pdo->prepare($sql5)->execute([
@@ -188,10 +179,30 @@ public function getTache($id_chantier)
                 $id_chantier,
                 $tachem['id_tache_modele']
             ]);
+
+            // Récupère l'id de la tâche fraîchement créée
+            $id_tache = $this->pdo->lastInsertId('tache_id_tache_seq');
+
+            // Copie les jalons modèles vers la table jalon (instance réelle)
+            $sqlJalons = "SELECT * FROM jalon_modele WHERE id_tache_modele = ? ORDER BY ordre";
+            $stmtJ = $this->pdo->prepare($sqlJalons);
+            $stmtJ->execute([$tachem['id_tache_modele']]);
+            $jalonsModele = $stmtJ->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($jalonsModele as $jm) {
+                $sqlInsertJalon = "INSERT INTO jalon (ordre, nom, pourcentage, id_tache)
+                                    VALUES (?, ?, ?, ?)";
+                $this->pdo->prepare($sqlInsertJalon)->execute([
+                    $jm['ordre'],
+                    $jm['nom'],
+                    $jm['pourcentage'],
+                    $id_tache
+                ]);
+            }
         }
+
         return $id_chantier;
     }
-
    
     
 

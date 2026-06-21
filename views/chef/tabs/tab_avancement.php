@@ -26,7 +26,6 @@
                 <th>Statut</th>
                 <th>Avancement</th>
                 <th>Date fin prévue</th>
-                <th>Retard</th>
             </tr>
         </thead>
         <tbody>
@@ -54,13 +53,6 @@
                         <small><?= $tache['pourcentage'] ?>%</small>
                     </td>
                     <td><?= $tache['date_fin_prevu'] ?? '-' ?></td>
-                    <td>
-                        <?php if ($enRetard): ?>
-                            <span> Retard</span>
-                        <?php else: ?>
-                            <span> OK</span>
-                        <?php endif; ?>
-                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -99,8 +99,6 @@
             </button>
         <?php endif; ?>
     </div>
-
-    <a class="btn-retour" href="login.html">← Retour à la connexion</a>
 </div>
 
 <script>

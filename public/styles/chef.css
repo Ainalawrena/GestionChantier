@@ -468,6 +468,12 @@ h2 {
     margin-top: 20px;
     grid-column: 1 / -1;
 }
+.action-icon-btn.danger {
+    color: #dc3545;
+    border-color: #fecaca;
+}
+
+
 
 .btn-enregistrer {
     padding: 9px 20px;

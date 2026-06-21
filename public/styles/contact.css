@@ -1,5 +1,12 @@
 body {
-    background: #09071f;
+    background:
+    linear-gradient(rgba(7, 22, 58, 0.75), rgba(10, 30, 80, 0.75)),
+    url('/Images/contact.png');
+    background-size: cover;
+    background-position: 60% center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
     color: white;
     font-family: 'Inter', sans-serif;
 }
@@ -52,7 +59,8 @@ body {
 
 /* Formulaire */
 .contact-form {
-    background: #111028;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
     padding: 50px;
     border-radius: 24px;
     border: 1px solid rgba(255,255,255,.05);
@@ -85,7 +93,8 @@ body {
 .form-group textarea {
     width: 100%;
     padding: 14px 18px;
-    background: #09071f;
+    background: rgba(51, 42, 42, 0.05);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,.1);
     border-radius: 12px;
     color: white;
@@ -99,7 +108,8 @@ body {
 
 /* Info Contact */
 .contact-info {
-    background: #111028;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
     padding: 50px;
     border-radius: 24px;
     border: 1px solid rgba(255,255,255,.05);

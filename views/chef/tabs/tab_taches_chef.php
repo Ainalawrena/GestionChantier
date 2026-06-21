@@ -58,17 +58,15 @@
                         </td>
                         <td>
                             <div class="action-group">
-                            <button class="dropdown-item"
-                                onclick="ouvrirModalDetailTache(<?= $tache['id_tache'] ?>, '<?= htmlspecialchars($tache['nom']) ?>')">
-                                <i class="fa-solid fa-eye"></i> 
-                            </button>
-                            <button class="dropdown-item"
-                                onclick="ouvrirModalModifierTache(<?= $tache['id_tache'] ?>)">
-                                <i class="fa-solid fa-pen"></i> 
-                            </button>
-
-                         
-                        </div>
+                                <button class="dropdown-item"
+                                    onclick="ouvrirModalDetailTache(<?= $tache['id_tache'] ?>, '<?= htmlspecialchars($tache['nom']) ?>')">
+                                    <i class="fa-solid fa-eye"></i> 
+                                </button>
+                                <button class="dropdown-item"
+                                    onclick="ouvrirModalModifierTache(<?= $tache['id_tache'] ?>)">
+                                    <i class="fa-solid fa-pen"></i> 
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

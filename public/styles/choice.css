@@ -12,7 +12,14 @@ body{
 
     min-height:100vh;
 
-    background:#09071f;
+     background:
+    linear-gradient(rgba(8, 8, 8, 0.72), rgba(0, 0, 0, 0.72)),
+    url('/Images/avi.avif');
+    background-size: cover;
+    background-position: 60% center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
 
     color:white;
 
@@ -226,7 +233,8 @@ nav{
 
 
 .card{
-    background:#111028;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
     border-radius:30px;
     padding:45px;
     border:

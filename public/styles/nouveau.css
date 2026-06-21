@@ -3,7 +3,14 @@
 ================================ */
 
 body{
-    background:#09071f;
+    background:
+    linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)),
+    url('/Images/fonc.png');
+ 	 background-size: cover;
+ 	 background-position: 60% center;
+ 	 background-repeat: no-repeat;
+ 	 background-attachment: fixed;
+ 	 min-height: 100vh;
     color:white;
     font-family:'Inter',sans-serif;
 
@@ -39,24 +46,18 @@ body::before{
         rgba(255,122,0,.2),
         transparent 70%
     );
-
     filter:blur(90px);
-
     z-index:-1;
-
     animation:glow 6s infinite;
 }
-
-
 
 /* container */
 
 .container{
-
     width:100%;
     max-width:430px;
-
-    background:#111028;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
 
     padding:45px 40px;
 

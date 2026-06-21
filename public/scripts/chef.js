@@ -202,8 +202,7 @@ function ouvrirModalModifierTache(idTache) {
 
             ouvrirModal('modalModifierTache');
         });
-}
-function ouvrirModalDetailTache(idTache) {
+}function ouvrirModalDetailTache(idTache) {
     console.log('🔍 Ouverture détail tâche ID:', idTache);
     fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
         .then(r => {
@@ -212,7 +211,6 @@ function ouvrirModalDetailTache(idTache) {
         })
         .then(data => {
             console.log('✅ Données reçues :', data);
-            // Meilleure pratique : scoper dans le modal
             const modal = document.getElementById('modalDetailTache');
 
             modal.querySelector('#detailNom').textContent         = data.nom || '-';
@@ -230,9 +228,12 @@ function ouvrirModalDetailTache(idTache) {
             }
             modal.querySelector('#detailDependence').textContent = dependances;
 
-            // Lien supprimer
-            document.getElementById('btnSupprimerTache').href =
-                `index.php?page=tache&action=supprimerTache&id_tache=${idTache}&id_chantier=${data.id_chantier || ''}`;
+            // ✅ Vérifie que le bouton existe (absent côté ouvrier)
+            const btnSupprimer = document.getElementById('btnSupprimerTache');
+            if (btnSupprimer) {
+                btnSupprimer.href =
+                    `index.php?page=tache&action=supprimerTache&id_tache=${idTache}&id_chantier=${data.id_chantier || ''}`;
+            }
 
             ouvrirModal('modalDetailTache');
         })

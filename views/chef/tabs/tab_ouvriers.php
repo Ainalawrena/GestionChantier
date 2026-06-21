@@ -19,14 +19,19 @@
                         <td><?= htmlspecialchars($ouvrier['libelle']) ?></td>
                         <td><?= $ouvrier['nb_taches'] ?></td>
                         <td>
-                            <!-- Bouton affecter tâche -->
-                            <button class="btn-modifier" 
-                                onclick="afficherFormulaireAffectation(<?= $ouvrier['id_user'] ?>, '<?= htmlspecialchars($ouvrier['nom']) ?>')">
-                                Affecter une tâche
-                            </button>
-                            <a href="index.php?page=chantier&action=retirerMembre&id_user=<?= $ouvrier['id_user'] ?>&id_chantier=<?= $id_chantier ?>"
-                               onclick="return confirm('Retirer ?')"
-                               class="btn-modifier">Retirer</a>
+                            <div class="action-group">
+                                <button class="action-icon-btn"
+                                    onclick="afficherFormulaireAffectation(<?= $ouvrier['id_user'] ?>, '<?= htmlspecialchars($ouvrier['nom']) ?>')"
+                                    title="Affecter une tâche">
+                                    <i class="fa-solid fa-list-check"></i>
+                                </button>
+                                <a href="index.php?page=chantier&action=retirerMembre&id_user=<?= $ouvrier['id_user'] ?>&id_chantier=<?= $id_chantier ?>"
+                                   onclick="return confirm('Retirer ce membre du chantier ?')"
+                                   class="action-icon-btn danger"
+                                   title="Retirer">
+                                    <i class="fa-solid fa-user-xmark"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
