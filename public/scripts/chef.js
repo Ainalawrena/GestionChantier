@@ -210,7 +210,7 @@ function ouvrirModalModifierTache(idTache) {
             return r.json();
         })
         .then(data => {
-            console.log('✅ Données reçues :', data);
+            console.log('Données reçues :', data);
             const modal = document.getElementById('modalDetailTache');
 
             modal.querySelector('#detailNom').textContent         = data.nom || '-';
@@ -228,7 +228,7 @@ function ouvrirModalModifierTache(idTache) {
             }
             modal.querySelector('#detailDependence').textContent = dependances;
 
-            // ✅ Vérifie que le bouton existe (absent côté ouvrier)
+            //  Vérifie que le bouton existe (absent côté ouvrier)
             const btnSupprimer = document.getElementById('btnSupprimerTache');
             if (btnSupprimer) {
                 btnSupprimer.href =

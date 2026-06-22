@@ -1,4 +1,4 @@
-<div id="" class="tab-content">
+<div id="dashboard" class="tab-content">
     <h2>Tableau de bord Administrateur</h2>
     <p>Bienvenue sur votre tableau de bord, <?= htmlspecialchars(SessionManager::getNom()) ?>. Ici, vous pouvez gérer tous les aspects de vos chantiers, utilisateurs et modèles de tâches.</p>
 

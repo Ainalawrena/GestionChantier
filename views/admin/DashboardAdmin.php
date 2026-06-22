@@ -63,9 +63,9 @@
         </header>
 
         <main class="content">
-
+            <?php require __DIR__ . '/tabs/tab_dashboard.php'; ?>
             <?php require __DIR__ . '/tabs/tab_chantier.php'; ?>
-            <?php require __DIR__ . '/tabs/tab_taches_chef.php'; ?>
+            <?php require __DIR__ . '/tabs/tab_tache_admin.php'; ?>
             <?php require __DIR__ . '/tabs/tab_ouvriers.php'; ?>
             <?php require __DIR__ . '/tabs/tab_avancement.php'; ?>
             <?php require __DIR__ . '/tabs/tab_incidents.php'; ?>
