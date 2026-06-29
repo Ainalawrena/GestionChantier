@@ -139,7 +139,7 @@ class DashboardController {
         $id_chantier = $_GET['id_chantier'] ?? 0;
         $role        = $_SESSION['role'];
         $ouvriers    = $this->chantierModel->getOuvriers($id_chantier);
-        $chantier    = $this->chantierModel->getById($id_chantier);
+        $chantiers    = $this->chantierModel->getTousChantiers($id_chantier);
         $avancementsAValider = $this->validationModel->getAvancementsAValider($id_chantier);
   
         require __DIR__ . '/../views/admin/DashboardAdmin.php';

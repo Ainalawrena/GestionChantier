@@ -21,6 +21,56 @@ class ChantierModel {
         return $chantier;
     }
 
+    public function getTousChantiers() {
+    $sql = "SELECT 
+                c.id_chantier,
+                c.nom,
+                c.statut,
+                c.date_debut_prevu,
+                c.date_fin_prevu,
+                m.nom AS nom_modele,
+
+                -- Progression globale
+                COALESCE(
+                    ROUND(AVG(t.pourcentage))
+                , 0) AS progression,
+
+                -- Nombre de tâches
+                COUNT(DISTINCT t.id_tache) AS nb_taches,
+
+                -- Nombre de tâches terminées
+                COUNT(DISTINCT CASE WHEN t.statut = 'termine' THEN t.id_tache END) AS nb_taches_terminees,
+
+                -- Nombre d'ouvriers
+                COUNT(DISTINCT ac.id_utilisateur) AS nb_ouvriers,
+
+                -- Nombre d'incidents ouverts
+                COUNT(DISTINCT CASE WHEN i.statut = 'ouvert' THEN i.id_incident END) AS nb_incidents,
+
+                -- Retard ?
+                CASE 
+                    WHEN c.date_fin_prevu < CURRENT_DATE 
+                    AND c.statut != 'termine' 
+                    THEN true 
+                    ELSE false 
+                END AS en_retard
+
+            FROM chantier c
+            LEFT JOIN modele m ON c.id_modele = m.id_modele
+            LEFT JOIN tache t ON t.id_chantier = c.id_chantier
+            LEFT JOIN affectation_chantier ac ON ac.id_chantier = c.id_chantier
+            LEFT JOIN incident i ON i.id_tache IN (
+                SELECT id_tache FROM tache WHERE id_chantier = c.id_chantier
+            )
+            GROUP BY c.id_chantier, c.nom, c.statut, 
+                     c.date_debut_prevu, c.date_fin_prevu, m.nom
+            ORDER BY c.id_chantier DESC";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getRoleChantier($id_chantier) {
         $id_utilisateur = $_SESSION['user_id'];
         $stmt = $this->pdo->prepare("SELECT r.libelle 
