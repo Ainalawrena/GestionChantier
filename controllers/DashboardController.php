@@ -147,7 +147,8 @@ class DashboardController {
         $stats     = $this->adminModel->getStatsGlobales();
         $utilisateurs = $this->utilisateurModel->getTousAvecStats(); 
         $roles        = $this->utilisateurModel->getRoles();
-        $toutesTaches = $this->chantierModel->getToutesTaches();         
+        $toutesTaches = $this->chantierModel->getToutesTaches();   
+        $tousAvancements = $this->avancementModel->getTousAvancements();       
         require __DIR__ . '/../views/admin/DashboardAdmin.php';
     }
 }

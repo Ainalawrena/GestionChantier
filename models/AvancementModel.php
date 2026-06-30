@@ -105,5 +105,27 @@ class AvancementModel {
         $stmt->execute([$id_tache]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getTousAvancements() {
+        $sql = "SELECT 
+                a.id_avancement, a.pourcentage, a.commentaire,
+                t.nom AS nom_tache, t.id_tache,
+                c.nom AS nom_chantier, c.id_chantier,
+                u.nom AS nom_ouvrier,
+                m.date_mise_a_jour,
+                v.statut_validation, v.date_validation,
+                va.nom AS nom_architecte
+                FROM avancement_tache a
+                JOIN tache t ON a.id_tache = t.id_tache
+                JOIN chantier c ON t.id_chantier = c.id_chantier
+                JOIN modifier m ON a.id_avancement = m.id_avancement
+                JOIN utilisateur u ON m.id_utilisateur = u.id_user
+                LEFT JOIN validation v ON a.id_avancement = v.id_avancement
+                LEFT JOIN utilisateur va ON v.id_utilisateur = va.id_user
+                ORDER BY m.date_mise_a_jour DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
