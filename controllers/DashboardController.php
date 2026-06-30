@@ -146,7 +146,8 @@ class DashboardController {
         $avancementsAValider = $this->validationModel->getAvancementsAValider($id_chantier);
         $stats     = $this->adminModel->getStatsGlobales();
         $utilisateurs = $this->utilisateurModel->getTousAvecStats(); 
-        $roles        = $this->utilisateurModel->getRoles();         
+        $roles        = $this->utilisateurModel->getRoles();
+        $toutesTaches = $this->chantierModel->getToutesTaches();         
         require __DIR__ . '/../views/admin/DashboardAdmin.php';
     }
 }

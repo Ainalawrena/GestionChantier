@@ -113,41 +113,41 @@ class ChantierModel {
         return $tachesModele;
     }
 
-public function getTache($id_chantier)
-{
-    $sql = "
-        SELECT t.*, u.nom AS nom_ouvrier
-        FROM tache t
-        LEFT JOIN utilisateur u
-            ON t.id_utilisateur = u.id_user
-        WHERE t.id_chantier = ?
-        ORDER BY t.ordre
-    ";
-
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$id_chantier]);
-
-    $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($taches as &$tache) {
-
-        $sqlDep = "
-            SELECT t2.id_tache, t2.nom
-            FROM dependance_tache d
-            JOIN tache t2
-                ON d.id_tache_precedente = t2.id_tache
-            WHERE d.id_tache = ?
+    public function getTache($id_chantier)
+    {
+        $sql = "
+            SELECT t.*, u.nom AS nom_ouvrier
+            FROM tache t
+            LEFT JOIN utilisateur u
+                ON t.id_utilisateur = u.id_user
+            WHERE t.id_chantier = ?
+            ORDER BY t.ordre
         ";
 
-        $stmtDep = $this->pdo->prepare($sqlDep);
-        $stmtDep->execute([$tache['id_tache']]);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id_chantier]);
 
-        $tache['dependances'] =
-            $stmtDep->fetchAll(PDO::FETCH_ASSOC);
+        $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($taches as &$tache) {
+
+            $sqlDep = "
+                SELECT t2.id_tache, t2.nom
+                FROM dependance_tache d
+                JOIN tache t2
+                    ON d.id_tache_precedente = t2.id_tache
+                WHERE d.id_tache = ?
+            ";
+
+            $stmtDep = $this->pdo->prepare($sqlDep);
+            $stmtDep->execute([$tache['id_tache']]);
+
+            $tache['dependances'] =
+                $stmtDep->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $taches;
     }
-
-    return $taches;
-}
     public function getOuvriers($id_chantier){
         $stmt = $this->pdo->prepare("SELECT u.id_user, u.nom, u.email, r.libelle, COUNT(t.id_tache) AS nb_taches
             FROM affectation_chantier ac
@@ -301,6 +301,26 @@ public function getTache($id_chantier)
     }
 
 
-}
+    public function getToutesTaches() {
+        $sql = "SELECT 
+                    t.id_tache, t.nom, t.ordre, t.statut, t.pourcentage,
+                    t.date_debut_prevue, t.date_fin_prevue,
+                    c.id_chantier, c.nom AS nom_chantier,
+                    u.nom AS nom_ouvrier,
+                    CASE 
+                        WHEN t.date_fin_prevue < CURRENT_DATE 
+                        AND t.statut != 'termine' 
+                        THEN true 
+                        ELSE false 
+                    END AS en_retard
+                FROM tache t
+                JOIN chantier c ON t.id_chantier = c.id_chantier
+                LEFT JOIN utilisateur u ON t.id_utilisateur = u.id_user
+                ORDER BY c.nom, t.ordre";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }   
+}   
 
 ?>
