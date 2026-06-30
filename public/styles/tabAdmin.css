@@ -574,3 +574,261 @@
 }
 
 .mc-btn-secondary:hover { background: #374151; color: #e2e8f0; }
+
+/* ── ADMIN DASHBOARD ── */
+.admin-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 24px;
+}
+
+/* KPI cards */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: #1e2535;
+    border: 1px solid #2d3748;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.kpi-card:hover {
+    border-color: #475569;
+    transform: translateY(-2px);
+}
+
+.kpi-icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.kpi-icon-wrap.blue   { background: rgba(59,130,246,0.15);  color: #60a5fa; }
+.kpi-icon-wrap.green  { background: rgba(34,197,94,0.15);   color: #4ade80; }
+.kpi-icon-wrap.red    { background: rgba(239,68,68,0.15);   color: #f87171; }
+.kpi-icon-wrap.purple { background: rgba(168,85,247,0.15);  color: #c084fc; }
+
+.kpi-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #f1f5f9;
+    line-height: 1;
+}
+
+.kpi-label {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* Grid 2 colonnes */
+.dash-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.dash-panel {
+    background: #1e2535;
+    border: 1px solid #2d3748;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #2d3748;
+}
+
+.panel-header h3 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-header h3 i { color: #f97316; font-size: 0.85rem; }
+
+.panel-body {
+    padding: 20px;
+}
+
+/* Progress ring */
+.global-progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+}
+
+.progress-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+.progress-ring-bg {
+    fill: none;
+    stroke: #2d3748;
+    stroke-width: 10;
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke: #f97316;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 327;
+    transition: stroke-dashoffset 0.8s ease;
+}
+
+.progress-ring-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #f1f5f9;
+}
+
+.progress-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid #2d3748;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.progress-detail-row strong { color: #f1f5f9; }
+.text-orange { color: #fb923c !important; }
+
+/* Alertes */
+.alert-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #0f1623;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.alert-row:last-child { margin-bottom: 0; }
+.alert-row i { color: #64748b; width: 16px; }
+
+.alert-row.alert-danger {
+    background: rgba(239,68,68,0.1);
+    color: #f87171;
+}
+
+.alert-row.alert-danger i { color: #f87171; }
+
+/* Rôles */
+.role-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #2d3748;
+    font-size: 0.88rem;
+}
+
+.role-row:last-child { border-bottom: none; }
+.role-name { color: #94a3b8; }
+.role-count {
+    background: #2d3748;
+    color: #f1f5f9;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    border-radius: 99px;
+}
+
+/* Incidents list */
+.incident-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #2d3748;
+}
+
+.incident-row:last-child { border-bottom: none; }
+
+.incident-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+.dot-red { background: #f87171; }
+.dot-orange { background: #fb923c; }
+
+.incident-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.incident-desc {
+    font-size: 0.85rem;
+    color: #e2e8f0;
+}
+
+.incident-meta {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.empty-text {
+    color: #64748b;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 20px 0;
+}
+
+@media (max-width: 900px) {
+    .dash-grid-2 { grid-template-columns: 1fr; }
+}
+
+.role-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.role-chef-de-chantier {
+    background: rgba(249,115,22,0.15);
+    color: #fb923c;
+}
+
+.role-ouvrier {
+    background: rgba(59,130,246,0.15);
+    color: #60a5fa;
+}
+
+.role-architecte {
+    background: rgba(168,85,247,0.15);
+    color: #c084fc;
+}
+
+.role-administrateur {
+    background: rgba(239,68,68,0.15);
+    color: #f87171;
+}

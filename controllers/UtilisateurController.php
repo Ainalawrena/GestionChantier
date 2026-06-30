@@ -82,4 +82,48 @@ class UtilisateurController {
     public function logout() {
         SessionManager::logout();
     }
+
+    public function creerUtilisateurAdmin() {
+        $data = [
+            'nom'      => trim($_POST['nom']),
+            'email'    => trim($_POST['email']),
+            'adresse'  => trim($_POST['adresse'] ?? ''),
+            'login'    => trim($_POST['login']),
+            'password' => $_POST['password'],
+            'id_role'  => $_POST['id_role']
+        ];
+
+        $this->model->creer($data);
+
+        header('Location: index.php?page=dashboard&action=dashboardAdmin');
+        exit;
+    }
+
+    public function modifierUtilisateur() {
+        $data = [
+            'id_user' => $_POST['id_user'],
+            'nom'     => trim($_POST['nom']),
+            'email'   => trim($_POST['email']),
+            'adresse' => trim($_POST['adresse'] ?? ''),
+            'login'   => trim($_POST['login']),
+            'id_role' => $_POST['id_role']
+        ];
+
+        $this->model->modifier($data);
+
+        if (!empty($_POST['password'])) {
+            $this->model->changerMotDePasse($data['id_user'], $_POST['password']);
+        }
+
+        header('Location: index.php?page=dashboard&action=dashboardAdmin');
+        exit;
+    }
+
+    public function supprimerUtilisateur() {
+        $id_user = $_GET['id_user'];
+        $this->model->supprimer($id_user);
+
+        header('Location: index.php?page=dashboard&action=dashboardAdmin');
+        exit;
+    }
 }

@@ -5,6 +5,7 @@ require __DIR__ . '/../models/AvancementModel.php';
 require __DIR__ . '/../models/ValidationModel.php';
 require __DIR__ . '/../models/IncidentModel.php';
 require __DIR__ . '/../models/TacheModel.php'; 
+require __DIR__ . '/../models/AdminModel.php';
 
 class DashboardController {
     private $pdo; 
@@ -14,6 +15,7 @@ class DashboardController {
     private $validationModel;
     private $incidentModel;
     private $tacheModel; 
+    private $adminmodel;
 
     public function __construct($pdo) {
         $this->pdo = $pdo; 
@@ -22,7 +24,8 @@ class DashboardController {
         $this->avancementModel  = new AvancementModel($pdo);
         $this->validationModel  = new ValidationModel($pdo);
         $this->incidentModel    = new IncidentModel($pdo);
-        $this->tacheModel       = new TacheModel($pdo); // Initialisé proprement dès le départ
+        $this->tacheModel       = new TacheModel($pdo); 
+        $this->adminModel = new AdminModel($pdo);
     } 
 
     public function ouvrirChantier() {
@@ -141,7 +144,9 @@ class DashboardController {
         $ouvriers    = $this->chantierModel->getOuvriers($id_chantier);
         $chantiers    = $this->chantierModel->getTousChantiers($id_chantier);
         $avancementsAValider = $this->validationModel->getAvancementsAValider($id_chantier);
-  
+        $stats     = $this->adminModel->getStatsGlobales();
+        $utilisateurs = $this->utilisateurModel->getTousAvecStats(); 
+        $roles        = $this->utilisateurModel->getRoles();         
         require __DIR__ . '/../views/admin/DashboardAdmin.php';
     }
 }
