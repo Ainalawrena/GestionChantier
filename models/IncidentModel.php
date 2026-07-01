@@ -45,5 +45,20 @@ class IncidentModel {
             $data['id_incident']
         ]);
     }
+
+    public function getTousIncidents() {
+        $sql = "SELECT 
+                i.id_incident, i.description, i.gravite, i.impact,
+                i.date_incident, i.statut, i.solution, i.date_resolution,
+                t.nom AS nom_tache, t.id_tache,
+                c.nom AS nom_chantier, c.id_chantier
+                FROM incident i
+                JOIN tache t ON i.id_tache = t.id_tache
+                JOIN chantier c ON t.id_chantier = c.id_chantier
+                ORDER BY i.date_incident DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
