@@ -46,31 +46,33 @@
         <div class="contact-form">
             <h2>Envoyez-moi un message</h2>
             
-            <form action="#" method="POST">
+            <!-- Ajoute name sur chaque champ + action vers index.php -->
+            <form action="index.php?page=contact&action=envoyer" method="POST">
+            
                 <div class="form-row">
                     <div class="form-group">
                         <label>Nom complet</label>
-                        <input type="text" placeholder="Votre nom" required>
+                        <input type="text" name="nom" placeholder="Votre nom" required>
                     </div>
                     <div class="form-group">
                         <label>Société</label>
-                        <input type="text" placeholder="Nom de votre entreprise">
+                        <input type="text" name="societe" placeholder="Nom de votre entreprise">
                     </div>
                 </div>
-                
+            
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" placeholder="votre@email.com" required>
+                    <input type="email" name="email" placeholder="votre@email.com" required>
                 </div>
-                
+            
                 <div class="form-group">
                     <label>Téléphone</label>
-                    <input type="tel" placeholder="+261 XX XX XXX XX">
+                    <input type="tel" name="tel" placeholder="+261 XX XX XXX XX">
                 </div>
-                
+            
                 <div class="form-group">
                     <label>Sujet</label>
-                    <select required>
+                    <select name="sujet" required>
                         <option value="">Choisissez un sujet</option>
                         <option>Démonstration du logiciel</option>
                         <option>Demande de devis</option>
@@ -79,16 +81,26 @@
                         <option>Autre</option>
                     </select>
                 </div>
-                
+            
                 <div class="form-group">
                     <label>Votre message</label>
-                    <textarea rows="7" placeholder="Décrivez votre besoin ou votre projet..." required></textarea>
+                    <textarea name="message" rows="7" placeholder="Décrivez votre besoin..." required></textarea>
                 </div>
-                
-                <button type="submit" class="cta-btn">Envoyer le message</button>
+            
+                <!-- Messages succès/erreur -->
+                <?php if (isset($_GET['succes'])): ?>
+                    <div class="alert-succes">✅ Message envoyé avec succès !</div>
+                <?php endif; ?>
+                <?php if (isset($_GET['erreur'])): ?>
+                    <div class="alert-erreur">❌ Erreur lors de l'envoi. Réessayez.</div>
+                <?php endif; ?>
+            
+                <button type="submit" class="cta-btn">
+                    <i class="fa-solid fa-paper-plane"></i> Envoyer le message
+                </button>
             </form>
-        </div>
-
+                    </div>
+                
         <!-- Informations personnelles -->
         <div class="contact-info reveal">
             <h2>Mes coordonnées</h2>

@@ -58,7 +58,11 @@ switch($page) {
         $controller = new ValidationController($pdo);
         $controller->$action();
         break;
-
+    case 'contact':
+        require __DIR__ . '/../controllers/ContactController.php';
+        $controller = new ContactController();
+        $controller->$action();
+        break;
     default:
         require __DIR__ . '/index.html';
 }
