@@ -50,10 +50,33 @@
 
         <div class="main-area">
             <header class="topbar">
-
                 <div class="header-left">
                     <h1><?= htmlspecialchars($chantier['nom']) ?></h1>
-                </div>   
+                </div>
+
+                <!-- Ajoute ici -->
+                <div class="header-actions">
+                    <div class="notif-wrapper">
+                        <button class="notif-btn" onclick="toggleNotifications()">
+                            <i class="fa-solid fa-bell"></i>
+                            <?php if ($nbNotifs > 0): ?>
+                                <span class="notif-badge"><?= $nbNotifs ?></span>
+                            <?php endif; ?>
+                        </button>
+                            
+                        <div class="notif-dropdown" id="notifDropdown" style="display:none;">
+                            <div class="notif-header">
+                                <span>Notifications</span>
+                                <button onclick="marquerToutLu()" class="notif-tout-lu">
+                                    Tout marquer lu
+                                </button>
+                            </div>
+                            <div class="notif-list" id="notifList">
+                                <p class="notif-loading">Chargement...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </header>
 
             <main class="content">

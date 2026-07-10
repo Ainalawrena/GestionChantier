@@ -21,13 +21,28 @@ class ValidationModel {
                 $data['id_utilisateur']
             ]);
 
-        
+            // Après l'INSERT validation
+            // Trouve l'ouvrier de la tâche
+            $sqlOuvrier = "SELECT m.id_utilisateur FROM modifier m
+                           WHERE m.id_avancement = ?";
+            $stmt = $this->pdo->prepare($sqlOuvrier);
+            $stmt->execute([$data['id_avancement']]);
+            $ouvrier = $stmt->fetch(PDO::FETCH_ASSOC);
+                    
+            if ($ouvrier) {
+                $statut = $data['statut_validation'] === 'valide' ? '✅ validé' : '❌ refusé';
+                $this->notifModel->creer(
+                    $ouvrier['id_utilisateur'],
+                    "Avancement $statut",
+                    "Votre avancement a été $statut par l'architecte.",
+                    'validation',
+                    "index.php?page=dashboard&action=dashboardOuvrier&id_chantier={$id_chantier}"
+                );
+            }
 
             // 2. Si l'architecte a choisi 'valide' → UPDATE tache.pourcentage
             if ($data['statut_validation'] === 'valide') {
 
-                // CORRECTION B : On remplace 'pourcentage' par 'pourcentage_soumis' 
-                // pour correspondre au nom exact de votre table 'avancement'
                 $sql2 = "SELECT pourcentage, id_tache FROM avancement_tache
                          WHERE id_avancement = ?";
                 $stmt = $this->pdo->prepare($sql2);

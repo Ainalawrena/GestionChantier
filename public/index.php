@@ -63,6 +63,11 @@ switch($page) {
         $controller = new ContactController();
         $controller->$action();
         break;
+    case 'notification':
+        require __DIR__ . '/../controllers/NotificationController.php';
+        $controller = new NotificationController($pdo);
+        $controller->$action();
+        break;
     default:
         require __DIR__ . '/index.html';
 }

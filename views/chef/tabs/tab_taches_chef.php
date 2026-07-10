@@ -142,7 +142,7 @@
                 <input type="hidden" id="id_tache" name="id_tache">
 
                 <label>Nom :</label>
-                <input type="text" name="nom" value="<?= $tache['nom'] ?>" required><br><br>
+                <input type="text" name="nom" ?>" required><br><br>
 
                 <label>Ordre :</label>
                 <input type="number" name="ordre" value="<?= $tache['ordre'] ?>"><br><br>

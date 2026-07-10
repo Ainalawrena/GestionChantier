@@ -6,6 +6,7 @@ require __DIR__ . '/../models/ValidationModel.php';
 require __DIR__ . '/../models/IncidentModel.php';
 require __DIR__ . '/../models/TacheModel.php'; 
 require __DIR__ . '/../models/AdminModel.php';
+require __DIR__ . '/../models/NotificationModel.php';
 
 class DashboardController {
     private $pdo; 
@@ -16,6 +17,7 @@ class DashboardController {
     private $incidentModel;
     private $tacheModel; 
     private $adminmodel;
+    private $notifModel;
 
     public function __construct($pdo) {
         $this->pdo = $pdo; 
@@ -26,6 +28,7 @@ class DashboardController {
         $this->incidentModel    = new IncidentModel($pdo);
         $this->tacheModel       = new TacheModel($pdo); 
         $this->adminModel = new AdminModel($pdo);
+        $this->notifModel = new NotificationModel($pdo); 
     } 
 
     public function ouvrirChantier() {
@@ -88,7 +91,7 @@ class DashboardController {
         $tousUtilisateurs    = $this->utilisateurModel->getUtilisateurs();
         $incidents    = $this->incidentModel->getIncidents($id_chantier);
         //$taches = $this->chantierModel->getTacheWithDependence($id_chantier);
-
+        $nbNotifs = $this->notifModel->compterNonLues($_SESSION['user_id']); 
         require __DIR__ . '/../views/chef/DashboardChef.php';
     }
 
@@ -106,11 +109,9 @@ class DashboardController {
         $mestaches   = $this->chantierModel->getTachesOuvrier($id_chantier, $_SESSION['user_id']);
         $incidents   = $this->incidentModel->getIncidents($id_chantier);
 
-        // CORRECTION : Le code est devenu extrêmement propre grâce au constructeur
         foreach ($mestaches as $key => $tache) {
-            $jalons = $this->tacheModel->getJalonsTache($tache['id_tache']);
-            $mestaches[$key]['jalons'] = $jalons;
-        }
+            $mestaches[$key]['jalons'] = $this->tacheModel->getJalonsTache($tache['id_tache']);
+    }
 
         require __DIR__ . '/../views/ouvrier/DashboardOuvrier.php';
     }

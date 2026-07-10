@@ -108,28 +108,26 @@
                             </div>
                         </div>
 
-                       <!-- Footer -->
-                        <div class="card-footer">
-                            <button class="card-btn-voir" onclick="ouvrirModalChantier(<?= htmlspecialchars(json_encode([
-                                'id'          => $c['id_chantier'],
-                                'nom'         => $c['nom'],
-                                'statut'      => $statut,
-                                'badge'       => $badgeLabel,
-                                'badgeClass'  => $badgeClass,
-                                'modele'      => $c['nom_modele'] ?? '-',
-                                'progression' => $progression,
-                                'barColor'    => $barColor,
-                                'debut'       => $c['date_debut_prevu'] ? date('d M Y', strtotime($c['date_debut_prevu'])) : '-',
-                                'fin'         => $c['date_fin_prevu']   ? date('d M Y', strtotime($c['date_fin_prevu']))   : '-',
-                                'nb_taches'           => $c['nb_taches'],
-                                'nb_taches_terminees' => $c['nb_taches_terminees'],
-                                'nb_ouvriers'         => $c['nb_ouvriers'],
-                                'nb_incidents'        => $c['nb_incidents'],
-                                'en_retard'           => $c['en_retard'],
-                            ])) ?>)">
-                                Voir plus <i class="fa-solid fa-arrow-right"></i>
-                            </button>
-                        </div>
+                    <button class="card-btn-voir" onclick="ouvrirModalChantier(<?= htmlspecialchars(json_encode([
+    'id'                  => $c['id_chantier'],
+    'nom'                 => $c['nom'],
+    'statut'              => $statut,
+    'badge'               => $badgeLabel,
+    'badgeClass'          => $badgeClass,
+    'modele'              => $c['nom_modele'] ?? '-',
+    'progression'         => $progression,
+    'barColor'            => $barColor,
+    'debut'               => $c['date_debut_prevu'] ? date('d M Y', strtotime($c['date_debut_prevu'])) : '-',
+    'fin'                 => $c['date_fin_prevu']   ? date('d M Y', strtotime($c['date_fin_prevu']))   : '-',
+    'nb_taches'           => $c['nb_taches'],
+    'nb_taches_terminees' => $c['nb_taches_terminees'],
+    'nb_ouvriers'         => $c['nb_ouvriers'],
+    'nb_incidents'        => $c['nb_incidents'],
+    'en_retard'           => $c['en_retard'],
+    'statut_reel'         => $c['statut'],  // ✅ ajoute
+])) ?>)">
+    Voir plus <i class="fa-solid fa-arrow-right"></i>
+</button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -141,17 +139,17 @@
         <?php endif; ?>
     </div>
 
-    <!-- MODAL DÉTAIL CHANTIER -->
+ <!-- MODAL DÉTAIL CHANTIER -->
 <div class="modal-overlay" id="modalChantier">
     <div class="modal-chantier">
 
-        <!-- Bande colorée + header -->
+        <!-- Hero -->
         <div class="mc-hero" id="mcHero">
             <div class="mc-hero-overlay"></div>
             <div class="mc-hero-content">
                 <span class="badge" id="mcBadge"></span>
                 <h2 id="mcNom"></h2>
-                <span class="mc-modele" id="mcModele">
+                <span class="mc-modele">
                     <i class="fa-solid fa-layer-group"></i>
                     <span id="mcModeleNom"></span>
                 </span>
@@ -173,6 +171,9 @@
                 </div>
                 <div class="mc-progress-bar">
                     <div class="mc-progress-fill" id="mcFill"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.8rem; color:#64748b;">
+                    <span id="mcTachesDetail"></span>
                 </div>
             </div>
 
@@ -232,13 +233,17 @@
                 </div>
             </div>
 
-            <!-- Actions -->
+            <!-- Statut retard -->
+            <div class="mc-section" id="mcRetardSection" style="display:none;">
+                <div class="alert-row alert-danger">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Ce chantier est en retard par rapport à la date de fin prévue !</span>
+                </div>
+            </div>
+
+            <!-- Actions — seulement Fermer -->
             <div class="mc-actions">
-                <a id="mcLienOuvrir" href="#" class="mc-btn-primary">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    Ouvrir le chantier
-                </a>
-                <button class="mc-btn-secondary" onclick="fermerModal('modalChantier')">
+                <button class="mc-btn-secondary" style="width:100%;" onclick="fermerModal('modalChantier')">
                     Fermer
                 </button>
             </div>
@@ -271,45 +276,41 @@ function filtrerChantiers() {
     document.getElementById('chantiersCount').textContent =
         visible + ' chantier' + (visible > 1 ? 's' : '');
 }
-
 function ouvrirModalChantier(data) {
-    const modal = document.getElementById('modalChantier');
-
-    // Hero background color
+    // Hero
     document.getElementById('mcHero').style.background =
         `linear-gradient(135deg, ${data.barColor}cc, ${data.barColor}55)`;
 
     // Badge
     const badge = document.getElementById('mcBadge');
-    badge.textContent  = data.badge;
-    badge.className    = 'badge ' + data.badgeClass;
+    badge.textContent = data.badge;
+    badge.className   = 'badge ' + data.badgeClass;
 
-    // Infos
+    // Infos principales
     document.getElementById('mcNom').textContent       = data.nom;
     document.getElementById('mcModeleNom').textContent = data.modele;
     document.getElementById('mcPct').textContent       = data.progression + '%';
     document.getElementById('mcDebut').textContent     = data.debut;
     document.getElementById('mcFin').textContent       = data.fin;
-    document.getElementById('mcTaches').textContent    = data.nb_taches_terminees + '/' + data.nb_taches;
-    document.getElementById('mcOuvriers').textContent  = data.nb_ouvriers;
-    document.getElementById('mcIncidents').textContent = data.nb_incidents;
+
+    // Tâches
+    document.getElementById('mcTaches').textContent      = data.nb_taches_terminees + '/' + data.nb_taches;
+    document.getElementById('mcTachesDetail').textContent = data.nb_taches_terminees + ' tâches terminées sur ' + data.nb_taches;
+    document.getElementById('mcOuvriers').textContent     = data.nb_ouvriers;
+    document.getElementById('mcIncidents').textContent    = data.nb_incidents;
 
     // Barre progression
     const fill = document.getElementById('mcFill');
     fill.style.width      = data.progression + '%';
     fill.style.background = data.barColor;
 
-    // Incidents en rouge si > 0
+    // Incidents
     const kpiInc = document.getElementById('mcKpiIncident');
-    if (data.nb_incidents > 0) {
-        kpiInc.style.borderColor = 'rgba(239,68,68,0.4)';
-    } else {
-        kpiInc.style.borderColor = '';
-    }
+    kpiInc.style.borderColor = data.nb_incidents > 0 ? 'rgba(239,68,68,0.4)' : '';
 
-    // Lien ouvrir
-    document.getElementById('mcLienOuvrir').href =
-        `index.php?page=dashboard&action=dashboardChef&id_chantier=${data.id}`;
+    // Retard
+    const retardSection = document.getElementById('mcRetardSection');
+    retardSection.style.display = data.en_retard ? 'block' : 'none';
 
     ouvrirModal('modalChantier');
 }

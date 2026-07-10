@@ -63,6 +63,25 @@ class AvancementModel {
             $data['id_utilisateur']
         ]);
     
+
+        // Trouve l'architecte du chantier
+        $sqlArchi = "SELECT ac.id_utilisateur FROM affectation_chantier ac
+                     JOIN role r ON ac.id_role = r.id_role
+                     JOIN tache t ON t.id_chantier = ac.id_chantier
+                     WHERE t.id_tache = ? AND r.libelle = 'Architecte'";
+        $stmt = $this->pdo->prepare($sqlArchi);
+        $stmt->execute([$data['id_tache']]);
+        $architecte = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+        if ($architecte) {
+            $this->notifModel->creer(
+                $architecte['id_utilisateur'],
+                'Nouvel avancement soumis',
+                "Un ouvrier a soumis un avancement sur la tâche #{$data['id_tache']}",
+                'avancement',
+                "index.php?page=dashboard&action=dashboardArchitecte&id_chantier={$id_chantier}"
+            );
+        }
         return [
             'succes' => true,
             'message' => 'Avancement soumis avec succès !'

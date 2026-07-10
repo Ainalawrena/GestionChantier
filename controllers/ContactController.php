@@ -20,7 +20,7 @@ class ContactController {
         $message  = htmlspecialchars(trim($_POST['message'] ?? ''));
 
         if (empty($nom) || empty($email) || empty($message)) {
-            header('Location: Contact.html?erreur=champs_vides');
+            header('Location: contact.php?erreur=champs_vides');
             exit;
         }
 
@@ -32,7 +32,7 @@ class ContactController {
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'nyaina.lawrena@gmail.com'; // ← ton gmail
-            $mail->Password   = 'myname006';      // ← mot de passe app Gmail
+            $mail->Password   = 'npoj muio vtqy ppqx';      // ← mot de passe app Gmail
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
             $mail->CharSet    = 'UTF-8';
@@ -84,11 +84,11 @@ class ContactController {
             ";
 
             $mail->send();
-            header('Location: Contact.html?succes=1');
+            header('Location: contact.php?succes=1');
             exit;
 
         } catch (Exception $e) {
-            header('Location: Contact.html?erreur=envoi_echoue');
+            header('Location: contact.php?erreur=envoi_echoue');
             exit;
         }
     }
