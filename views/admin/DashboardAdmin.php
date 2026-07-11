@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($chantier['nom']) ?></title>
     <link rel="stylesheet" href="styles/chef.css">
     <link rel="stylesheet" href="styles/tabAdmin.css">
     <!-- Ajoute dans le <head> -->
@@ -77,7 +76,7 @@
 
     </div>
 
-    <script src="scripts/chef.js"></script>
+    <script src="scripts/global.js"></script>
     <script src="scripts/admin.js"></script>
 </body>
 </html>

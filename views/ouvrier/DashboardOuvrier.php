@@ -60,6 +60,6 @@
 
     </div>
 
-    <script src="scripts/chef.js"></script>
+    <script src="scripts/global.js"></script>
 </body>
 </html>

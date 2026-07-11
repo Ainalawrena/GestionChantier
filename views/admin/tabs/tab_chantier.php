@@ -108,28 +108,28 @@
                             </div>
                         </div>
 
-<button class="card-btn-voir" onclick="ouvrirModalChantier(<?= htmlspecialchars(json_encode([
-    'id'                  => $c['id_chantier'],
-    'nom'                 => $c['nom'],
-    'statut'              => $statut,
-    'badge'               => $badgeLabel,
-    'badgeClass'          => $badgeClass,
-    'modele'              => $c['nom_modele'] ?? '-',
-    'progression'         => $progression,
-    'barColor'            => $barColor,
-    'debut'               => $c['date_debut_prevu'] ? date('d M Y', strtotime($c['date_debut_prevu'])) : '-',
-    'fin'                 => $c['date_fin_prevu']   ? date('d M Y', strtotime($c['date_fin_prevu']))   : '-',
-    'nb_taches'           => $c['nb_taches'],
-    'nb_taches_terminees' => $c['nb_taches_terminees'],
-    'nb_ouvriers'         => $c['nb_ouvriers'],
-    'nb_incidents'        => $c['nb_incidents'],
-    'en_retard'           => $c['en_retard'],
-    'taches'              => $c['detail']['taches'],
-    'ouvriers'            => $c['detail']['ouvriers'],
-    'incidents'           => $c['detail']['incidents'],
-])) ?>)">
-    Voir plus <i class="fa-solid fa-arrow-right"></i>
-</button>
+                        <button class="card-btn-voir" onclick="ouvrirModalChantier(<?= htmlspecialchars(json_encode([
+                            'id'                  => $c['id_chantier'],
+                            'nom'                 => $c['nom'],
+                            'statut'              => $statut,
+                            'badge'               => $badgeLabel,
+                            'badgeClass'          => $badgeClass,
+                            'modele'              => $c['nom_modele'] ?? '-',
+                            'progression'         => $progression,
+                            'barColor'            => $barColor,
+                            'debut'               => $c['date_debut_prevu'] ? date('d M Y', strtotime($c['date_debut_prevu'])) : '-',
+                            'fin'                 => $c['date_fin_prevu']   ? date('d M Y', strtotime($c['date_fin_prevu']))   : '-',
+                            'nb_taches'           => $c['nb_taches'],
+                            'nb_taches_terminees' => $c['nb_taches_terminees'],
+                            'nb_ouvriers'         => $c['nb_ouvriers'],
+                            'nb_incidents'        => $c['nb_incidents'],
+                            'en_retard'           => $c['en_retard'],
+                            'taches'              => $c['detail']['taches'],
+                            'ouvriers'            => $c['detail']['ouvriers'],
+                            'incidents'           => $c['detail']['incidents'],
+                        ])) ?>)">
+                            Voir plus <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -297,4 +297,4 @@
         </div>
     </div>
 </div>
-
+</div>  
