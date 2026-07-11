@@ -144,6 +144,9 @@ class DashboardController {
         $role        = $_SESSION['role'];
         $ouvriers    = $this->chantierModel->getOuvriers($id_chantier);
         $chantiers    = $this->chantierModel->getTousChantiers($id_chantier);
+        foreach ($chantiers as $key => $c) {
+            $chantiers[$key]['detail'] = $this->chantierModel->getDetailComplet($c['id_chantier']);
+        }
         $avancementsAValider = $this->validationModel->getAvancementsAValider($id_chantier);
         $stats     = $this->adminModel->getStatsGlobales();
         $utilisateurs = $this->utilisateurModel->getTousAvecStats(); 

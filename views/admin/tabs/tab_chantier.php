@@ -108,7 +108,7 @@
                             </div>
                         </div>
 
-                    <button class="card-btn-voir" onclick="ouvrirModalChantier(<?= htmlspecialchars(json_encode([
+<button class="card-btn-voir" onclick="ouvrirModalChantier(<?= htmlspecialchars(json_encode([
     'id'                  => $c['id_chantier'],
     'nom'                 => $c['nom'],
     'statut'              => $statut,
@@ -124,7 +124,9 @@
     'nb_ouvriers'         => $c['nb_ouvriers'],
     'nb_incidents'        => $c['nb_incidents'],
     'en_retard'           => $c['en_retard'],
-    'statut_reel'         => $c['statut'],  // ✅ ajoute
+    'taches'              => $c['detail']['taches'],
+    'ouvriers'            => $c['detail']['ouvriers'],
+    'incidents'           => $c['detail']['incidents'],
 ])) ?>)">
     Voir plus <i class="fa-solid fa-arrow-right"></i>
 </button>
@@ -139,7 +141,7 @@
         <?php endif; ?>
     </div>
 
- <!-- MODAL DÉTAIL CHANTIER -->
+<!-- MODAL DÉTAIL CHANTIER -->
 <div class="modal-overlay" id="modalChantier">
     <div class="modal-chantier">
 
@@ -159,89 +161,134 @@
             </button>
         </div>
 
+        <!-- Onglets internes -->
+        <div class="mc-tabs">
+            <button class="mc-tab-btn active" data-mctab="apercu" onclick="switchMcTab('apercu')">
+                <i class="fa-solid fa-gauge-high"></i> Aperçu
+            </button>
+            <button class="mc-tab-btn" data-mctab="mctaches" onclick="switchMcTab('mctaches')">
+                <i class="fa-solid fa-list-check"></i> Tâches
+            </button>
+            <button class="mc-tab-btn" data-mctab="mcequipe" onclick="switchMcTab('mcequipe')">
+                <i class="fa-solid fa-users"></i> Équipe
+            </button>
+            <button class="mc-tab-btn" data-mctab="mcincidents" onclick="switchMcTab('mcincidents')">
+                <i class="fa-solid fa-triangle-exclamation"></i> Incidents
+            </button>
+        </div>
+
         <div class="mc-body">
 
-            <!-- Progression -->
-            <div class="mc-section">
-                <div class="mc-progress-header">
-                    <span class="mc-section-title">
-                        <i class="fa-solid fa-chart-line"></i> Avancement global
-                    </span>
-                    <strong id="mcPct"></strong>
+            <!-- TAB Aperçu -->
+            <div class="mc-tab-content active" id="mctab-apercu">
+                <div class="mc-section">
+                    <div class="mc-progress-header">
+                        <span class="mc-section-title">
+                            <i class="fa-solid fa-chart-line"></i> Avancement global
+                        </span>
+                        <strong id="mcPct"></strong>
+                    </div>
+                    <div class="mc-progress-bar">
+                        <div class="mc-progress-fill" id="mcFill"></div>
+                    </div>
                 </div>
-                <div class="mc-progress-bar">
-                    <div class="mc-progress-fill" id="mcFill"></div>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.8rem; color:#64748b;">
-                    <span id="mcTachesDetail"></span>
-                </div>
-            </div>
 
-            <!-- Dates -->
-            <div class="mc-section">
-                <p class="mc-section-title">
-                    <i class="fa-regular fa-calendar"></i> Calendrier
-                </p>
-                <div class="mc-dates-row">
-                    <div class="mc-date-box">
-                        <span class="mc-date-label">Début prévu</span>
-                        <span class="mc-date-val" id="mcDebut"></span>
-                    </div>
-                    <div class="mc-date-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                    <div class="mc-date-box">
-                        <span class="mc-date-label">Fin prévue</span>
-                        <span class="mc-date-val" id="mcFin"></span>
+                <div class="mc-section">
+                    <p class="mc-section-title">
+                        <i class="fa-regular fa-calendar"></i> Calendrier
+                    </p>
+                    <div class="mc-dates-row">
+                        <div class="mc-date-box">
+                            <span class="mc-date-label">Début prévu</span>
+                            <span class="mc-date-val" id="mcDebut"></span>
+                        </div>
+                        <div class="mc-date-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="mc-date-box">
+                            <span class="mc-date-label">Fin prévue</span>
+                            <span class="mc-date-val" id="mcFin"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- KPI stats -->
-            <div class="mc-section">
-                <p class="mc-section-title">
-                    <i class="fa-solid fa-gauge-high"></i> Indicateurs
-                </p>
-                <div class="mc-kpis">
-                    <div class="mc-kpi">
-                        <div class="mc-kpi-icon blue">
-                            <i class="fa-solid fa-list-check"></i>
-                        </div>
-                        <div>
-                            <div class="mc-kpi-val" id="mcTaches"></div>
-                            <div class="mc-kpi-label">Tâches terminées</div>
-                        </div>
+                <div class="mc-section" id="mcRetardSection" style="display:none;">
+                    <div class="alert-row alert-danger">
+                        <i class="fa-solid fa-clock"></i>
+                        <span>Ce chantier est en retard par rapport à la date de fin prévue !</span>
                     </div>
-                    <div class="mc-kpi">
-                        <div class="mc-kpi-icon green">
-                            <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="mc-section">
+                    <p class="mc-section-title"><i class="fa-solid fa-gauge-high"></i> Indicateurs</p>
+                    <div class="mc-kpis">
+                        <div class="mc-kpi">
+                            <div class="mc-kpi-icon blue"><i class="fa-solid fa-list-check"></i></div>
+                            <div>
+                                <div class="mc-kpi-val" id="mcTaches"></div>
+                                <div class="mc-kpi-label">Tâches terminées</div>
+                            </div>
                         </div>
-                        <div>
-                            <div class="mc-kpi-val" id="mcOuvriers"></div>
-                            <div class="mc-kpi-label">Ouvriers affectés</div>
+                        <div class="mc-kpi">
+                            <div class="mc-kpi-icon green"><i class="fa-solid fa-users"></i></div>
+                            <div>
+                                <div class="mc-kpi-val" id="mcOuvriers"></div>
+                                <div class="mc-kpi-label">Ouvriers affectés</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mc-kpi" id="mcKpiIncident">
-                        <div class="mc-kpi-icon red">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <div>
-                            <div class="mc-kpi-val" id="mcIncidents"></div>
-                            <div class="mc-kpi-label">Incidents ouverts</div>
+                        <div class="mc-kpi" id="mcKpiIncident">
+                            <div class="mc-kpi-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div>
+                                <div class="mc-kpi-val" id="mcIncidents"></div>
+                                <div class="mc-kpi-label">Incidents ouverts</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Statut retard -->
-            <div class="mc-section" id="mcRetardSection" style="display:none;">
-                <div class="alert-row alert-danger">
-                    <i class="fa-solid fa-clock"></i>
-                    <span>Ce chantier est en retard par rapport à la date de fin prévue !</span>
-                </div>
+            <!-- TAB Tâches -->
+            <div class="mc-tab-content" id="mctab-mctaches">
+                <table class="tableau mc-table" id="mcTachesTable">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Statut</th>
+                            <th>%</th>
+                            <th>Ouvrier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mcTachesBody"></tbody>
+                </table>
             </div>
 
-            <!-- Actions — seulement Fermer -->
+            <!-- TAB Équipe -->
+            <div class="mc-tab-content" id="mctab-mcequipe">
+                <table class="tableau mc-table" id="mcEquipeTable">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mcEquipeBody"></tbody>
+                </table>
+            </div>
+
+            <!-- TAB Incidents -->
+            <div class="mc-tab-content" id="mctab-mcincidents">
+                <table class="tableau mc-table" id="mcIncidentsTable">
+                    <thead>
+                        <tr>
+                            <th>Tâche</th>
+                            <th>Description</th>
+                            <th>Gravité</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mcIncidentsBody"></tbody>
+                </table>
+            </div>
+
             <div class="mc-actions">
                 <button class="mc-btn-secondary" style="width:100%;" onclick="fermerModal('modalChantier')">
                     Fermer
@@ -250,69 +297,4 @@
         </div>
     </div>
 </div>
-</div>
-
-<script>
-function filtrerChantiers() {
-    const search = document.getElementById('searchChantier').value.toLowerCase();
-    const statut = document.getElementById('filtreStatut').value.toLowerCase();
-    const cards  = document.querySelectorAll('.chantier-card');
-    let visible  = 0;
-
-    cards.forEach(card => {
-        const nom    = card.dataset.nom || '';
-        const stCard = card.dataset.statut || '';
-        const matchNom    = nom.includes(search);
-        const matchStatut = !statut || stCard === statut;
-
-        if (matchNom && matchStatut) {
-            card.style.display = '';
-            visible++;
-        } else {
-            card.style.display = 'none';
-        }
-    });
-
-    document.getElementById('chantiersCount').textContent =
-        visible + ' chantier' + (visible > 1 ? 's' : '');
-}
-function ouvrirModalChantier(data) {
-    // Hero
-    document.getElementById('mcHero').style.background =
-        `linear-gradient(135deg, ${data.barColor}cc, ${data.barColor}55)`;
-
-    // Badge
-    const badge = document.getElementById('mcBadge');
-    badge.textContent = data.badge;
-    badge.className   = 'badge ' + data.badgeClass;
-
-    // Infos principales
-    document.getElementById('mcNom').textContent       = data.nom;
-    document.getElementById('mcModeleNom').textContent = data.modele;
-    document.getElementById('mcPct').textContent       = data.progression + '%';
-    document.getElementById('mcDebut').textContent     = data.debut;
-    document.getElementById('mcFin').textContent       = data.fin;
-
-    // Tâches
-    document.getElementById('mcTaches').textContent      = data.nb_taches_terminees + '/' + data.nb_taches;
-    document.getElementById('mcTachesDetail').textContent = data.nb_taches_terminees + ' tâches terminées sur ' + data.nb_taches;
-    document.getElementById('mcOuvriers').textContent     = data.nb_ouvriers;
-    document.getElementById('mcIncidents').textContent    = data.nb_incidents;
-
-    // Barre progression
-    const fill = document.getElementById('mcFill');
-    fill.style.width      = data.progression + '%';
-    fill.style.background = data.barColor;
-
-    // Incidents
-    const kpiInc = document.getElementById('mcKpiIncident');
-    kpiInc.style.borderColor = data.nb_incidents > 0 ? 'rgba(239,68,68,0.4)' : '';
-
-    // Retard
-    const retardSection = document.getElementById('mcRetardSection');
-    retardSection.style.display = data.en_retard ? 'block' : 'none';
-
-    ouvrirModal('modalChantier');
-}
-</script>
 

@@ -78,5 +78,6 @@
     </div>
 
     <script src="scripts/chef.js"></script>
+    <script src="scripts/admin.js"></script>
 </body>
 </html>

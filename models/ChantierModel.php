@@ -21,6 +21,7 @@ class ChantierModel {
         return $chantier;
     }
 
+    // Utile pour admin 
     public function getTousChantiers() {
     $sql = "SELECT 
                 c.id_chantier,
@@ -69,6 +70,26 @@ class ChantierModel {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getDetailComplet($id_chantier) {
+        $taches = $this->getTache($id_chantier);       // déjà existante
+        $ouvriers = $this->getOuvriers($id_chantier);   // déjà existante
+
+        $sqlIncidents = "SELECT i.*, t.nom AS nom_tache
+                          FROM incident i
+                          JOIN tache t ON i.id_tache = t.id_tache
+                          WHERE t.id_chantier = ?
+                          ORDER BY i.date_incident DESC";
+        $stmt = $this->pdo->prepare($sqlIncidents);
+        $stmt->execute([$id_chantier]);
+        $incidents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return [
+            'taches'    => $taches,
+            'ouvriers'  => $ouvriers,
+            'incidents' => $incidents,
+        ];
     }
 
     public function getRoleChantier($id_chantier) {
