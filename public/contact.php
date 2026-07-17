@@ -8,8 +8,8 @@ $erreur = $_GET['erreur'] ?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Construct IT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/contact.css">
 </head>
@@ -23,9 +23,9 @@ $erreur = $_GET['erreur'] ?? null;
     </a>
     <ul class="nav-links">
         <li><a href="index.html">Accueil</a></li>
-        <li><a href="A_propos.php">À propos</a></li>
-        <li><a href="Fonctionnalites.php">Fonctionnalités</a></li>
-        <li><a href="Contact.php" class="active">Contact</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="fonctionnalites.html">Fonctionnalités</a></li>
+        <li><a href="contact.php" class="active">Contact</a></li>
     </ul>
     <div class="nav-right">
         <a href="index.php?page=auth&action=loginForm" class="btn-connexion">Connexion</a>

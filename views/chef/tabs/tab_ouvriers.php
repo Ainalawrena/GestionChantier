@@ -41,7 +41,6 @@
         </tbody>
     </table>
 
-    
    <!-- Bouton ouvrir -->
     <button class="btn btn-primary" onclick="ouvrirModal('modalOuvrier')">
         <i class="fa-solid fa-user-plus"></i> Ajouter un membre
