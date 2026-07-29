@@ -27,19 +27,56 @@ class ChantierController {
         require "../views/chef/nouveauChantier.php";
     }
 
-    public function enregistrerNouveauChantier(){
+    public function enregistrerNouveauChantier() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             $data = [
-                'nom'                 => trim($_POST['nom']      ?? ''),
-                'date_debut_prevu'    => trim($_POST['debut']    ?? ''),
-                'date_fin_prevu'      => trim($_POST['fin']  ?? ''),
-                'id_modele'  => $_POST['id_modele']        ?? ''
+                'nom'              => trim($_POST['nom']      ?? ''),
+                'date_debut_prevu' => trim($_POST['debut']    ?? ''),
+                'date_fin_prevu'   => trim($_POST['fin']       ?? ''),
+                'id_modele'        => $_POST['id_modele']      ?? ''
             ];
-            $equipe = $_POST['equipe'] ?? [];
-            $id_chantier = $this->model->creerChantier($data,$equipe,$_SESSION['user_id']);
 
-            header("Location: index.php?page=dashboard&action=dashboardChef&id_chantier=$id_chantier");
+            //  Validation des dates
+            $aujourdhui = new DateTime();
+            $aujourdhui->setTime(0, 0, 0);
+
+            $debut = DateTime::createFromFormat('Y-m-d', $data['date_debut_prevu']);
+            $fin   = DateTime::createFromFormat('Y-m-d', $data['date_fin_prevu']);
+
+            // Champs vides
+            if (!$debut || !$fin) {
+                $_SESSION['erreur'] = "Veuillez renseigner des dates valides.";
+                header('Location: index.php?page=chantier&action=nouveauChantier');
+                exit;
+            }
+
+            // Date de début dans le passé
+            if ($debut < $aujourdhui) {
+                $_SESSION['erreur'] = "La date de début ne peut pas être dans le passé.";
+                header('Location: index.php?page=chantier&action=nouveauChantier');
+                exit;
+            }
+
+            // Date de fin avant date de début
+            if ($fin <= $debut) {
+                $_SESSION['erreur'] = "La date de fin doit être après la date de début.";
+                header('Location: index.php?page=chantier&action=nouveauChantier');
+                exit;
+            }
+
+            // Durée minimum d'un mois
+            $dureeMinimum = clone $debut;
+            $dureeMinimum->modify('+1 month');
+
+            if ($fin < $dureeMinimum) {
+                $_SESSION['erreur'] = "La durée du chantier doit être d'au moins 1 mois.";
+                header('Location: index.php?page=chantier&action=nouveauChantier');
+                exit;
+            }
+
+            $equipe = $_POST['equipe'] ?? [];
+            $id_chantier = $this->model->creerChantier($data, $equipe, $_SESSION['user_id']);
+            header("Location: index.php?page=dashboard&action=dashboardChef&id_chantier=$id_chantier#chantier");
             exit;
         }
     }
@@ -74,7 +111,7 @@ class ChantierController {
 
         $this->model->affecterTache($id_chantier, $id_user, $id_tache);
 
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#taches');
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#ouvriers');
         exit;
     }
 

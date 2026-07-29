@@ -250,3 +250,45 @@ function ouvrirModalDetailTache(idTache) {
             alert('Impossible de charger les détails de la tâche.');
         });
 }
+
+function ouvrirModalHistorique(idAvancement) {
+
+    fetch(`index.php?page=validation&action=detailHistorique&id_avancement=${idAvancement}`)
+        .then(r => {
+
+            if (!r.ok)
+                throw new Error("Erreur serveur");
+
+            return r.json();
+
+        })
+        .then(data => {
+
+            console.log(data);
+
+            const modal = document.getElementById("modalHistorique");
+
+            modal.querySelector("#detailNomTache").textContent = data.nom_tache;
+            modal.querySelector("#detailNomOuvrier").textContent = data.nom_ouvrier;
+            modal.querySelector("#detailPourcentage").textContent = data.pourcentage + "%";
+            modal.querySelector("#detailCommentaire").textContent = data.commentaire || "-";
+            modal.querySelector("#detailStatut").textContent = data.statut_validation;
+            modal.querySelector("#detailDate").textContent = data.date_validation || "-";
+
+
+    console.log(
+        "Valeur injectée :",
+        modal.querySelector("#detailNomTache").textContent
+    );
+            ouvrirModal("modalHistorique");
+
+        })
+        .catch(err => {
+
+            console.error(err);
+
+            alert("Impossible de charger les détails.");
+
+        });
+
+}

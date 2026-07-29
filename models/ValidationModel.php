@@ -1,9 +1,13 @@
 <?php
+require_once __DIR__ . '/NotificationModel.php';
 class ValidationModel {
     private $pdo;
+    private $notifModel;
+
 
     public function __construct($pdo) {
         $this->pdo = $pdo;
+        $this->notifModel = new NotificationModel($pdo);
     }
 
     public function valider($data) 
@@ -20,6 +24,14 @@ class ValidationModel {
                 $data['id_avancement'],
                 $data['id_utilisateur']
             ]);
+
+            $sqlChantier = "SELECT t.id_chantier FROM avancement_tache a
+                         JOIN tache t ON a.id_tache = t.id_tache
+                         WHERE a.id_avancement = ?";
+            $stmt = $this->pdo->prepare($sqlChantier);
+            $stmt->execute([$data['id_avancement']]);
+            $chantierRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            $id_chantier = $chantierRow['id_chantier'] ?? null;
 
             // Après l'INSERT validation
             // Trouve l'ouvrier de la tâche
@@ -51,7 +63,7 @@ class ValidationModel {
 
                 if ($avancement) {
                     // Détermination du statut de la tâche (Prise en compte de votre ENUM 'en cours')
-                    $nouveauStatut = ((int)$avancement['pourcentage_soumis'] === 100) ? 'termine' : 'en cours';
+                    $nouveauStatut = ((int)$avancement['pourcentage'] === 100) ? 'termine' : 'en cours';
 
                     // Mettre à jour la table tâche avec les bonnes valeurs
                     $sql3 = "UPDATE tache SET pourcentage = ?, statut = ?
@@ -93,6 +105,89 @@ class ValidationModel {
         $stmt->execute([$id_chantier]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    }
+
+    public function getHistoriqueAvancements($id_chantier)
+    {
+        $sql = "
+            SELECT
+                a.id_avancement,
+                t.nom AS nom_tache,
+                a.pourcentage,
+                a.commentaire,
+                u.nom AS nom_ouvrier,
+                v.statut_validation,
+                v.date_validation,
+                arch.nom AS nom_architecte
+
+            FROM avancement_tache a
+
+            JOIN tache t
+                ON t.id_tache = a.id_tache
+
+            LEFT JOIN modifier m
+                ON m.id_avancement = a.id_avancement
+
+            LEFT JOIN utilisateur u
+                ON u.id_user = m.id_utilisateur
+
+            LEFT JOIN validation v
+                ON v.id_avancement = a.id_avancement
+
+            LEFT JOIN utilisateur arch
+                ON arch.id_user = v.id_utilisateur
+
+            WHERE t.id_chantier = ?
+
+            ORDER BY a.id_avancement DESC
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id_chantier]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getDetailHistorique($id_avancement)
+    {
+        $sql = "
+            SELECT
+                a.id_avancement,
+                t.nom AS nom_tache,
+                a.pourcentage,
+                a.commentaire,
+    
+                u.nom AS nom_ouvrier,
+    
+                v.statut_validation,
+                v.date_validation,
+    
+                arch.nom AS nom_architecte
+    
+            FROM avancement_tache a
+    
+            JOIN tache t
+                ON t.id_tache = a.id_tache
+    
+            LEFT JOIN modifier m
+                ON m.id_avancement = a.id_avancement
+    
+            LEFT JOIN utilisateur u
+                ON u.id_user = m.id_utilisateur
+    
+            LEFT JOIN validation v
+                ON v.id_avancement = a.id_avancement
+    
+            LEFT JOIN utilisateur arch
+                ON arch.id_user = v.id_utilisateur
+    
+            WHERE a.id_avancement = ?
+        ";
+    
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id_avancement]);
+    
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>

@@ -6,7 +6,7 @@ require __DIR__ . '/../models/ValidationModel.php';
 require __DIR__ . '/../models/IncidentModel.php';
 require __DIR__ . '/../models/TacheModel.php'; 
 require __DIR__ . '/../models/AdminModel.php';
-require __DIR__ . '/../models/NotificationModel.php';
+require_once __DIR__ . '/../models/NotificationModel.php';
 
 class DashboardController {
     private $pdo; 
@@ -128,6 +128,7 @@ class DashboardController {
         $ouvriers    = $this->chantierModel->getOuvriers($id_chantier);
         $chantier    = $this->chantierModel->getById($id_chantier);
         $avancementsAValider = $this->validationModel->getAvancementsAValider($id_chantier);
+        $historiqueAvancements = $this->validationModel->getHistoriqueAvancements($id_chantier);
   
         require __DIR__ . '/../views/architecte/DashboardArchitecte.php';
 

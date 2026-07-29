@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../models/NotificationModel.php';
+require_once __DIR__ . '/../models/NotificationModel.php';
 
 class NotificationController {
     private $model;

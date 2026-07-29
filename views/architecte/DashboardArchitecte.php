@@ -22,6 +22,11 @@
                 <i class="fa-solid fa-circle-check"></i>Validation Avancement
             </button>
             
+            <button class="nav-btn" data-tab="historique">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Historique Avancement
+            </button>
+
             <div class="sidebar-footer">
             
                 <img src="Images/user.jpg" alt="Utilisateur" class="user-avatar">
@@ -44,6 +49,7 @@
             <main class="content">
                 <?php require __DIR__ . '/tabs/tab_chantier.php'; ?>
                 <?php require __DIR__ . '/tabs/tab_validation.php'; ?>
+                <?php require __DIR__ . '/tabs/tab_historique_avancement.php'; ?>
             </main>
         </div>
 

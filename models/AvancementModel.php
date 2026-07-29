@@ -1,9 +1,12 @@
 <?php
+require_once __DIR__ . '/NotificationModel.php';
 class AvancementModel {
     private $pdo; // connexion BDD
+    private $notifModel;
 
     public function __construct($pdo) {
         $this->pdo = $pdo; // reçoit la connexion
+        $this->notifModel = new NotificationModel($pdo);
     }  
 
     public function getAvancementChantier($id_chantier) {
@@ -33,7 +36,8 @@ class AvancementModel {
     }
 
     // Ouvrier soumet un avancement
-    public function ajouterAvancement($data) {
+    public function ajouterAvancement($data) 
+    {
         
         $dernier = $this->dernierAvancementValide($data['id_tache']);
     
@@ -82,6 +86,7 @@ class AvancementModel {
                 "index.php?page=dashboard&action=dashboardArchitecte&id_chantier={$id_chantier}"
             );
         }
+
         return [
             'succes' => true,
             'message' => 'Avancement soumis avec succès !'

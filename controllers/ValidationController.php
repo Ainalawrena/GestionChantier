@@ -20,4 +20,16 @@ class ValidationController {
         header('Location: index.php?page=dashboard&action=dashboardArchitecte&id_chantier=' . $_POST['id_chantier'] . '#avancements');
         exit;
     }
+
+    public function detailHistorique()
+    {
+        $id_avancement = $_GET['id_avancement'];
+    
+        $historique = $this->model->getDetailHistorique($id_avancement);
+    
+        header('Content-Type: application/json');
+    
+        echo json_encode($historique);
+        exit;
+    }
 }

@@ -23,7 +23,7 @@ class TacheController {
 
         if ($id_tache > 0) {
             // 2. Mise à jour du statut en 'en cours'
-            $this->model->commencerTache($id_tache);
+            $ok = $this->model->commencerTache($id_tache);
             if (!$ok) {
                 // rediriger avec message d'erreur simple (ou session flash)
                 header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $id_chantier . '&error=deps_not_finished');

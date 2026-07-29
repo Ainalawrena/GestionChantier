@@ -246,6 +246,13 @@ h2 {
   font-size: 0.95rem;
 }
 
+#modalHistorique strong {
+    color: #333;
+    display: inline;
+    visibility: visible;
+    opacity: 1;
+}
+
 .info-card p {
   font-size: 1.1rem;
   font-weight: 500;
@@ -578,6 +585,7 @@ h2 {
     from { transform: translateY(-30px); opacity: 0; }
     to   { transform: translateY(0);     opacity: 1; }
 }
+
 
 .modal-header {
     display: flex;

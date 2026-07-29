@@ -4,6 +4,12 @@
     <?php if (isset($erreur)): ?>
         <div class="alert-erreur"><?= $erreur ?></div>
     <?php endif; ?>
+    
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'deps_not_finished'): ?>
+        <div class="alert-erreur">
+            Cette tâche est bloquée : une dépendance n'est pas encore terminée.
+        </div>
+    <?php endif; ?>
 
     <table class="tableau">
         <thead>
