@@ -17,7 +17,7 @@ class ValidationController {
 
         $this->model->valider($data);
 
-        header('Location: index.php?page=dashboard&action=dashboardArchitecte&id_chantier=' . $_POST['id_chantier']);
+        header('Location: index.php?page=dashboard&action=dashboardArchitecte&id_chantier=' . $_POST['id_chantier'] . '#avancements');
         exit;
     }
 }

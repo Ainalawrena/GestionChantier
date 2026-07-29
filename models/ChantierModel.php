@@ -238,7 +238,7 @@ class ChantierModel {
         $stmtTM = $this->pdo->prepare($sql4);
         $stmtTM->execute([$data['id_modele']]);
         $tachesModele = $stmtTM->fetchAll(PDO::FETCH_ASSOC);
-
+        $mappingTacheModeleVersTache = [];
         foreach ($tachesModele as $tachem) {
             $sql5 = "INSERT INTO tache
                     (nom, ordre, statut, pourcentage, id_chantier, id_tache_modele)
@@ -253,7 +253,7 @@ class ChantierModel {
 
             // Récupère l'id de la tâche fraîchement créée
             $id_tache = $this->pdo->lastInsertId('tache_id_tache_seq');
-
+            $mappingTacheModeleVersTache[$tachem['id_tache_modele']] = $id_tache;
             // Copie les jalons modèles vers la table jalon (instance réelle)
             $sqlJalons = "SELECT * FROM jalon_modele WHERE id_tache_modele = ? ORDER BY ordre";
             $stmtJ = $this->pdo->prepare($sqlJalons);
@@ -272,6 +272,27 @@ class ChantierModel {
             }
         }
 
+        $sqlDepModele = "SELECT * FROM dependance_modele 
+                        WHERE id_tache_modele IN (
+                        SELECT id_tache_modele FROM tache_modele WHERE id_modele = ?
+                  )";
+        $stmtDep = $this->pdo->prepare($sqlDepModele);
+        $stmtDep->execute([$data['id_modele']]);
+        $dependancesModele = $stmtDep->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($dependancesModele as $dm) {
+            $id_tache_cible = $mappingTacheModeleVersTache[$dm['id_tache_modele']] ?? null;
+            $id_tache_source = $mappingTacheModeleVersTache[$dm['id_tache_modele_precedente']] ?? null;
+        
+            if ($id_tache_cible && $id_tache_source) {
+                $sqlInsertDep = "INSERT INTO dependance_tache (id_tache, id_tache_precedente)
+                                  VALUES (?, ?)";
+                $this->pdo->prepare($sqlInsertDep)->execute([
+                    $id_tache_cible,
+                    $id_tache_source
+                ]);
+            }
+        }
         return $id_chantier;
     }
    

@@ -53,7 +53,7 @@ class ChantierController {
 
         $this->model->ajouterMembre($id_chantier, $id_user, $id_role);
 
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#ouvriers');
         exit;
     }
 
@@ -63,7 +63,7 @@ class ChantierController {
 
         $this->model->retirerMembre($id_chantier, $id_user);
 
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#ouvriers');
         exit;
     }
 
@@ -74,7 +74,7 @@ class ChantierController {
 
         $this->model->affecterTache($id_chantier, $id_user, $id_tache);
 
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#taches');
         exit;
     }
 

@@ -18,7 +18,7 @@ class IncidentController {
 
         $this->model->declarerIncident($data);
 
-        header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $_POST['id_chantier']);
+        header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $_POST['id_chantier'] . '#incidents');
         exit;
     }
 }

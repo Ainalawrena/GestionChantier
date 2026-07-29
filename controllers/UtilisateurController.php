@@ -8,7 +8,6 @@ class UtilisateurController {
         $this->model = new UtilisateurModel($pdo);
     }
 
-    // méthodes ici
     public function loginForm(){
         require '../views/auth/login.html';
     }
@@ -26,7 +25,6 @@ class UtilisateurController {
             }
 
             $utilisateur = $this->model->login($login);
-            // Dans le Controller
             $role = SessionManager::getRole();
             $id_user = SessionManager::getUserId();
 
@@ -43,7 +41,6 @@ class UtilisateurController {
             }
 
             SessionManager::login($utilisateur);
-           
             switch($utilisateur['role']) {
                 case 'Administrateur':
                     header('Location: index.php?page=dashboard&action=dashboardAdmin');
@@ -51,7 +48,6 @@ class UtilisateurController {
                 default:
                     header('Location: index.php?page=chantier&action=choice');
         }
-    
             exit;
         }
     }
@@ -60,7 +56,7 @@ class UtilisateurController {
         require '../views/auth/registrer.html';
     }
 
-    public function registrer(){
+    public function registrer() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $data = [
@@ -72,9 +68,26 @@ class UtilisateurController {
                 'id_role'  => $_POST['id_role']        ?? ''
             ];
 
-            $this->model->creer($data);
+            // Validation simple
+            if (empty($data['nom']) || empty($data['email']) || empty($data['login']) || empty($data['password'])) {
+                $erreur = "Veuillez remplir tous les champs obligatoires.";
+                require __DIR__ . '/../views/auth/registrer.html';
+                return;
+            }
 
-            header('Location: index.php?page=auth&action=loginForm');
+            // Crée l'utilisateur
+            $this->model->creer($data);
+            $utilisateur = $this->model->login($data['login']);
+            SessionManager::login($utilisateur);
+
+            //Redirection selon le rôle de l'utilisateur
+            switch ($utilisateur['role']) {
+                case 'Administrateur':
+                    header('Location: index.php?page=dashboard&action=dashboardAdmin');
+                    break;
+                default:
+                    header('Location: index.php?page=chantier&action=choice');
+            }
             exit;
         }
     }

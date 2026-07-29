@@ -38,7 +38,7 @@ class AvancementController {
 
         // 4. Redirection propre vers le chantier actuel
         $id_chantier = isset($_POST['id_chantier']) ? (int)$_POST['id_chantier'] : 0;
-        header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $id_chantier . '#avancements');
         exit;
     }
 }

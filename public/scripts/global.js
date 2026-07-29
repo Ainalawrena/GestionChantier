@@ -1,4 +1,24 @@
 // Gestion des onglets
+// Au chargement, vérifie s'il y a un hash dans l'URL
+document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.replace('#', ''); // ex: "taches"
+
+    if (hash) {
+        const btn = document.querySelector(`.nav-btn[data-tab="${hash}"]`);
+        const tab = document.getElementById(hash);
+
+        if (btn && tab) {
+            // Désactive tout
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            // Active le bon onglet
+            btn.classList.add('active');
+            tab.classList.add('active');
+        }
+    }
+});
+
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
 
@@ -20,13 +40,9 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     });
 });
 
-
-
 function cacherFormulaireNouveauTache() {
     document.getElementById('formulaireTache').style.display = 'none';
 }
-
-
 
 function cacherFormulaireOuvrier() {
     document.getElementById('formulaireOuvrier').style.display = 'none';
@@ -54,7 +70,6 @@ function cacherFormulaireIncident() {
     document.getElementById('formulaireIncident').style.display = 'none';
 }
 
-
 function fermerModal(id) {
     document.getElementById(id).classList.remove('active');
 }
@@ -68,12 +83,10 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     });
 });
 
-
 function cacherFormulaireAvancement() {
     // Masquer le formulaire si l'ouvrier clique sur "Annuler"
     document.getElementById('formulaireAvancement').style.display = 'none';
 }
-
 
 function ouvrirModalAvancement(idTache, nomTache) {
     document.getElementById('nomTache').textContent = nomTache;
@@ -81,14 +94,10 @@ function ouvrirModalAvancement(idTache, nomTache) {
     ouvrirModal('modalAvancement');
 }
 
-
-
-
 //=========================================AFFICHAGE DES FORMULAIRES==============================================================
 function ouvrirModal(id) {
     document.getElementById(id).classList.add('active');
 }
-
 
 function afficherFormulaireNouveauTache() {
     ouvrirModal('modalTache');
@@ -147,8 +156,6 @@ function afficherFormulaireAvancement(idTache, nomTache, jalons) {
     ouvrirModal('modalAvancement');
 }
 
-
-//=========
 // Toggle dropdown
 function toggleDropdown(btn) {
     const menu = btn.nextElementSibling;
@@ -169,10 +176,9 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// (Removed duplicate broken definition.)
-
 // Ouvrir modal modifier
 function ouvrirModalModifierTache(idTache) {
+    console.log('URL appelée:', `index.php?page=tache&action=detailTache&id_tache=${idTache}`);
     fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
         .then(r => r.json())
         .then(data => {
@@ -199,11 +205,13 @@ function ouvrirModalModifierTache(idTache) {
                     if (o.value == data.id_tache) o.disabled = true;
                 });
             }
-
             ouvrirModal('modalModifierTache');
         });
-}function ouvrirModalDetailTache(idTache) {
-    console.log('🔍 Ouverture détail tâche ID:', idTache);
+}
+
+function ouvrirModalDetailTache(idTache) {
+    console.log('Ouverture détail tâche ID:', idTache);
+    console.log('URL appelée:', `index.php?page=tache&action=detailTache&id_tache=${idTache}`);
     fetch(`index.php?page=tache&action=detailTache&id_tache=${idTache}`)
         .then(r => {
             if (!r.ok) throw new Error('Erreur serveur');

@@ -32,7 +32,7 @@ class TacheController {
         }
 
         // 3. Redirection sécurisée avec le bon ID de chantier
-        header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardOuvrier&id_chantier=' . $id_chantier . '#taches');
         exit;
     }
 
@@ -53,7 +53,7 @@ class TacheController {
         if ($newId && $dependances) {
             $this->model->setDependances($newId, $dependances);
         }
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#taches');
         exit;
     }
 
@@ -78,7 +78,7 @@ class TacheController {
 
         // Mettre à jour les dépendances via le modèle
         $this->model->setDependances($data['id_tache'], $dependances);
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#taches');
         exit;
     }
 
@@ -86,7 +86,7 @@ class TacheController {
         $id_chantier = $_GET['id_chantier'];
         $id_tache = $_GET['id_tache'];
         $this->model->supprimerTache($id_tache);
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#taches');
         exit;
     }
 

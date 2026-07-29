@@ -129,7 +129,7 @@
         </div>
     </div>
 
-     <!-- MODAL Modifier tache -->
+    <!-- MODAL Modifier tache -->
     <div class="modal-overlay" id="modalModifierTache">
         <div class="modal">
             <div class="modal-header">
@@ -146,8 +146,6 @@
 
                 <label>Ordre :</label>
                 <input type="number" name="ordre" value="<?= $tache['ordre'] ?>"><br><br>
-
-               
 
                 <label>Date début prévue :</label>
                 <input type="date" name="date_debut_prevue" value="<?= $tache['date_debut_prevue'] ?>"><br><br>
@@ -174,7 +172,7 @@
         </div>
     </div>
 
-
+    <!-- MODAL Detail tache -->
     <div class="modal-overlay" id="modalDetailTache">
     <div class="modal">
         <div class="modal-header">

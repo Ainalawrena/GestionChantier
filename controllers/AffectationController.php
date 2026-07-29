@@ -15,7 +15,7 @@ class AffectationController {
 
         $this->model->ajouterMembre($id_chantier, $id_user, $id_role);
 
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#ouvriers');
         exit;
     }
 
@@ -25,7 +25,7 @@ class AffectationController {
 
         $this->model->retirerMembre($id_chantier, $id_user);
 
-        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier);
+        header('Location: index.php?page=dashboard&action=dashboardChef&id_chantier=' . $id_chantier . '#ouvriers');
         exit;
     }
 }
