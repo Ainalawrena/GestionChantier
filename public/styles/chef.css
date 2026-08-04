@@ -120,43 +120,13 @@ header{
     overflow:hidden;
 }
 
-/*====================TOPBAR=====================*/
-.topbar{
-    position:relative;
-    height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    padding:0 25px;
-    background:#09071f;
-}
-
 #imgUser {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
 }
-.header-left{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 
-.header-left h1{
-    font-size:1.8rem;
-    font-weight:700;
-    color:#ffffff;
-}
-
-.header-actions{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 /*=============================LOGO==================================================*/
 .sidebar-logo{
     display:flex;
@@ -872,15 +842,142 @@ h2 {
 }
 
 .topbar {
+    position: relative;
+    height: 70px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* ← important ! */
-    padding: 16px 24px;
-    border-bottom: 1px solid #edf0f5;
+    justify-content: space-between;
+    padding: 0 25px;
+    background: #09071f;
+}
+
+.header-left {
+    flex: 1;
 }
 
 .header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-shrink: 0;
+}
+
+/* ===== NOTIFICATIONS — style carte épurée ===== */
+
+.notif-dropdown {
+    position: absolute;
+    top: 52px;
+    right: 0;           /* aligné au bord droit de la cloche */
+    left: auto;
+    width: 340px;
+    max-width: calc(100vw - 40px); 
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+    z-index: 200;
+}
+
+.notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 22px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1a2e2a;
+}
+
+.notif-tout-lu {
+    background: none;
+    border: none;
+    color: #1a2e2a;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.notif-tout-lu:hover {
+    color: #2e7d64;
+}
+
+.notif-list {
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 0 22px 16px;
+}
+
+.notif-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 0;
+    border-top: 1px solid #eef0ef;
+}
+
+.notif-item:first-child {
+    border-top: none;
+}
+
+.notif-item-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+}
+
+.notif-dot {
+    display: none; /* pas de puce dans ce style */
+}
+
+.notif-titre {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a2e2a;
+}
+
+.notif-message {
+    font-size: 0.84rem;
+    color: #6b7c78;
+    line-height: 1.4;
+}
+
+.notif-date {
+    display: none; /* le style de la capture n'affiche pas la date */
+}
+
+.notif-delete {
+    background: none;
+    border: none;
+    color: #9aa8a4;
+    cursor: pointer;
+    padding: 4px;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.notif-delete:hover {
+    color: #dc3545;
+}
+
+.notif-empty {
+    text-align: center;
+    padding: 30px 0;
+    color: #9aa8a4;
+    font-size: 0.88rem;
+}
+
+/* Bouton cloche */
+.notif-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #edf0f5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }

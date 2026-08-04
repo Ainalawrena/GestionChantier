@@ -67,6 +67,12 @@ class AvancementModel {
             $data['id_utilisateur']
         ]);
     
+    
+        $sqlChantierAv = "SELECT id_chantier FROM tache WHERE id_tache = ?";
+        $stmtChantierAv = $this->pdo->prepare($sqlChantierAv);
+        $stmtChantierAv->execute([$data['id_tache']]);
+        $chantierRowAv = $stmtChantierAv->fetch(PDO::FETCH_ASSOC);
+        $id_chantier = $chantierRowAv['id_chantier'] ?? null;
 
         // Trouve l'architecte du chantier
         $sqlArchi = "SELECT ac.id_utilisateur FROM affectation_chantier ac
@@ -76,12 +82,19 @@ class AvancementModel {
         $stmt = $this->pdo->prepare($sqlArchi);
         $stmt->execute([$data['id_tache']]);
         $architecte = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+        // Récupère le nom de l'ouvrier et le nom de la tâche pour un message clair
+        $sqlInfos = "SELECT u.nom AS nom_ouvrier, t.nom AS nom_tache
+                     FROM utilisateur u, tache t
+                     WHERE u.id_user = ? AND t.id_tache = ?";
+        $stmtInfos = $this->pdo->prepare($sqlInfos);
+        $stmtInfos->execute([$data['id_utilisateur'], $data['id_tache']]);
+        $infos = $stmtInfos->fetch(PDO::FETCH_ASSOC);
+
         if ($architecte) {
             $this->notifModel->creer(
                 $architecte['id_utilisateur'],
                 'Nouvel avancement soumis',
-                "Un ouvrier a soumis un avancement sur la tâche #{$data['id_tache']}",
+                "L'ouvrier « {$infos['nom_ouvrier']} » a soumis un avancement sur la tâche « {$infos['nom_tache']} ».",
                 'avancement',
                 "index.php?page=dashboard&action=dashboardArchitecte&id_chantier={$id_chantier}"
             );

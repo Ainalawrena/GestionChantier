@@ -30,4 +30,12 @@ class NotificationController {
         echo json_encode(['succes' => true]);
         exit;
     }
+
+    public function supprimer() {
+    $id_notification = $_POST['id_notification'];
+    $this->model->supprimer($id_notification, $_SESSION['user_id']);
+    header('Content-Type: application/json');
+    echo json_encode(['succes' => true]);
+    exit;
+}
 }

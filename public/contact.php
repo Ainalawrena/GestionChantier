@@ -85,7 +85,7 @@ $erreur = $_GET['erreur'] ?? null;
             <span class="icon"><i class="fas fa-graduation-cap"></i></span>
             <div>
                 <h3>Statut</h3>
-                <p>Projet de Fin d'Études - L3 MIT-MISA</p>
+                <p>Projet de Basse de donnee - L3 MIT-MISA</p>
             </div>
         </div>
     </div>
@@ -94,7 +94,7 @@ $erreur = $_GET['erreur'] ?? null;
 
 <!-- CTA -->
 <section class="cta reveal">
-    <h2>Merci pour votre intérêt envers Construct IT</h2>
+    <h2>Merci pour votre intérêt envers Construct it</h2>
     <p>Je vous répondrai dans les plus brefs délais.</p>
     <a href="index.html" class="cta-btn">Retour à l'accueil</a>
 </section>

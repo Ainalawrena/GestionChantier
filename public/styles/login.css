@@ -1,286 +1,374 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ==========================
+   RESET
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    background:
-    linear-gradient(rgba(7, 22, 58, 0.75), rgba(10, 30, 80, 0.75)),
-    url('/Images/contact.png');
-    background-size: cover;
-    background-position: 60% center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
-    color:white;
+body{
+
     font-family:'Inter',sans-serif;
+    color:white;
+
+    background:
+    linear-gradient(rgba(7,22,58,.78),rgba(10,30,80,.78)),
+    url('/Images/contact.png');
+
+    background-size:cover;
+    background-position:60% center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
 
     min-height:100vh;
 
     display:flex;
-    align-items:center;
     justify-content:center;
-
-    position:relative;
-
-    /* avant : overflow:hidden */
-    overflow-y:auto;
-    overflow-x:hidden;
+    align-items:center;
 
     padding:40px 20px;
+
+    overflow:hidden;
+
+    position:relative;
 }
 
-body::before {
-    content: "";
-    position: absolute;
-    width: 650px;
-    height: 650px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(255,122,0,0.15), transparent 70%);
-    filter: blur(90px);
-    z-index: -1;
-    animation: glowPulse 8s infinite ease-in-out;
+/* ==========================
+   GLOW
+========================== */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    background:
+    radial-gradient(circle,
+    rgba(255,122,0,.15),
+    transparent 70%);
+
+    filter:blur(90px);
+
+    z-index:-1;
+
+    animation:glowPulse 8s infinite ease-in-out;
 }
 
-header {
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 10;
+/* ==========================
+   HEADER
+========================== */
+
+header{
+
+    position:absolute;
+
+    top:35px;
+
+    left:50%;
+
+    transform:translateX(-50%);
 }
 
-header h1 {
-    font-size: 2rem;
-    font-weight: 900;
-    animation: logoFade 1.2s ease forwards;
+header h1{
+
+    font-size:2.3rem;
+
+    font-weight:900;
+
+    letter-spacing:.5px;
 }
 
-header h1 span {
-    color: #ff7a00;
+header span{
+
+    color:#ff7a00;
 }
 
-/* CONTAINER */
-.container {
-  width: 100%;
-  max-width: 380px;
-  margin-top: 70px;
-  padding: 40px 35px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
-  
-  text-align: center;
-  color: white;
-  animation: fadeUp 0.9s ease forwards;
+/* ==========================
+   CARD
+========================== */
+
+.container{
+
+    width:100%;
+    max-width:430px;
+
+    padding:38px;
+
+    background:rgba(18,22,45,.42);
+
+    backdrop-filter:blur(16px);
+
+    -webkit-backdrop-filter:blur(16px);
+
+    border-radius:22px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+    animation:fadeUp .8s ease;
 }
 
-/* TITRE */
-.container h2 {
-  font-size: 1.65rem;
-  margin-bottom: 28px;
-  font-weight: 500;
-  color: rgb(12, 12, 12);
-  letter-spacing: 0.4px;
+.container h2{
+
+    text-align:center;
+
+    font-size:1.9rem;
+
+    margin-bottom:8px;
 }
 
+.container>p{
 
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 1.85rem;
-    color: #ff7a00;
-    animation: fadeUp 0.8s ease forwards;
+    text-align:center;
+
+    color:#cfd3df;
+
+    margin-bottom:30px;
+
+    font-size:.95rem;
 }
 
-/* Formulaire */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+/* ==========================
+   FORM
+========================== */
+
+form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
 }
 
-label {
-    color: #b5b5c3;
-    font-weight: 500;
-    margin-bottom: 6px;
-    display: block;
-    animation: fadeUp 0.8s ease forwards;
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
 }
 
-input {
-    width: 100%;
-    padding: 16px 20px;
-    background: #09071f;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    color: white;
-    font-size: 1rem;
-    transition: all 0.4s ease;
+label{
+
+    color:#d9dce7;
+
+    font-size:.92rem;
+
+    font-weight:600;
 }
 
-input:focus {
-    outline: none;
-    border-color: #ff7a00;
-    box-shadow: 0 0 0 4px rgba(255,122,0,0.2);
-    transform: scale(1.02);
-}
+/* ==========================
+   INPUT
+========================== */
 
-input[type="submit"] {
-    background: #ff7a00;
-    color: white;
-    font-weight: 700;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    padding: 16px;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-input[type="submit"]:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 40px rgba(255,122,0,0.45);
-}
-
-/* Effet de lumière sur le bouton */
-input[type="submit"]::after {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -100%;
-    width: 50%;
-    height: 200%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: 0.7s;
-}
-
-input[type="submit"]:hover::after {
-    left: 200%;
-}
-
-/* Message d'erreur */
-.erreur {
-    background: rgba(255, 0, 0, 0.15);
-    color: #ff6b6b;
-    padding: 14px 16px;
-    border-radius: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 0, 0, 0.3);
-    animation: shake 0.4s ease;
-}
-
-/* Bouton retour */
-.btn-retour {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #b5b5c3;
-    text-decoration: none;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.4s ease;
-    z-index: 10;
-}
-
-.btn-retour:hover {
-    color: #ff7a00;
-    transform: translateX(-50%) translateY(-5px);
-}
-
-select {
+input{
 
     width:100%;
 
-    padding:16px 20px;
+    height:50px;
 
-    background:#09071f;
-
-    border:1px solid rgba(255,255,255,0.1);
+    padding:0 15px;
 
     border-radius:12px;
 
+    border:1px solid rgba(255,255,255,.12);
+
+    background:rgba(255,255,255,.06);
+
     color:white;
 
-    font-size:1rem;
+    outline:none;
+
+    font-size:.95rem;
+
+    transition:.3s;
+}
+
+input::placeholder{
+
+    color:#9aa2b1;
+}
+
+input:focus{
+
+    border-color:#ff7a00;
+
+    background:rgba(255,255,255,.09);
+
+    box-shadow:0 0 0 4px rgba(255,122,0,.15);
+
+    transform:translateY(-2px);
+}
+
+/* ==========================
+   BUTTON
+========================== */
+
+input[type="submit"]{
+
+    margin-top:8px;
+
+    border:none;
+
+    background:#ff7a00;
+
+    color:white;
+
+    font-weight:700;
+
+    letter-spacing:1px;
 
     cursor:pointer;
 
-    transition:all .4s ease;
-
-    appearance:none;
-
-    background-image:
-        linear-gradient(45deg, transparent 50%, #ff7a00 50%),
-        linear-gradient(135deg, #ff7a00 50%, transparent 50%);
-
-    background-position:
-        calc(100% - 20px) 50%,
-        calc(100% - 14px) 50%;
-
-    background-size:
-        7px 7px,
-        7px 7px;
-
-    background-repeat:no-repeat;
+    transition:.35s;
 }
 
-/* ================= ANIMATIONS ================= */
-@keyframes glowPulse {
-    0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+input[type="submit"]:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 35px rgba(255,122,0,.45);
 }
 
-@keyframes cardPop {
-    0% {
-        opacity: 0;
-        transform: translateY(80px) scale(0.85);
+/* ==========================
+   ERREUR
+========================== */
+
+.erreur{
+
+    background:rgba(255,0,0,.15);
+
+    border:1px solid rgba(255,0,0,.25);
+
+    color:#ff8d8d;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    margin-bottom:20px;
+
+    text-align:center;
+}
+
+/* ==========================
+   INSCRIPTION
+========================== */
+
+.lien-inscription{
+
+    margin-top:25px;
+
+    text-align:center;
+
+    color:#cfd3df;
+
+    font-size:.92rem;
+}
+
+.lien-inscription a{
+
+    color:#ff7a00;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.lien-inscription a:hover{
+
+    color:#ff9b3d;
+}
+
+/* ==========================
+   RETOUR
+========================== */
+
+.btn-retour{
+
+    position:absolute;
+
+    bottom:30px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    color:#d0d3dc;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.btn-retour:hover{
+
+    color:#ff7a00;
+}
+
+/* ==========================
+   ANIMATIONS
+========================== */
+
+@keyframes glowPulse{
+
+    0%,100%{
+
+        opacity:.7;
+        transform:translate(-50%,-50%) scale(1);
     }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+
+    50%{
+
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.05);
     }
 }
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+        transform:translateY(30px);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
     }
 }
 
-@keyframes logoFade {
-    from { opacity: 0; transform: translateY(-20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+/* ==========================
+   RESPONSIVE
+========================== */
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-}
+@media(max-width:500px){
 
-/* Responsive */
-@media (max-width: 500px) {
-    .container {
-        margin: 20px;
-        padding: 40px 25px;
+    .container{
+
+        padding:28px;
     }
-    header h1 {
-        font-size: 2rem;
+
+    header h1{
+
+        font-size:2rem;
     }
 }

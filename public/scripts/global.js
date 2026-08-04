@@ -292,3 +292,52 @@ function ouvrirModalHistorique(idAvancement) {
         });
 
 }
+
+function toggleNotifications() {
+    const dropdown = document.getElementById('notifDropdown');
+    if (!dropdown) return;
+    if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+        dropdown.style.display = 'block';
+        chargerNotifications();
+    } else {
+        dropdown.style.display = 'none';
+    }
+}
+
+function chargerNotifications() {
+    fetch('index.php?page=notification&action=getNotifications')
+        .then(r => r.json())
+        .then(notifs => {
+            const list = document.getElementById('notifList');
+
+            if (notifs.length === 0) {
+                list.innerHTML = '<p class="notif-empty">Aucune notification</p>';
+                return;
+            }
+
+            list.innerHTML = notifs.map(n => `
+                <div class="notif-item ${n.lu ? 'lue' : 'non-lue'}">
+                    <a href="${n.lien || '#'}" class="notif-item-link" onclick="marquerLu(${n.id_notification})">
+                        <div class="notif-dot"></div>
+                        <div class="notif-content">
+                            <div class="notif-titre">${n.titre}</div>
+                            <div class="notif-message">${n.message}</div>
+                            <div class="notif-date">${new Date(n.date_creation).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                    </a>
+                    <button class="notif-delete" onclick="supprimerNotification(${n.id_notification}, event)" title="Supprimer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            `).join('');
+        });
+}
+
+function supprimerNotification(idNotif, event) {
+    event.stopPropagation();
+    fetch('index.php?page=notification&action=supprimer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `id_notification=${idNotif}`
+    }).then(() => chargerNotifications());
+}

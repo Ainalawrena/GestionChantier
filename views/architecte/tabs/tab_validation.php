@@ -25,8 +25,8 @@
                             <form method="POST" action="index.php?page=validation&action=valider">
                                 <input type="hidden" name="id_avancement" value="<?= $av['id_avancement'] ?>">
                                 <input type="hidden" name="id_chantier" value="<?= $id_chantier ?>">
-                                <button name="statut_validation" value="valide" class="btn-modifier">✅ Valider</button>
-                                <button name="statut_validation" value="refuse" class="btn-supprimer">❌ Refuser</button>
+                                <button name="statut_validation" value="valide" class="btn-modifier"> Valider</button>
+                                <button name="statut_validation" value="refuse" class="btn-supprimer"> Refuser</button>
                             </form>
                         </td>
                     </tr>

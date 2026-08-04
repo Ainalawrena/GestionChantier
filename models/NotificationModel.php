@@ -51,4 +51,10 @@ class NotificationModel {
         $stmt->execute([$id_utilisateur]);
         return (int) $stmt->fetchColumn();
     }
+
+    public function supprimer($id_notification, $id_utilisateur) {
+    $sql = "DELETE FROM notification
+            WHERE id_notification = ? AND id_utilisateur = ?";
+    $this->pdo->prepare($sql)->execute([$id_notification, $id_utilisateur]);
+    }
 }

@@ -1,0 +1,398 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+    color:#fff;
+
+    background:
+    linear-gradient(rgba(7,22,58,.78),rgba(10,30,80,.78)),
+    url('/Images/contact.png');
+
+    background-size:cover;
+    background-position:60% center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:40px 20px;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    position:relative;
+}
+
+/* =========================
+   GLOW
+========================= */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    background:
+    radial-gradient(circle,
+    rgba(255,122,0,.15),
+    transparent 70%);
+
+    filter:blur(90px);
+
+    z-index:-1;
+
+    animation:glowPulse 8s infinite ease-in-out;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+header{
+
+    position:absolute;
+
+    top:35px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    text-align:center;
+}
+
+header h1{
+
+    font-size:2.3rem;
+
+    font-weight:900;
+
+    letter-spacing:.5px;
+}
+
+header h1 span{
+
+    color:#ff7a00;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.container{
+
+    width:100%;
+    max-width:560px;
+
+    margin-top:70px;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    background:rgba(18,22,45,.42);
+
+    backdrop-filter:blur(16px);
+
+    -webkit-backdrop-filter:blur(16px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+    0 20px 45px rgba(0,0,0,.45);
+
+    animation:fadeUp .8s ease;
+}
+
+.container h2{
+
+    text-align:center;
+
+    margin-bottom:8px;
+
+    font-size:1.8rem;
+
+    font-weight:700;
+}
+
+.container p{
+
+    text-align:center;
+
+    color:#cfd3df;
+
+    font-size:.95rem;
+
+    margin-bottom:28px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+form{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:18px 20px;
+}
+
+/* =========================
+   GROUP
+========================= */
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+}
+
+.form-group.full{
+
+    grid-column:1/3;
+}
+
+/* =========================
+   LABEL
+========================= */
+
+label{
+
+    font-size:.92rem;
+
+    font-weight:600;
+
+    color:#d9dce7;
+
+    padding-left:2px;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+input,
+select{
+
+    width:100%;
+
+    height:48px;
+
+    padding:0 15px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    background:rgba(255,255,255,.06);
+
+    color:#fff;
+
+    font-size:.95rem;
+
+    outline:none;
+
+    transition:.3s;
+}
+
+input::placeholder{
+
+    color:#999;
+}
+
+input:focus,
+select:focus{
+
+    border-color:#ff7a00;
+
+    background:rgba(255,255,255,.09);
+
+    box-shadow:
+    0 0 0 4px rgba(255,122,0,.15);
+
+    transform:translateY(-2px);
+}
+
+/* =========================
+   SELECT
+========================= */
+select{
+    width:100%;
+    height:48px;
+    padding:0 45px 0 15px;
+
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.12);
+
+    background:rgba(255,255,255,.06);
+
+    color:white;
+    font-size:.95rem;
+
+    cursor:pointer;
+    outline:none;
+
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+
+    transition:.3s;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #ff7a00 50%),
+        linear-gradient(135deg, #ff7a00 50%, transparent 50%);
+
+    background-position:
+        calc(100% - 18px) center,
+        calc(100% - 12px) center;
+
+    background-size:6px 6px;
+    background-repeat:no-repeat;
+}
+
+select option{
+    background:#10162d;
+    color:white;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+input[type="submit"]{
+
+    grid-column:1/3;
+
+    height:52px;
+
+    margin-top:8px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#ff7a00;
+
+    color:white;
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    cursor:pointer;
+
+    transition:.35s;
+}
+
+input[type="submit"]:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 15px 35px rgba(255,122,0,.45);
+}
+
+/* =========================
+   RETOUR
+========================= */
+
+.btn-retour{
+
+    position:absolute;
+
+    bottom:30px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    color:#d0d3dc;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.btn-retour:hover{
+
+    color:#ff7a00;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes glowPulse{
+
+    0%,100%{
+
+        opacity:.7;
+
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    50%{
+
+        opacity:1;
+
+        transform:translate(-50%,-50%) scale(1.05);
+    }
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:650px){
+    .container{
+        max-width:420px;
+        padding:28px;
+    }
+    form{
+        grid-template-columns:1fr;
+    }
+    .form-group.full{
+        grid-column:auto;
+    }
+    input[type="submit"]{
+        grid-column:auto;
+    }
+}

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/chef.css">
     <link rel="stylesheet" href="style/ouvrier.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+</head>
 <body>
     <div class="dashboard-container">
 
@@ -45,7 +46,31 @@
 
             <div class="header-left">
                 <h1><?= htmlspecialchars($chantier['nom']) ?></h1>
-            </div>   
+            </div>
+
+            <div class="header-actions">
+                <div class="notif-wrapper">
+                    <button class="notif-btn" onclick="toggleNotifications()">
+                        <i class="fa-solid fa-bell"></i>
+                        <?php if (($nbNotifs ?? 0) > 0): ?>
+                            <span class="notif-badge"><?= $nbNotifs ?></span>
+                        <?php endif; ?>
+                    </button>
+                        
+                    <div class="notif-dropdown" id="notifDropdown" style="display:none;">
+                        <div class="notif-header">
+                            <span>Notifications</span>
+                            <button onclick="marquerToutLu()" class="notif-tout-lu" title="Tout marquer comme lu">
+                                <i class="fa-solid fa-check-double"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="notif-list" id="notifList">
+                            <p class="notif-loading">Chargement...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <main class="content">

@@ -2,45 +2,99 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
-    <link rel="stylesheet" href="styles/login.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Construct it</title>
+
+    <link rel="stylesheet" href="styles/register.css">
 </head>
 <body>
-<header>
-    <h1>Construct it</h1>
+
+    <header>
+        <h1>Construct <span>it</span></h1>
     </header>
+
     <div class="container">
-        <h2>Inscription</h2>
 
-         <form action="index.php?page=auth&action=registrer" method="post">
-            <label for="nom">Nom : </label>
-            <input type="text" name="nom" id="nom" required><br>
+        <h2>Créer un compte</h2>
+        <p>Rejoignez la plateforme de gestion de chantier.</p>
 
-            <label for="email">Email : </label>
-            <input type="email" name="email" id="email" required><br>
+        <form action="index.php?page=auth&action=registrer" method="post">
 
-            <label for="adresse">Adresse : </label>
-            <input type="text" name="adresse" id="adresse" required><br>
+            <!-- Nom -->
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input
+                    type="text"
+                    id="nom"
+                    name="nom"
+                    placeholder="Votre nom"
+                    required>
+            </div>
 
-            <label for="login">login :</label>
-            <input type="text" name="login" id="login" required><br><br>
+            <!-- Login -->
+            <div class="form-group">
+                <label for="login">Login</label>
+                <input
+                    type="text"
+                    id="login"
+                    name="login"
+                    placeholder="Nom d'utilisateur"
+                    required>
+            </div>
 
-            <label for="password">password :</label>
-            <input type="password" name="password" id="password" required><br><br>
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Adresse e-mail</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="exemple@email.com"
+                    required>
+            </div>
 
-            <label for="role">Role : </label>
-            <select name="id_role">
-                <option value="1">Administrateur</option>
-                <option value="2">Chef de chantier</option>
-                <option value="3">Ouvrier</option>
-                <option value="4">Achitecte</option>
-            </select>
+            <!-- Role -->
+            <div class="form-group">
+                <label for="role">Rôle</label>
+                <select id="role" name="id_role" required>
+                    <option value="1">Administrateur</option>
+                    <option value="2">Chef de chantier</option>
+                    <option value="3">Ouvrier</option>
+                    <option value="4">Architecte</option>
+                </select>
+            </div>
 
-              <input type="submit" value="s inscrire">
+            <!-- Adresse -->
+            <div class="form-group full">
+                <label for="adresse">Adresse</label>
+                <input
+                    type="text"
+                    id="adresse"
+                    name="adresse"
+                    placeholder="Votre adresse"
+                    required>
+            </div>
+
+            <!-- Mot de passe -->
+            <div class="form-group full">
+                <label for="password">Mot de passe</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                    required>
+            </div>
+
+            <input type="submit" value="S'INSCRIRE">
+
         </form>
+
     </div>
-    <a class="btn-retour" href="index.html" class="btn-retour">
-        ← Retour
+
+    <a class="btn-retour" href="index.html">
+        ← Retour à l'accueil
     </a>
+
 </body>
 </html>

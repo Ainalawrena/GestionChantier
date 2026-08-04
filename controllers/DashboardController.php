@@ -111,8 +111,8 @@ class DashboardController {
 
         foreach ($mestaches as $key => $tache) {
             $mestaches[$key]['jalons'] = $this->tacheModel->getJalonsTache($tache['id_tache']);
-    }
-
+        }
+        $nbNotifs = $this->notifModel->compterNonLues($_SESSION['user_id']);
         require __DIR__ . '/../views/ouvrier/DashboardOuvrier.php';
     }
 
@@ -129,7 +129,7 @@ class DashboardController {
         $chantier    = $this->chantierModel->getById($id_chantier);
         $avancementsAValider = $this->validationModel->getAvancementsAValider($id_chantier);
         $historiqueAvancements = $this->validationModel->getHistoriqueAvancements($id_chantier);
-  
+        $nbNotifs = $this->notifModel->compterNonLues($_SESSION['user_id']);
         require __DIR__ . '/../views/architecte/DashboardArchitecte.php';
 
     }

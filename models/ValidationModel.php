@@ -42,7 +42,7 @@ class ValidationModel {
             $ouvrier = $stmt->fetch(PDO::FETCH_ASSOC);
                     
             if ($ouvrier) {
-                $statut = $data['statut_validation'] === 'valide' ? '✅ validé' : '❌ refusé';
+                $statut = $data['statut_validation'] === 'valide' ? ' validé' : ' refusé';
                 $this->notifModel->creer(
                     $ouvrier['id_utilisateur'],
                     "Avancement $statut",
